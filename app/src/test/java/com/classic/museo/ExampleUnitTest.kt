@@ -1,4 +1,4 @@
-package com.example.museo
+package com.classic.museo
 
 import org.junit.Test
 

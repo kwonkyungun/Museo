@@ -13,7 +13,10 @@
         android:theme="@style/Theme.Museo"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="com.classic.museo.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.classic.museo.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
