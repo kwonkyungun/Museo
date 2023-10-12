@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.museo'
+    namespace 'com.classic.museo'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.museo"
+        applicationId "com.classic.museo"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -26,11 +26,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_18
+        targetCompatibility JavaVersion.VERSION_18
     }
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = '18'
     }
     buildFeatures{
         viewBinding true
