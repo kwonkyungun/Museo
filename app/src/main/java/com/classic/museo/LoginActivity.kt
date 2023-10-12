@@ -1,9 +1,9 @@
 package com.classic.museo
-
 import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import android.util.Log
 import com.classic.museo.databinding.ActivityLoginBinding
 import com.classic.museo.databinding.ActivityMainBinding
@@ -26,6 +26,14 @@ class LoginActivity : AppCompatActivity() {
     private val binding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        //로그인 버튼
+        val btn_login = findViewById<TextView>(R.id.btn_login)
+        btn_login.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
         setContentView(binding.root)
 
         binding.kakaoLogin.setOnClickListener{
