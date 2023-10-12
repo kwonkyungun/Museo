@@ -10,15 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/museo_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:src="@drawable/museo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/museo_logo"
+            android:layout_width="168dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="70dp"
+            android:src="@drawable/museo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_id"
@@ -71,7 +71,7 @@
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/text_pw"/>
 
-    <TextView
+    <android.widget.Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_pw" />
 
-    <TextView
+    <android.widget.Button
         android:id="@+id/btn_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
-    <ImageView
+    <android.widget.ImageButton
         android:id="@+id/kakao_login"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -114,9 +114,8 @@
         android:layout_marginTop="210dp"
         android:layout_marginBottom="50dp"
         android:scaleType="fitXY"
+        android:clickable="true"
         android:background="@drawable/login_kakao_radius"
-        android:src="@drawable/kakao_login"
-        android:clipToOutline="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
