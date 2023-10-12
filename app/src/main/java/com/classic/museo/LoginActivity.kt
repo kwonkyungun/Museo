@@ -29,12 +29,11 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //로그인 버튼
-        val btn_login = findViewById<TextView>(R.id.btn_login)
-        btn_login.setOnClickListener {
+
+       binding.btnLogin.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-        setContentView(binding.root)
 
         binding.kakaoLogin.setOnClickListener{
             val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
