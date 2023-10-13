@@ -27,11 +27,11 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        val intent= Intent(this,MainActivity::class.java)
 
         //로그인 버튼
 
        binding.btnLogin.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
@@ -41,7 +41,6 @@ class LoginActivity : AppCompatActivity() {
                     Log.e("Login", "카카오계정으로 로그인 실패", error)
                 } else if (token != null) {
                     Log.i("Login", "카카오계정으로 로그인 성공 ${token.accessToken}")
-                    val intent= Intent(this,MainActivity::class.java)
                     startActivity(intent)
                 }
             }
@@ -62,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
                         UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
                     } else if (token != null) {
                         Log.i("Login", "카카오톡으로 로그인 성공 ${token.accessToken}")
+                        startActivity(intent)
                     }
                 }
             } else {
