@@ -10,6 +10,10 @@ import com.classic.museo.Fragment.SearchFragment
 import com.classic.museo.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
+//팀 노션 : https://teamsparta.notion.site/3-Museo-72e01c364bd64fa18324fa82dad2b300
+//팀 깃허브 : https://github.com/ProjectMuseo/Museo
+//팀 피그마 : https://www.figma.com/file/TSceoygyttCTT98BGW6Xyf/Final-Project?type=design&node-id=0-1&mode=design&t=Vg6NUqk8kGv7hxaM-0
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var MainContext : Context

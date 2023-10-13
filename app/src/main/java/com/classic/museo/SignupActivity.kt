@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.widget.Toast
 import com.classic.museo.databinding.ActivitySignupBinding
 import java.util.regex.Pattern
 
@@ -15,6 +17,13 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //아이디 유효성 검사(알파벳과 숫자만 허용)
+        fun isValidId(id: String): Boolean {
+            var id = binding.signupEditId.text.toString().trim()
+            val idPattern = "^[a-zA-Z0-9]*\$"
+            return id.matches(idPattern.toRegex())
+        }
 
         binding.signupEditPw2.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -57,5 +66,36 @@ class SignupActivity : AppCompatActivity() {
                 }
             }
         })
+        binding.btnSignup2.setOnClickListener {
+            val name = binding.signupEditName.text.toString()
+            val id = binding.signupEditId.text.toString()
+            val pw1 = binding.signupEditPw.text.toString()
+            val pw2 = binding.signupEditPw2.text.toString()
+
+            //아이디 유효성 검사
+            if(!isValidId(id)){
+                Log.d("아이디 유효성 검사","실패")
+                Toast.makeText(this,"아이디는 영문자 및 숫자만 가능합니다",Toast.LENGTH_SHORT).show()
+            } else {
+                Log.d("아이디 유효성 검사","성공")
+                Toast.makeText(this,"아이디가 적합합니다",Toast.LENGTH_SHORT).show()
+            }
+
+            //공백 검사
+            if(name.isEmpty()){
+                Toast.makeText(this,"닉네임을 입력해 주세요",Toast.LENGTH_SHORT).show()
+            }
+            if(id.isEmpty()) {
+                Toast.makeText(this, "아이디를 입력해 주세요", Toast.LENGTH_SHORT).show()
+            }
+            if(pw1.isEmpty()) {
+                Toast.makeText(this, "비밀번호를 입력해 주세요", Toast.LENGTH_SHORT).show()
+            }
+            if(pw2.isEmpty()){
+                Toast.makeText(this,"비밀번호를 다시한번 입력해 주세요",Toast.LENGTH_SHORT).show()
+            } else {
+            Toast.makeText(this,"회원가입 성공",Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
