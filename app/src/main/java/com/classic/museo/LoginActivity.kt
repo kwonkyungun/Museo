@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val intent = Intent(this, MainActivity::class.java)
+
         auth = Firebase.auth // DB 인스턴스 선언
 
 
@@ -107,6 +107,7 @@ class LoginActivity : AppCompatActivity() {
 
     //카카오 로그인
     fun kakaoSingUp() {
+        val intent = Intent(this, MainActivity::class.java)
         binding.kakaoLogin.setOnClickListener {
             val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                 if (error != null) {
