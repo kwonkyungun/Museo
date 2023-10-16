@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.SearchFragment">
 
-    <TextView
+    <com.skydoves.powerspinner.PowerSpinnerView
+        android:id="@+id/search_spinner"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#D9D9D9"
+        android:gravity="center"
+        android:hint="지역"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:spinner_arrow_gravity="end"
+        app:spinner_arrow_padding="8dp"
+        app:spinner_arrow_tint="@color/black"
+        app:spinner_divider_color="@color/black"
+        app:spinner_divider_show="true"
+        app:spinner_divider_size="0.4dp"
+        app:spinner_item_height="46dp"
+        app:spinner_popup_animation="dropdown"
+        app:spinner_popup_background="#D9D9D9"
+        app:spinner_popup_elevation="14dp"
+        app:spinner_popup_height="200dp" />
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Search page"
-        android:textSize="30dp"/>
+        android:layout_height="2dp"
+        android:background="#D9D9D9"
+        app:layout_constraintBottom_toTopOf="@+id/search_recyclerview" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_spinner"
+        tools:listitem="@layout/search_image"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
