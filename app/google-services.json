@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "791613529469",
+    "project_id": "test-9a153",
+    "storage_bucket": "test-9a153.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791613529469:android:574450404f296e20504014",
+        "android_client_info": {
+          "package_name": "com.classic.museo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALtHHKYML3lyM8OcyJhn-uvGXNPZxnujg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

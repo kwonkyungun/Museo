@@ -1,17 +1,25 @@
 package com.classic.museo
+
 import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import android.util.Log
+import android.widget.EditText
+import android.widget.Toast
 import com.classic.museo.databinding.ActivityLoginBinding
 import com.classic.museo.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import java.util.regex.Pattern
 
 class GlobalApplication : Application() {
     override fun onCreate() {
@@ -22,20 +30,84 @@ class GlobalApplication : Application() {
         KakaoSdk.init(this, "cab9f533e59332f0bbbf15b84459522c")
     }
 }
+
 class LoginActivity : AppCompatActivity() {
     private val binding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
+
+    private lateinit var auth: FirebaseAuth //전역으로 사용할 FirebaseAuth 생성
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val intent= Intent(this,MainActivity::class.java)
+
+        val intent = Intent(this, MainActivity::class.java)
+        auth = Firebase.auth // DB 인스턴스 선언
+
 
         //로그인 버튼
+        login()
 
-       binding.btnLogin.setOnClickListener {
+        //카카오 로그인
+        kakaoSingUp()
+
+        //회원가입 버튼
+        binding.btnSignup.setOnClickListener {
+            val SignupActivity = Intent(this, SignupActivity::class.java)
+            startActivity(SignupActivity)
+        }
+    }
+
+    //로그인
+    fun login() {
+        binding.btnLogin.setOnClickListener {
+            val id = binding.editId.text.toString()
+            val pw = binding.editPw.text.toString()
+            if (id.isEmpty() || pw.isEmpty()){
+                Toast.makeText(this,"아이디/비밀번호를 입력해주세요",Toast.LENGTH_LONG).show()
+            }else{
+                //아이디를 이메일 형식으로 유효성 검사
+                if (!Pattern.matches("^[_0-9a-zA-Z-]+@[0-9a-zA-Z]+(.[_0-9a-zA-Z-]+)*\$", id)) {
+                    Toast.makeText(this, "아이디를 확인해주세요", Toast.LENGTH_SHORT).show()
+                }
+                //비밀번호는 최소 8자리 이상이며 영문+특수문자+숫자가 합쳐져야 한다
+                else if(!Pattern.matches("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\$@\$!%*#?&.])[A-Za-z[0-9]\$@\$!%*#?&.]{8,16}\$", pw)) {
+                    Toast.makeText(this, "비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    auth.signInWithEmailAndPassword(id, pw)
+                        .addOnCompleteListener(this) { task ->
+                            Log.d("sss",task.toString())
+                            if (task.isSuccessful) {
+                                //로그인 성공시 메인화면으로 이동
+                                Toast.makeText(this,"로그인 성공하였습니다!.",Toast.LENGTH_SHORT).show()
+                                moveMainPage(task.result.user)
+
+                            }
+                            else{
+                                //로그인 실패시 Toast 메세지 출력
+                                Toast.makeText(this,"아이디와 비밀번호를 확인해주세요.",Toast.LENGTH_LONG).show()
+                            }
+                        }
+                }
+            }
+        }
+        //아래의 코드는 마이페이지에 로그아웃 버튼에 추가해야됨
+        //FirebaseAuth.getInstance().signOut()
+    }
+
+    //로그인 성공하면 다음 페이지로 넘어가는 함수
+    private fun moveMainPage (user: FirebaseUser?) {
+        //파이어베이스에 유저 상태가 있어야 다음 페이지로 넘어갈 수 있음
+        if (user != null){
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+    }
 
-        binding.kakaoLogin.setOnClickListener{
+    //카카오 로그인
+    fun kakaoSingUp() {
+        binding.kakaoLogin.setOnClickListener {
             val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                 if (error != null) {
                     Log.e("Login", "카카오계정으로 로그인 실패", error)
@@ -68,9 +140,6 @@ class LoginActivity : AppCompatActivity() {
                 UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
             }
         }
-        binding.btnSignup.setOnClickListener{
-            val intent = Intent(this, SignupActivity::class.java)
-            startActivity(intent)
-        }
+
     }
 }
