@@ -70,21 +70,21 @@ class SignupActivity : AppCompatActivity() {
                 val matcher = pattern.matcher(pw1)
 
                 val idPattern = "^[a-zA-Z0-9]+@[0-9a-zA-Z]+(.[_0-9a-zA-Z-]+)*\$"
-                val id = binding.signupId.text.toString()
+                val id = binding.signupEditId.text.toString()
                 val patternid = Pattern.compile(idPattern)
                 val matcher2 = patternid.matcher(id)
 
 
-//                if(matcher2.matches()){
-//                    binding.idAnswer.text = "적합한 아이디 입니다."
-//                    binding.idAnswer.setTextColor(Color.parseColor("#026A31"))
-//                    binding.btnSignup2.isEnabled = true
-//                }
-//                else {
-//                    binding.idAnswer.text = "아이디를 확인하여주세요."
-//                    binding.idAnswer.setTextColor(Color.RED)
-//                    binding.btnSignup2.isEnabled = false
-//                }
+                if(matcher2.matches()){
+                    binding.idAnswer.text = "적합한 아이디 입니다."
+                    binding.idAnswer.setTextColor(Color.parseColor("#026A31"))
+                    binding.btnSignup2.isEnabled = true
+                }
+                else {
+                    binding.idAnswer.text = "아이디를 확인하여주세요."
+                    binding.idAnswer.setTextColor(Color.RED)
+                    binding.btnSignup2.isEnabled = false
+                }
 
                 if(matcher.matches()){
                     binding.passwardAnswer.text = "적합한 비밀번호 입니다."
