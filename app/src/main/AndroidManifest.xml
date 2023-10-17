@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".GlobalApplication"
@@ -15,11 +15,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Museo"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31" >
-
+        tools:targetApi="31">
+        <activity
+            android:name=".Fragment.MypageInnerActivity.MypageLogoutDialog"
+            android:exported="false" />
+        <activity
+            android:name=".Fragment.MypageInnerActivity.MypageLike"
+            android:exported="false" />
+        <activity
+            android:name=".Fragment.MypageInnerActivity.MypageWritten"
+            android:exported="false" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -32,7 +40,6 @@
                     android:scheme="kakaocab9f533e59332f0bbbf15b84459522c" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SignupActivity"
             android:exported="false" />
