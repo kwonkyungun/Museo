@@ -32,6 +32,9 @@
             android:name=".Fragment.MypageInnerActivity.MypageWritten"
             android:exported="false" />
         <activity
+            android:name=".Fragment.DetailActivity"
+            android:exported="false" />
+        <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true" >
             <intent-filter>

@@ -14,8 +14,8 @@ class MypageLike : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.MypageLikeBack.setOnClickListener {
-            finish()
-        }
+//        binding.MypageLikeBack.setOnClickListener {
+//            finish()
+//        }
     }
 }

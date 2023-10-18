@@ -4,12 +4,10 @@ import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import android.util.Log
-import android.widget.EditText
 import android.widget.Toast
+import com.classic.museo.Fragment.DetailActivity
 import com.classic.museo.databinding.ActivityLoginBinding
-import com.classic.museo.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
