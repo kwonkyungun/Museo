@@ -2,8 +2,12 @@ package com.classic.museo
 
 import android.app.Application
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.content.pm.Signature
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import com.classic.museo.Fragment.DetailActivity
@@ -17,6 +21,8 @@ import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import java.util.regex.Pattern
 
 class GlobalApplication : Application() {
@@ -40,8 +46,14 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        auth = Firebase.auth // DB 인스턴스 선언
+        //test detail 이동
+        binding.button2.setOnClickListener {
+            val detailAc = Intent(this,DetailActivity::class.java)
+            startActivity(detailAc)
+        }
 
+
+        auth = Firebase.auth // DB 인스턴스 선언
 
         //로그인 버튼
         login()
