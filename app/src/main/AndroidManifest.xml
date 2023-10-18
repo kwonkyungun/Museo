@@ -17,6 +17,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Fragment.MypageInnerActivity.MypageLogoutDialog"
+            android:exported="false" />
+        <activity
+            android:name=".Fragment.MypageInnerActivity.MypageLike"
+            android:exported="false" />
+        <activity
+            android:name=".Fragment.MypageInnerActivity.MypageWritten"
+            android:exported="false" />
+        <activity
             android:name=".Fragment.DetailActivity"
             android:exported="false" />
         <activity
@@ -34,6 +43,7 @@
                     android:scheme="kakaocab9f533e59332f0bbbf15b84459522c" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".SignupActivity"
             android:exported="false" />
