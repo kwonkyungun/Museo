@@ -43,7 +43,6 @@ class LoginActivity : AppCompatActivity() {
         auth = Firebase.auth // DB 인스턴스 선언
 
 
-
         //로그인 버튼
         login()
 
