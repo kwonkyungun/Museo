@@ -22,7 +22,6 @@
         <activity
             android:name=".CommunityPlusActivity"
             android:exported="false" />
-        tools:targetApi="31">
         <activity
             android:name=".Fragment.MypageInnerActivity.MypageLogoutDialog"
             android:exported="false" />
