@@ -1,21 +1,33 @@
 package com.classic.museo.Fragment
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.classic.museo.CommunityPlusActivity
 import com.classic.museo.R
+import com.classic.museo.databinding.FragmentCommunityBinding
 
 
 class CommunityFragment : Fragment() {
+
+    private val binding by lazy { FragmentCommunityBinding.inflate(layoutInflater) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_community, container, false)
+
+        binding.communityBtnPlus.setOnClickListener{
+            val intent = Intent(context,CommunityPlusActivity::class.java)
+            startActivity(intent)
+        }
+        return binding.root
     }
+
+
 
 }
