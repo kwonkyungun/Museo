@@ -2,9 +2,7 @@ package com.classic.museo.Fragment.MypageInnerActivity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.classic.museo.R
 import com.classic.museo.databinding.ActivityMypageLikeBinding
-import com.classic.museo.databinding.FragmentMypageBinding
 
 class MypageLike : AppCompatActivity() {
     lateinit var binding: ActivityMypageLikeBinding
@@ -14,8 +12,16 @@ class MypageLike : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-//        binding.MypageLikeBack.setOnClickListener {
-//            finish()
-//        }
+        //더미데이터
+        val dummy = mutableListOf<DummyItem>()
+        dummy.add(DummyItem("Like 테스트 제목1","테스트 내용1"))
+        dummy.add(DummyItem("Like 테스트 제목2","테스트 내용2"))
+        dummy.add(DummyItem("Like 테스트 제목3","테스트 내용3"))
+        dummy.add(DummyItem("Like 테스트 제목4","테스트 내용4"))
+        binding.MypageInnerView.adapter = LikeAdapter(this,dummy)
+
+        binding.MypageInnerBack.setOnClickListener {
+            finish()
+        }
     }
 }

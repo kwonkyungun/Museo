@@ -2,8 +2,6 @@ package com.classic.museo.Fragment.MypageInnerActivity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.classic.museo.R
-import com.classic.museo.databinding.ActivityMypageLikeBinding
 import com.classic.museo.databinding.ActivityMypageWrittenBinding
 
 class MypageWritten : AppCompatActivity() {
@@ -14,8 +12,16 @@ class MypageWritten : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-//        binding.MypaeLikeBack.setOnClickListener {
-//            finish()
-//        }
+        //더미데이터
+        val dummy = mutableListOf<DummyItem>()
+        dummy.add(DummyItem("Written 테스트 제목1", "테스트 내용1"))
+        dummy.add(DummyItem("Written 테스트 제목2", "테스트 내용2"))
+        dummy.add(DummyItem("Written 테스트 제목3", "테스트 내용3"))
+        dummy.add(DummyItem("Written 테스트 제목4", "테스트 내용4"))
+        binding.MypageInnerView.adapter = WrittenAdapter(this,dummy)
+
+        binding.MypageInnerBack.setOnClickListener {
+            finish()
+        }
     }
 }
