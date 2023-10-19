@@ -32,20 +32,22 @@ class MypageFragment : Fragment() {
     ): View? {
         binding = FragmentMypageBinding.inflate(inflater)
 
-        //버튼 테스트
-        binding.MypageWritten.setOnClickListener {
-            Log.d("버튼 테스트","작성글 이동")
+        //작성글, 좋아요, 공지사항 버튼
+        binding.MypageWrittenLayout.setOnClickListener {
             val tosstoWritten = Intent(activity,MypageWritten::class.java)
             startActivity(tosstoWritten)
         }
-        binding.MypageLike.setOnClickListener {
-            Log.d("버튼 테스트","좋아요 이동")
+        binding.MypageLikeLayout.setOnClickListener {
             val tosstoLike = Intent(activity,MypageLike::class.java)
             startActivity(tosstoLike)
         }
+        binding.MypageInfoLayout.setOnClickListener {
+            //공지사항 페이지는 아직 없으므로 기능은 미구현
+            Toast.makeText(activity,"공지사항 버튼클릭!",Toast.LENGTH_SHORT).show()
+        }
 
         //로그아웃
-        binding.MypageLogoutButton.setOnClickListener {
+        binding.MypageLogout.setOnClickListener {
 
             Log.d("버튼테스트","로그아웃버튼")
             val dialog = MypageLogoutDialog()

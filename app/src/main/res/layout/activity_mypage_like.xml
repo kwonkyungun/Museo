@@ -18,20 +18,24 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/MypageWrittenTitle"
+                android:id="@+id/MypageInnerTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="좋아요 목록"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/MypageWrittenBack"
+                app:layout_constraintStart_toStartOf="@+id/MypageInnerBack"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/MypageWrittenBack"
+                android:id="@+id/MypageInnerBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/btn_star"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/back"
+                android:background="@android:color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -43,8 +47,8 @@
             android:background="@color/black"
             android:layout_marginTop="5dp"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/MypageWrittenView"
+        <ListView
+            android:id="@+id/MypageInnerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
