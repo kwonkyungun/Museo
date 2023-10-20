@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.classic.museo.CommunityDetailActivity
 import com.classic.museo.Fragment.MypageInnerActivity.MypageLike
 import com.classic.museo.Fragment.MypageInnerActivity.MypageLogoutDialog
 import com.classic.museo.Fragment.MypageInnerActivity.MypageWritten
@@ -44,6 +45,12 @@ class MypageFragment : Fragment() {
         binding.MypageInfoLayout.setOnClickListener {
             //공지사항 페이지는 아직 없으므로 기능은 미구현
             Toast.makeText(activity,"공지사항 버튼클릭!",Toast.LENGTH_SHORT).show()
+        }
+
+        //커뮤니티 디테일 액티비티 넘기기
+        val toss = Intent(activity,CommunityDetailActivity::class.java)
+        binding.testbtn.setOnClickListener {
+        startActivity(toss)
         }
 
         //로그아웃

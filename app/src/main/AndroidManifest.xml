@@ -3,9 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
 
     <application
         android:name=".GlobalApplication"
@@ -23,6 +20,9 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="bf2532828fac5e67602705ce1d834933"/>
 
+        <activity
+            android:name=".CommunityDetailItem"
+            android:exported="false" />
         <activity
             android:name=".CommunityDetailActivity"
             android:exported="false" />
@@ -43,7 +43,7 @@
             android:exported="false" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -56,7 +56,6 @@
                     android:scheme="kakaocab9f533e59332f0bbbf15b84459522c" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SignupActivity"
             android:exported="false" />
