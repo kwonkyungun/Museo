@@ -1,4 +1,4 @@
-package com.classic.museo.Fragment.MypageInnerActivity
+package com.classic.museo.ItemPage.MypageInnerActivity
 
 data class DummyItem(
     val aTitle:String,

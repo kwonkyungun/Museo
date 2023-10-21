@@ -1,13 +1,9 @@
-package com.classic.museo.Fragment
+package com.classic.museo.ItemPage
 
-import android.R
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.classic.museo.databinding.ActivityDetailBinding
-import com.kakao.vectormap.KakaoMap
-import com.kakao.vectormap.KakaoMapReadyCallback
-import com.kakao.vectormap.MapLifeCycleCallback
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 
@@ -38,6 +34,7 @@ class DetailActivity : AppCompatActivity() {
     fun kakaoMap(){
         val mapView = MapView(this)
         binding.kakaoMap.addView(mapView)
+
 
         //위치 나타내기 위도,경도
         //클릭해서 들어오면 위도 경도 데이터값을 넣어줘야함      *수정필요*

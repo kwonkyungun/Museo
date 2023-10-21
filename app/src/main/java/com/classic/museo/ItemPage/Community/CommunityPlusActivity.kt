@@ -1,4 +1,4 @@
-package com.classic.museo
+package com.classic.museo.ItemPage.Community
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

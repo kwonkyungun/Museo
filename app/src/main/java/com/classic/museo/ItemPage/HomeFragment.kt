@@ -1,4 +1,4 @@
-package com.classic.museo.Fragment
+package com.classic.museo.ItemPage
 
 import android.os.Bundle
 import android.util.Log
