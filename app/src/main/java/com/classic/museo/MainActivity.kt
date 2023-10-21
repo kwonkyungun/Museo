@@ -3,10 +3,10 @@ package com.classic.museo
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.classic.museo.Fragment.CommunityFragment
-import com.classic.museo.Fragment.HomeFragment
-import com.classic.museo.Fragment.MypageFragment
-import com.classic.museo.Fragment.SearchFragment
+import com.classic.museo.ItemPage.CommunityFragment
+import com.classic.museo.ItemPage.HomeFragment
+import com.classic.museo.ItemPage.MypageFragment
+import com.classic.museo.ItemPage.SearchFragment
 import com.classic.museo.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.mainTl, binding.mainViewpager) { tab, position ->
             when (position) {
                 0 -> tab.setIcon(R.drawable.home).text = "Home"
-                1 -> tab.setIcon(R.drawable.community).text = "Community"
+                1 -> tab.setIcon(R.drawable.community).text = "com/classic/museo/ItemPage/Community"
                 2 -> tab.setIcon(R.drawable.mypage).text = "Mypage"
                 3 -> tab.setIcon(R.drawable.search).text = "Search"
             }
