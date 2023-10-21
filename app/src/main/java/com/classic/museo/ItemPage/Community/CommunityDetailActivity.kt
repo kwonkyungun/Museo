@@ -1,13 +1,10 @@
-package com.classic.museo
+package com.classic.museo.ItemPage.Community
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.classic.museo.Fragment.MypageInnerActivity.DummyItem
-import com.classic.museo.Fragment.MypageInnerActivity.LikeAdapter
+import com.classic.museo.ItemPage.MypageInnerActivity.DummyItem
 import com.classic.museo.databinding.ActivityCommunityDetailBinding
-import com.classic.museo.databinding.ActivityDetailBinding
-import com.google.firebase.ktx.Firebase
 
 class CommunityDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityCommunityDetailBinding
