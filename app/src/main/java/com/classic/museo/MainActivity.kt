@@ -3,12 +3,13 @@ package com.classic.museo
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.classic.museo.ItemPage.CommunityFragment
-import com.classic.museo.ItemPage.HomeFragment
-import com.classic.museo.ItemPage.MypageFragment
-import com.classic.museo.ItemPage.SearchFragment
+import com.classic.museo.home.HomeFragment
+import com.classic.museo.itemPage.CommunityFragment
+import com.classic.museo.itemPage.MypageFragment
+import com.classic.museo.itemPage.SearchFragment
 import com.classic.museo.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
+
 
 //팀 노션 : https://teamsparta.notion.site/3-Museo-72e01c364bd64fa18324fa82dad2b300
 //팀 깃허브 : https://github.com/ProjectMuseo/Museo
@@ -18,10 +19,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var MainContext : Context
     lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.mainViewpager.run {
+            isUserInputEnabled = false
+        }
+
 
         initViewPager() // 뷰페이져 보여주기
     }
@@ -43,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.mainTl, binding.mainViewpager) { tab, position ->
             when (position) {
                 0 -> tab.setIcon(R.drawable.home).text = "Home"
-                1 -> tab.setIcon(R.drawable.community).text = "com/classic/museo/ItemPage/Community"
+                1 -> tab.setIcon(R.drawable.community).text = "com/classic/museo/itemPage/Community"
                 2 -> tab.setIcon(R.drawable.mypage).text = "Mypage"
                 3 -> tab.setIcon(R.drawable.search).text = "Search"
             }
