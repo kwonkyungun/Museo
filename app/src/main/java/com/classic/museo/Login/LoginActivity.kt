@@ -1,18 +1,18 @@
-package com.classic.museo
+package com.classic.museo.Login
 
 import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import android.util.Log
-import android.widget.EditText
 import android.widget.Toast
+import com.classic.museo.ItemPage.DetailActivity
+import com.classic.museo.MainActivity
 import com.classic.museo.databinding.ActivityLoginBinding
-import com.classic.museo.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
@@ -34,6 +34,7 @@ class GlobalApplication : Application() {
 class LoginActivity : AppCompatActivity() {
     private val binding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
 
+    private var db = Firebase.firestore
     private lateinit var auth: FirebaseAuth //전역으로 사용할 FirebaseAuth 생성
 
 
@@ -42,6 +43,11 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
+        //test detail 이동
+        binding.button2.setOnClickListener {
+            val detailAc = Intent(this,DetailActivity::class.java)
+            startActivity(detailAc)
+        }
         auth = Firebase.auth // DB 인스턴스 선언
 
 
@@ -111,9 +117,9 @@ class LoginActivity : AppCompatActivity() {
         binding.kakaoLogin.setOnClickListener {
             val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                 if (error != null) {
-                    Log.e("Login", "카카오계정으로 로그인 실패", error)
+                    Log.e("com/classic/museo/Login", "카카오계정으로 로그인 실패", error)
                 } else if (token != null) {
-                    Log.i("Login", "카카오계정으로 로그인 성공 ${token.accessToken}")
+                    Log.i("com/classic/museo/Login", "카카오계정으로 로그인 성공 ${token.accessToken}")
                     startActivity(intent)
                 }
             }
@@ -122,7 +128,7 @@ class LoginActivity : AppCompatActivity() {
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                 UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
                     if (error != null) {
-                        Log.e("Login", "카카오톡으로 로그인 실패", error)
+                        Log.e("com/classic/museo/Login", "카카오톡으로 로그인 실패", error)
 
                         // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
                         // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
@@ -133,7 +139,7 @@ class LoginActivity : AppCompatActivity() {
                         // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
                         UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
                     } else if (token != null) {
-                        Log.i("Login", "카카오톡으로 로그인 성공 ${token.accessToken}")
+                        Log.i("com/classic/museo/Login", "카카오톡으로 로그인 성공 ${token.accessToken}")
                         startActivity(intent)
                     }
                 }

@@ -16,7 +16,9 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi-v7a'
+        }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -52,6 +54,14 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation 'com.google.firebase:firebase-auth-ktx:22.1.2'
+    implementation 'com.google.firebase:firebase-database-ktx:20.2.2'
+    //firestore 연동
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
+    //카카오 맵
+    implementation 'com.kakao.maps.open:android:2.6.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/libDaumMapAndroid.jar')
 
     // 카카오 로그인
     implementation "com.kakao.sdk:v2-user:2.11.0"

@@ -11,6 +11,10 @@ import com.classic.museo.home.HomeFragment
 import com.classic.museo.Fragment.MypageFragment
 import com.classic.museo.Fragment.SearchFragment
 import com.classic.museo.data.Record
+import com.classic.museo.ItemPage.CommunityFragment
+import com.classic.museo.ItemPage.HomeFragment
+import com.classic.museo.ItemPage.MypageFragment
+import com.classic.museo.ItemPage.SearchFragment
 import com.classic.museo.databinding.ActivityMainBinding
 import com.example.museoapitest.retrofit.NetWorkClient
 import com.google.android.material.tabs.TabLayoutMediator
@@ -37,13 +41,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         binding.mainViewpager.run {
             isUserInputEnabled = false
         }
 
 
         initViewPager() // 뷰페이져 보여주기
-
     }
 
     //탭 레이아웃 뷰페이저 추가
@@ -63,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.mainTl, binding.mainViewpager) { tab, position ->
             when (position) {
                 0 -> tab.setIcon(R.drawable.home).text = "Home"
-                1 -> tab.setIcon(R.drawable.community).text = "Community"
+                1 -> tab.setIcon(R.drawable.community).text = "com/classic/museo/ItemPage/Community"
                 2 -> tab.setIcon(R.drawable.mypage).text = "Mypage"
                 3 -> tab.setIcon(R.drawable.search).text = "Search"
             }

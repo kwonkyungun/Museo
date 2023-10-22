@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.classic.museo.LoginActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/museo_logo"
@@ -14,48 +18,33 @@
             android:src="@drawable/museo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/text_id"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/edit_pw"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/login_edit"
-        android:hint="비밀번호를 입력해 주세요."
-        android:inputType="textPassword"
-        android:padding="15dp"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/btn_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_pw" />
+        <TextView
+            android:id="@+id/text_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="40dp"
+            android:text="ID"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/museo_logo" />
 
     <EditText
         android:id="@+id/edit_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="30dp"
         android:background="@drawable/login_edit"
         android:hint="아이디를 입력해 주세요."
         android:inputType="textEmailAddress"
         android:padding="15dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/text_pw"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_id" />
+        app:layout_constraintTop_toBottomOf="@+id/text_id"
+        tools:layout_editor_absoluteX="30dp" />
 
     <TextView
         android:id="@+id/text_pw"
@@ -63,32 +52,31 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="25dp"
-        android:text="Password"
+        android:text="Pasworrd"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/edit_pw"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_id" />
 
-    <TextView
-        android:id="@+id/text_id"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/edit_pw"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
-        android:text="ID"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/edit_id"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/museo_logo" />
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login_edit"
+        android:hint="비밀번호를 입력해 주세요."
+        android:inputType="textPassword"
+        android:padding="15dp"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/text_pw"/>
 
     <android.widget.Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/login_background"
         android:gravity="center"
         android:padding="10dp"
@@ -96,7 +84,6 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/btn_signup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,21 +104,30 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login"
-        app:layout_constraintBottom_toTopOf="@+id/kakao_login"/>
+        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
     <android.widget.ImageButton
         android:id="@+id/kakao_login"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="210dp"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/login_kakao_radius"
-        android:clickable="true"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:clickable="true"
+        android:background="@drawable/login_kakao_radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_signup" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_pw" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
