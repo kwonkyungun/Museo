@@ -1,14 +1,28 @@
 package com.classic.museo
 
+import android.content.ContentValues
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import com.classic.museo.Fragment.CommunityFragment
-import com.classic.museo.Fragment.HomeFragment
+import com.classic.museo.home.HomeFragment
 import com.classic.museo.Fragment.MypageFragment
 import com.classic.museo.Fragment.SearchFragment
+import com.classic.museo.data.Record
 import com.classic.museo.databinding.ActivityMainBinding
+import com.example.museoapitest.retrofit.NetWorkClient
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.gson.GsonBuilder
+import kotlinx.coroutines.launch
 
 //팀 노션 : https://teamsparta.notion.site/3-Museo-72e01c364bd64fa18324fa82dad2b300
 //팀 깃허브 : https://github.com/ProjectMuseo/Museo
@@ -19,13 +33,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var MainContext : Context
     lateinit var binding: ActivityMainBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.mainViewpager.run {
+            isUserInputEnabled = false
+        }
+
 
         initViewPager() // 뷰페이져 보여주기
+
     }
 
     //탭 레이아웃 뷰페이저 추가
