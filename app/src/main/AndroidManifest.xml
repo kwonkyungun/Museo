@@ -21,25 +21,25 @@
             android:value="bf2532828fac5e67602705ce1d834933"/>
 
         <activity
-            android:name=".ItemPage.Community.CommunityDetailItem"
+            android:name=".itemPage.Community.CommunityDetailItem"
             android:exported="false" />
         <activity
-            android:name=".ItemPage.Community.CommunityDetailActivity"
+            android:name=".itemPage.Community.CommunityDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ItemPage.Community.CommunityPlusActivity"
+            android:name=".itemPage.Community.CommunityPlusActivity"
             android:exported="false" />
         <activity
-            android:name=".ItemPage.MypageInnerActivity.MypageLogoutDialog"
+            android:name=".itemPage.MypageInnerActivity.MypageLogoutDialog"
             android:exported="false" />
         <activity
-            android:name=".ItemPage.MypageInnerActivity.MypageLike"
+            android:name=".itemPage.MypageInnerActivity.MypageLike"
             android:exported="false" />
         <activity
-            android:name=".ItemPage.MypageInnerActivity.MypageWritten"
+            android:name=".itemPage.MypageInnerActivity.MypageWritten"
             android:exported="false" />
         <activity
-            android:name=".ItemPage.DetailActivity"
+            android:name=".itemPage.DetailActivity"
             android:exported="false" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"

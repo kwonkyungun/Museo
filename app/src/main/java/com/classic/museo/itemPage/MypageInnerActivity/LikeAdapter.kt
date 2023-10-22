@@ -1,4 +1,4 @@
-package com.classic.museo.ItemPage.Community
+package com.classic.museo.itemPage.MypageInnerActivity
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import com.classic.museo.ItemPage.MypageInnerActivity.DummyItem
 import com.classic.museo.R
 
-class CommunityDetailItem(val mContext: CommunityDetailActivity, val mItems: MutableList<DummyItem>) : BaseAdapter() {
+class LikeAdapter(val mContext: MypageLike, val mItems: MutableList<DummyItem>) : BaseAdapter() {
 
     override fun getCount(): Int {
         return mItems.size

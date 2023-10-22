@@ -57,7 +57,7 @@ class HomeAdapter(private val hContext : Context,private var item:MutableList<Re
             binding.subject.text=data.keys.elementAt(pos)
 
             adapter=HomeAdapter2(binding.subject.text.toString(),hContext)
-            adapter.data=data.values.elementAt(pos)
+            adapter.museoData=data.values.elementAt(pos)
             binding.recyclerHome2.adapter=adapter
             binding.recyclerHome2.layoutManager = LinearLayoutManager(binding.recyclerHome2.context, LinearLayoutManager.HORIZONTAL, false)
             binding.recyclerHome2.setHasFixedSize(true)

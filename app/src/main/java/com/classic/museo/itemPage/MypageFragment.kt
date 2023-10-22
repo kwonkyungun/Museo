@@ -1,4 +1,4 @@
-package com.classic.museo.ItemPage
+package com.classic.museo.itemPage
 
 import android.content.ContentValues
 import android.content.Intent
@@ -9,9 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.classic.museo.ItemPage.MypageInnerActivity.MypageLike
-import com.classic.museo.ItemPage.MypageInnerActivity.MypageLogoutDialog
-import com.classic.museo.ItemPage.MypageInnerActivity.MypageWritten
+import com.classic.museo.itemPage.MypageInnerActivity.MypageLike
+import com.classic.museo.itemPage.MypageInnerActivity.MypageLogoutDialog
+import com.classic.museo.itemPage.MypageInnerActivity.MypageWritten
 import com.classic.museo.data.Users
 import com.classic.museo.databinding.FragmentMypageBinding
 import com.google.firebase.auth.FirebaseAuth

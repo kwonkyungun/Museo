@@ -1,4 +1,4 @@
-package com.classic.museo.ItemPage
+package com.classic.museo.itemPage
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.classic.museo.ItemPage.Community.CommunityPlusActivity
+import com.classic.museo.itemPage.Community.CommunityPlusActivity
 import com.classic.museo.databinding.FragmentCommunityBinding
 
 

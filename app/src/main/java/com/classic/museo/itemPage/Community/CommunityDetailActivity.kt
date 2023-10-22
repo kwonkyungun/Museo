@@ -1,9 +1,9 @@
-package com.classic.museo.ItemPage.Community
+package com.classic.museo.itemPage.Community
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.classic.museo.ItemPage.MypageInnerActivity.DummyItem
+import com.classic.museo.itemPage.MypageInnerActivity.DummyItem
 import com.classic.museo.databinding.ActivityCommunityDetailBinding
 
 class CommunityDetailActivity : AppCompatActivity() {

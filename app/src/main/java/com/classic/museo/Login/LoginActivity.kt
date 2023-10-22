@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.classic.museo.ItemPage.DetailActivity
 import com.classic.museo.MainActivity
 import com.classic.museo.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -44,10 +43,10 @@ class LoginActivity : AppCompatActivity() {
 
 
         //test detail 이동
-        binding.button2.setOnClickListener {
-            val detailAc = Intent(this,DetailActivity::class.java)
-            startActivity(detailAc)
-        }
+//        binding.button2.setOnClickListener {
+//            val detailAc = Intent(this,DetailActivity::class.java)
+//            startActivity(detailAc)
+//        }
         auth = Firebase.auth // DB 인스턴스 선언
 
 

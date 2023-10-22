@@ -2,17 +2,18 @@ package com.classic.museo.home
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.classic.museo.itemPage.DetailActivity
 import com.classic.museo.R
 import com.classic.museo.data.Record
 import com.classic.museo.databinding.RecyclerviewItem2BigBinding
 import com.classic.museo.databinding.RecyclerviewItem2Binding
 
-class HomeAdapter2(var subject:String, var hContext: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-    var data= mutableListOf<Record>()
+class HomeAdapter2(var subject:String, val hContext: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    var museoData= mutableListOf<Record>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view=RecyclerviewItem2Binding.inflate(LayoutInflater.from(parent.context),parent,false)
         val bigView=RecyclerviewItem2BigBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -22,17 +23,12 @@ class HomeAdapter2(var subject:String, var hContext: Context) : RecyclerView.Ada
         }
     }
 
-    fun clearItem() {
-        data.clear()
-        notifyDataSetChanged()
-    }
-
     override fun getItemCount(): Int {
-        return data.size
+        return museoData.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(data[position].viewType){
+        when(museoData[position].viewType){
             ViewType.BIG -> {
                 (holder as ItemBig02).bind(position)
             }
@@ -44,45 +40,72 @@ class HomeAdapter2(var subject:String, var hContext: Context) : RecyclerView.Ada
 
     override fun getItemViewType(position: Int): Int {
         if(subject=="인기"){
-            data[position].viewType = 1
+            museoData[position].viewType = 1
         }else {
-            data[position].viewType= 0
+            museoData[position].viewType= 0
         }
-        return data[position].viewType
+        return museoData[position].viewType
     }
 
-    inner class Item02(private val binding : RecyclerviewItem2Binding) : RecyclerView.ViewHolder(binding.root){
+    inner class Item02(private val binding : RecyclerviewItem2Binding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener{
+        var freeView=binding.root
 
+        init {
+            freeView.setOnClickListener(this)
+        }
         fun bind(pos:Int){
-            binding.textView2.text=data[pos].fcltyNm
+            binding.textView2.text=museoData[pos].fcltyNm
+        }
+
+        override fun onClick(v: View?) {
+            val position=adapterPosition.takeIf { it!=RecyclerView.NO_POSITION } ?:return
+            val intent=Intent(hContext,DetailActivity::class.java)
+            intent.apply {
+                putExtra("museumData",museoData[position])
+            }
+            hContext.startActivity(intent)
         }
     }
 
-    inner class ItemBig02(private val binding : RecyclerviewItem2BigBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class ItemBig02(private val binding : RecyclerviewItem2BigBinding) : RecyclerView.ViewHolder(binding.root),View.OnClickListener{
+        var popularView=binding.root
+
+        init {
+            popularView.setOnClickListener(this)
+        }
 
         fun bind(pos:Int){
-            binding.textView3.text=data[pos].fcltyNm
-            if(data[pos].fcltyNm=="국립경주박물관"){
+            binding.textView3.text=museoData[pos].fcltyNm
+            if(museoData[pos].fcltyNm=="국립경주박물관"){
                 binding.imageView3.setImageResource(R.drawable.gyeongju)
-            }else if(data[pos].fcltyNm=="국립고궁박물관"){
+            }else if(museoData[pos].fcltyNm=="국립고궁박물관"){
                 binding.imageView3.setImageResource(R.drawable.palace)
-            }else if(data[pos].fcltyNm=="국립민속박물관"){
+            }else if(museoData[pos].fcltyNm=="국립민속박물관"){
                 binding.imageView3.setImageResource(R.drawable.folk)
-            }else if(data[pos].fcltyNm=="국립중앙박물관"){
+            }else if(museoData[pos].fcltyNm=="국립중앙박물관"){
                 binding.imageView3.setImageResource(R.drawable.nationalmuseum)
-            }else if(data[pos].fcltyNm=="대림미술관"){
+            }else if(museoData[pos].fcltyNm=="대림미술관"){
                 binding.imageView3.setImageResource(R.drawable.daelim)
-            }else if(data[pos].fcltyNm=="서울시립미술관"){
+            }else if(museoData[pos].fcltyNm=="서울시립미술관"){
                 binding.imageView3.setImageResource(R.drawable.seoulmuseum)
-            }else if(data[pos].fcltyNm=="부산시립박물관"){
+            }else if(museoData[pos].fcltyNm=="부산시립박물관"){
                 binding.imageView3.setImageResource(R.drawable.busan)
-            }else if(data[pos].fcltyNm=="리움미술관"){
+            }else if(museoData[pos].fcltyNm=="리움미술관"){
                 binding.imageView3.setImageResource(R.drawable.leeum)
-            }else if(data[pos].fcltyNm=="제주유리박물관"){
+            }else if(museoData[pos].fcltyNm=="제주유리박물관"){
                 binding.imageView3.setImageResource(R.drawable.jeju)
-            }else if(data[pos].fcltyNm=="미메시스아트뮤지엄"){
+            }else if(museoData[pos].fcltyNm=="미메시스아트뮤지엄"){
                 binding.imageView3.setImageResource(R.drawable.mime)
             }
+        }
+
+        override fun onClick(v: View?) {
+            val position=adapterPosition.takeIf { it!=RecyclerView.NO_POSITION } ?:return
+            val intent=Intent(hContext,DetailActivity::class.java)
+            intent.apply {
+                putExtra("museumData",museoData[position])
+            }
+            hContext.startActivity(intent)
         }
     }
 }

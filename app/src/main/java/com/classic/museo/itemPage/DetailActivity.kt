@@ -1,8 +1,10 @@
-package com.classic.museo.ItemPage
+package com.classic.museo.itemPage
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.classic.museo.data.Record
 import com.classic.museo.databinding.ActivityDetailBinding
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -18,6 +20,8 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val a=intent.getParcelableExtra<Record>("museumData")!!
+        Log.e("공공데이터","${a.fcltyNm}")
 
         //뒤로가기 버튼
         binding.dtBack.setOnClickListener {
@@ -29,6 +33,8 @@ class DetailActivity : AppCompatActivity() {
         kakaoMap()
 
     }
+
+
 
     //카카오 맵
     fun kakaoMap(){

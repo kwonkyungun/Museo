@@ -1,4 +1,4 @@
-package com.classic.museo.ItemPage.MypageInnerActivity
+package com.classic.museo.itemPage.MypageInnerActivity
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

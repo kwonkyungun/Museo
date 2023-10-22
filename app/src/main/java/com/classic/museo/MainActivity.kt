@@ -1,32 +1,15 @@
 package com.classic.museo
 
-import android.content.ContentValues
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.lifecycleScope
-import com.classic.museo.Fragment.CommunityFragment
 import com.classic.museo.home.HomeFragment
-import com.classic.museo.Fragment.MypageFragment
-import com.classic.museo.Fragment.SearchFragment
-import com.classic.museo.data.Record
-import com.classic.museo.ItemPage.CommunityFragment
-import com.classic.museo.ItemPage.HomeFragment
-import com.classic.museo.ItemPage.MypageFragment
-import com.classic.museo.ItemPage.SearchFragment
+import com.classic.museo.itemPage.CommunityFragment
+import com.classic.museo.itemPage.MypageFragment
+import com.classic.museo.itemPage.SearchFragment
 import com.classic.museo.databinding.ActivityMainBinding
-import com.example.museoapitest.retrofit.NetWorkClient
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.gson.GsonBuilder
-import kotlinx.coroutines.launch
+
 
 //팀 노션 : https://teamsparta.notion.site/3-Museo-72e01c364bd64fa18324fa82dad2b300
 //팀 깃허브 : https://github.com/ProjectMuseo/Museo
@@ -67,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.mainTl, binding.mainViewpager) { tab, position ->
             when (position) {
                 0 -> tab.setIcon(R.drawable.home).text = "Home"
-                1 -> tab.setIcon(R.drawable.community).text = "com/classic/museo/ItemPage/Community"
+                1 -> tab.setIcon(R.drawable.community).text = "com/classic/museo/itemPage/Community"
                 2 -> tab.setIcon(R.drawable.mypage).text = "Mypage"
                 3 -> tab.setIcon(R.drawable.search).text = "Search"
             }

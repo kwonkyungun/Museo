@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ItemPage.Community.CommunityDetailActivity">
+    tools:context=".itemPage.Community.CommunityDetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/logo_layout"
