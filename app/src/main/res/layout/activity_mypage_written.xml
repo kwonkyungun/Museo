@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.MypageInnerActivity.MypageLike">
+    tools:context=".itemPage.MypageInnerActivity.MypageLike">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,16 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/MypageInnerTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="내가 쓴 글"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/MypageInnerBack"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <ImageButton
                 android:id="@+id/MypageInnerBack"
                 android:layout_width="wrap_content"
@@ -34,19 +24,58 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/back"
                 android:background="@android:color/transparent"
+                android:src="@drawable/back"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/MypageInnerBack"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/museo" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <View
             android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/black"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:background="@color/black" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/MypageInnerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="내 게시물"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view7"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/black" />
 
         <ListView
             android:id="@+id/MypageInnerView"

@@ -3,12 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
 
     <application
-        android:name=".GlobalApplication"
+        android:name=".Login.GlobalApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -24,26 +21,29 @@
             android:value="bf2532828fac5e67602705ce1d834933"/>
 
         <activity
-            android:name=".CommunityDetailActivity"
+            android:name=".itemPage.Community.CommunityDetailItem"
             android:exported="false" />
         <activity
-            android:name=".CommunityPlusActivity"
+            android:name=".itemPage.Community.CommunityDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".Fragment.MypageInnerActivity.MypageLogoutDialog"
+            android:name=".itemPage.Community.CommunityPlusActivity"
             android:exported="false" />
         <activity
-            android:name=".Fragment.MypageInnerActivity.MypageLike"
+            android:name=".itemPage.MypageInnerActivity.MypageLogoutDialog"
             android:exported="false" />
         <activity
-            android:name=".Fragment.MypageInnerActivity.MypageWritten"
+            android:name=".itemPage.MypageInnerActivity.MypageLike"
             android:exported="false" />
         <activity
-            android:name=".Fragment.DetailActivity"
+            android:name=".itemPage.MypageInnerActivity.MypageWritten"
+            android:exported="false" />
+        <activity
+            android:name=".itemPage.DetailActivity"
             android:exported="false" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -56,15 +56,14 @@
                     android:scheme="kakaocab9f533e59332f0bbbf15b84459522c" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".SignupActivity"
+            android:name=".Login.SignupActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

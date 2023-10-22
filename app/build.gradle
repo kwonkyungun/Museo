@@ -48,6 +48,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-auth:22.2.0'
     implementation 'com.google.firebase:firebase-firestore:24.9.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.2.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
     //DB연동
@@ -55,8 +56,9 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation 'com.google.firebase:firebase-auth-ktx:22.1.2'
     implementation 'com.google.firebase:firebase-database-ktx:20.2.2'
-    implementation("com.google.firebase:firebase-firestore-ktx")
+    //firestore 연동
     implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
+    implementation("com.google.firebase:firebase-firestore-ktx")
 
     //카카오 맵
     implementation 'com.kakao.maps.open:android:2.6.0'
