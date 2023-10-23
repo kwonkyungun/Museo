@@ -1,4 +1,4 @@
-package com.classic.museo.Fragment
+package com.classic.museo.itemPage
 
 import android.content.Context
 import android.content.Intent
@@ -7,18 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.classic.museo.CommunityAdapter
-import com.classic.museo.CommunityPlusActivity
-import com.classic.museo.R
+import com.classic.museo.itemPage.Community.CommunityPlusActivity
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.databinding.FragmentCommunityBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.classic.museo.itemPage.Community.CommunityAdapter
 
 
 class CommunityFragment : Fragment() {
@@ -40,7 +33,7 @@ class CommunityFragment : Fragment() {
         super.onResume()
 
         adapter.postFirestore()
-//        adapter.usersFirestore()
+        adapter.usersFirestore()
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

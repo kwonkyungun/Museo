@@ -1,4 +1,4 @@
-package com.classic.museo
+package com.classic.museo.itemPage.Community
 
 import android.content.ContentValues
 import android.content.ContentValues.TAG
@@ -11,6 +11,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.sql.Date
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Calendar
+import java.util.Locale
 
 class CommunityPlusActivity : AppCompatActivity() {
 
@@ -37,13 +43,17 @@ class CommunityPlusActivity : AppCompatActivity() {
     private fun sendToData(){
         val title = binding.communityPlusTitle.text.toString()
         val text = binding.communityPlusEdittext.text.toString()
+        val museum = binding.communityPlusMuseum.text.toString()
+        val currentDate = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(currentDate)
         val uid : String? = auth?.uid
 
         val post = hashMapOf(
             "title" to title,
             "text" to text,
-            "date" to java.util.Date().time,
-            "uid" to uid
+            "date" to dateFormat,
+            "museum" to museum,
+            "uid" to uid,
         )
 
         db.collection("post")

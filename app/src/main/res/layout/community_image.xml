@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -23,6 +24,17 @@
         app:layout_constraintVertical_bias="0.35" />
 
     <TextView
+        android:id="@+id/community_museum_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="국립박물관"
+        android:textColor="#A19B9B"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="@+id/text_community_title"
+        app:layout_constraintTop_toBottomOf="@+id/text_community_title" />
+
+    <TextView
         android:id="@+id/community_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +47,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_community_title" />
+        app:layout_constraintTop_toBottomOf="@+id/community_museum_name" />
 
     <TextView
         android:id="@+id/community_id"
