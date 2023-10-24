@@ -195,9 +195,10 @@
 
         <TextView
             android:id="@+id/dt_Introduction"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
             android:text="강원특별자치도 춘천시 우석로에 있는 국립 박물관으로 2002년 10월 30일 개관하여 지역문화의 원형과 특성을 찾고 이를 널리 알리기 위해, 연구와 전시 및 교육 등의 다양한 문화행사를 개최하여 지역사회의 관심과 문화수준을 높여주는 곳이다. 넓은 주차장이 준비되어있어, 이용 시에 편리하다."
             android:textSize="14dp"
             android:textStyle="bold"

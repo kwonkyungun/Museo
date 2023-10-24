@@ -18,26 +18,31 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.GsonBuilder
 import okhttp3.internal.notify
 
-class HomeAdapter(private val hContext : Context,private var item:MutableList<Record>, private var item2:MutableList<Record>
-, private var item3:MutableList<Record>)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class HomeAdapter(
+    private val hContext: Context,
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var db= Firebase.firestore
-    private var gson= GsonBuilder().create()
-    private lateinit var adapter : HomeAdapter2
+    var item = mutableListOf<Record>()
+    var item2 = mutableListOf<Record>()
+    var item3 = mutableListOf<Record>()
+    var item4 = mutableListOf<Record>()
+    var item5 = mutableListOf<Record>()
+    private var db = Firebase.firestore
+    private var gson = GsonBuilder().create()
+    private lateinit var adapter: HomeAdapter2
+    private lateinit var fAdapter: FreeAdapter
 
-    var data= mutableMapOf(
+    var data = mutableMapOf(
         "인기" to item,
+        "이색 박물관" to item3,
+        "생물 박물관" to item4,
+        "과학 박물관" to item5,
         "무료 박물관/미술관" to item2,
-        "이색 박물관/미술관" to item3,
     )
 
-    fun clearItem() {
-        item2.clear()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view=RecyclerviewItem1Binding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val view =
+            RecyclerviewItem1Binding.inflate(LayoutInflater.from(parent.context), parent, false)
         return Item01(view)
     }
 
@@ -47,19 +52,59 @@ class HomeAdapter(private val hContext : Context,private var item:MutableList<Re
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.e("테스트","${position}")
+        Log.e("테스트", "${position}")
         (holder as Item01).bind(position)
     }
 
-    inner class Item01(private val binding : RecyclerviewItem1Binding) : RecyclerView.ViewHolder(binding.root){
+    fun regionDB(text: String) {
+        item2.clear()
+        fAdapter.clearItem()
+        db.collection("museoInfo")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    var region = document.get("rdnmadr").toString()
+                    if (region.contains(text)) {
+                        val value = gson.toJson(document.data)
+                        val result = gson.fromJson(value, Record::class.java)
+                        item2.add(result)
+                    }
+                }
+                data.put("무료 박물관/미술관", item2)
+                notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.w(ContentValues.TAG, "Error getting documents.", exception)
+            }
+    }
 
-        fun bind(pos:Int){
-            binding.subject.text=data.keys.elementAt(pos)
+    inner class Item01(private val binding: RecyclerviewItem1Binding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(pos: Int) {
+            binding.subject.text = data.keys.elementAt(pos)
 
-            adapter=HomeAdapter2(binding.subject.text.toString(),hContext)
-            adapter.museoData=data.values.elementAt(pos)
-            binding.recyclerHome2.adapter=adapter
-            binding.recyclerHome2.layoutManager = LinearLayoutManager(binding.recyclerHome2.context, LinearLayoutManager.HORIZONTAL, false)
+            if (binding.subject.text == "무료 박물관/미술관") {
+                binding.filter2.visibility = View.VISIBLE
+                binding.filter2.setOnSpinnerItemSelectedListener<String> { _, _, _, text ->
+//                    regionDB(text)
+                }
+            }
+
+            adapter = HomeAdapter2(binding.subject.text.toString(), hContext)
+            fAdapter = FreeAdapter(hContext)
+            if (pos == 4) {
+                Log.e("테스트용","${item2}")
+                fAdapter.freeData = data.values.elementAt(pos)
+                binding.recyclerHome2.adapter = fAdapter
+            } else {
+                adapter.museoData = data.values.elementAt(pos)
+                binding.recyclerHome2.adapter = adapter
+            }
+            binding.recyclerHome2.layoutManager = LinearLayoutManager(
+                binding.recyclerHome2.context,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
             binding.recyclerHome2.setHasFixedSize(true)
         }
     }
