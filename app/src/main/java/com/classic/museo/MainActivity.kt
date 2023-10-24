@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.mainTl, binding.mainViewpager) { tab, position ->
             when (position) {
                 0 -> tab.setIcon(R.drawable.home).text = "Home"
-                1 -> tab.setIcon(R.drawable.community).text = "com/classic/museo/itemPage/Community"
+                1 -> tab.setIcon(R.drawable.community).text = "Community"
                 2 -> tab.setIcon(R.drawable.mypage).text = "Mypage"
                 3 -> tab.setIcon(R.drawable.search).text = "Search"
             }
