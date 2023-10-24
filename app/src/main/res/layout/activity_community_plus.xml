@@ -58,6 +58,19 @@
         app:layout_constraintTop_toBottomOf="@+id/plus_logo_layout" />
 
     <EditText
+        android:id="@+id/community_plus_museum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="15dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="15dp"
+        android:background="@drawable/login_edit"
+        android:hint="박물관을 입력해 주세요."
+        app:layout_constraintTop_toBottomOf="@+id/community_plus_title" />
+
+
+    <EditText
         android:id="@+id/community_plus_edittext"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -69,7 +82,7 @@
         android:hint="내용을 입력해 주세요"
         android:padding="15dp"
         app:layout_constraintBottom_toTopOf="@+id/community_plus_cancle"
-        app:layout_constraintTop_toBottomOf="@+id/community_plus_title" />
+        app:layout_constraintTop_toBottomOf="@+id/community_plus_museum" />
 
     <android.widget.Button
         android:id="@+id/community_plus_cancle"

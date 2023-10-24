@@ -49,16 +49,18 @@ dependencies {
     implementation "com.google.android.material:material:1.6.0-alpha01"
     implementation 'com.google.android.material:material:<version>'
 
+    implementation 'com.google.firebase:firebase-auth:22.2.0'
+    implementation 'com.google.firebase:firebase-firestore:24.9.0'
     implementation 'com.google.firebase:firebase-database-ktx:20.2.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
     //DB연동
-    implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation 'com.google.firebase:firebase-auth-ktx:22.1.2'
     implementation 'com.google.firebase:firebase-database-ktx:20.2.2'
     //firestore 연동
+    implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
     implementation("com.google.firebase:firebase-firestore-ktx")
 
     //카카오 맵
@@ -71,6 +73,7 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.firebase:protolite-well-known-types:18.0.0'
     testImplementation 'junit:junit:4.13.2'

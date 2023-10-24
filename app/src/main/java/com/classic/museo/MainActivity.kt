@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowInsets
 import com.classic.museo.home.HomeFragment
-import com.classic.museo.itemPage.CommunityFragment
 import com.classic.museo.itemPage.MypageFragment
 import com.classic.museo.itemPage.search.SearchFragment
 import com.classic.museo.databinding.ActivityMainBinding
+import com.classic.museo.itemPage.CommunityFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 
