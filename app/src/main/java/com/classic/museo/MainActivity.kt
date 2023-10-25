@@ -1,13 +1,23 @@
 package com.classic.museo
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.WindowInsets
+import android.widget.PopupMenu
+import android.widget.Toast
+import androidx.navigation.NavController
+import androidx.navigation.NavHost
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
+import com.classic.museo.databinding.ActivityMainBinding
 import com.classic.museo.home.HomeFragment
 import com.classic.museo.itemPage.MypageFragment
 import com.classic.museo.itemPage.search.SearchFragment
-import com.classic.museo.databinding.ActivityMainBinding
 import com.classic.museo.itemPage.CommunityFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -18,44 +28,36 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var MainContext : Context
     lateinit var binding: ActivityMainBinding
-
+    private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.mainViewpager.run {
-            isUserInputEnabled = false
-        }
+        //네이게이션 컨트롤러
+        val fragment = supportFragmentManager.findFragmentById(R.id.main_fragment) as NavHostFragment
+        navController = fragment.navController
+        setupSmoothBottomMenu()
 
-
-        initViewPager() // 뷰페이져 보여주기
     }
 
-    //탭 레이아웃 뷰페이저 추가
-    private fun initViewPager() {
+    //네비게이션 옵션 추가
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
 
-        var viewPager2Adatper = ViewPager2Adapter(this)
-        viewPager2Adatper.addFragment(HomeFragment())
-        viewPager2Adatper.addFragment(CommunityFragment())
-        viewPager2Adatper.addFragment(MypageFragment())
-        viewPager2Adatper.addFragment(SearchFragment())
+    //바텀 네비게이션 기능
+    @SuppressLint("ResourceType")
+    private fun setupSmoothBottomMenu() {
+        val menu = PopupMenu(this,null).apply { inflate(binding.bottomBar.itemMenuRes) }
+        binding.bottomBar.setupWithNavController(menu.menu, navController)
 
-        binding.mainViewpager.apply {
-            adapter = viewPager2Adatper
+    }
 
-        }
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
 
-        //탭 레이아웃 UI
-        TabLayoutMediator(binding.mainTl, binding.mainViewpager) { tab, position ->
-            when (position) {
-                0 -> tab.setIcon(R.drawable.home).text = "Home"
-                1 -> tab.setIcon(R.drawable.community).text = "Community"
-                2 -> tab.setIcon(R.drawable.mypage).text = "Mypage"
-                3 -> tab.setIcon(R.drawable.search).text = "Search"
-            }
-        }.attach()
     }
 }

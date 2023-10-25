@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace 'com.classic.museo'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.classic.museo"
@@ -44,8 +44,10 @@ android {
 
 dependencies {
 
+    //bottom navigation
+    implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.9'
+    //firebase
     implementation("com.google.firebase:firebase-storage")
-
 
     implementation "com.google.android.material:material:1.6.0-alpha01"
     implementation 'com.google.android.material:material:<version>'
@@ -53,6 +55,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:22.2.0'
     implementation 'com.google.firebase:firebase-firestore:24.9.0'
     implementation 'com.google.firebase:firebase-database-ktx:20.2.2'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.4'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.4'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
     //DB연동
