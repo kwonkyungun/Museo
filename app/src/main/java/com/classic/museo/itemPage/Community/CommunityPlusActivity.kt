@@ -36,6 +36,7 @@ class CommunityPlusActivity : AppCompatActivity() {
         }
         binding.communityPlus.setOnClickListener{
             sendToData()
+            finish()
         }
 
         auth = Firebase.auth
