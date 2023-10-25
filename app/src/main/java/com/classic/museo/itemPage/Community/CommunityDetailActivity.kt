@@ -30,7 +30,7 @@ class CommunityDetailActivity : AppCompatActivity() {
         val title = intent.getStringExtra("title").toString()
         val text = intent.getStringExtra("text").toString()
         val museum = intent.getStringExtra("museum").toString()
-        val NickName = intent.getBooleanArrayExtra("NickName").toString()
+        val NickName = intent.getStringExtra("NickName").toString()
 
         binding.communityDetailTitle.text = title
         binding.communityDetailText.text = text
