@@ -12,6 +12,7 @@ import com.classic.museo.itemPage.Community.CommunityPlusActivity
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.databinding.FragmentCommunityBinding
 import com.classic.museo.itemPage.Community.CommunityAdapter
+import com.classic.museo.itemPage.Community.CommunityDetailActivity
 
 
 class CommunityFragment : Fragment() {
@@ -41,6 +42,13 @@ class CommunityFragment : Fragment() {
     ): View? {
         binding = FragmentCommunityBinding.inflate(inflater, container, false)
         setupView()
+
+        adapter.itemClick = object : CommunityAdapter.ItemClick{
+            override fun onClick(view: View, position: Int) {
+                val intent = Intent(context, CommunityDetailActivity::class.java)
+                startActivity(intent)
+            }
+        }
 
         // +버튼 클릭시 새글추가 Activity로 이동
         binding.communityBtnPlus.setOnClickListener {

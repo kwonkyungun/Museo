@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.classic.museo.data.CommunityDTO
 import com.classic.museo.databinding.CommunityImageBinding
 import com.google.android.material.tabs.TabLayout.TabGravity
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
@@ -41,6 +43,12 @@ class CommunityAdapter(private val context: Context) :
 //            }
 //    }
 
+    interface ItemClick{
+        fun onClick(view: View, position: Int)
+    }
+
+    var itemClick : ItemClick? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
             CommunityImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -65,21 +73,25 @@ class CommunityAdapter(private val context: Context) :
 
     fun postFirestore() {
 
-        val firestore = FirebaseFirestore.getInstance()
-        firestore.collection("post").get()
+        db.collection("post")
+            .orderBy("date", Query.Direction.DESCENDING)
+            .get()
             .addOnSuccessListener { result ->
                 Log.d("postFirestore", "sj postFirestore : $result")
 
                 val newPostData = mutableListOf<CommunityDTO>()
                 for (i in result) {
                     if (i.exists()) {
-                        Log.d("postFirestore", "sj postFirestore : ${newPostData.size} , $newPostData")
+                        Log.d(
+                            "postFirestore",
+                            "sj postFirestore : ${newPostData.size} , $newPostData"
+                        )
                         val postData = i.toObject(CommunityDTO::class.java)
                         newPostData.add(postData)
                     }
+                    review.clear()
+                    review.addAll(newPostData)
                 }
-                review.clear()
-                review.addAll(newPostData)
                 notifyDataSetChanged()
             }
             .addOnFailureListener { e ->
