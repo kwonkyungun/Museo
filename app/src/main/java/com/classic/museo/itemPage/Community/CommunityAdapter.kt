@@ -2,11 +2,13 @@ package com.classic.museo.itemPage.Community
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.databinding.CommunityImageBinding
@@ -25,6 +27,7 @@ class CommunityAdapter(private val context: Context) :
 
     var review = mutableListOf<CommunityDTO>()
     val db = Firebase.firestore
+    private var intent = Intent()
 
 //    init {
 //        uid = FirebaseAuth.getInstance().uid
@@ -43,11 +46,11 @@ class CommunityAdapter(private val context: Context) :
 //            }
 //    }
 
-    interface ItemClick{
-        fun onClick(view: View, position: Int)
-    }
-
-    var itemClick : ItemClick? = null
+//    interface ItemClick{
+//        fun onClick(view: View, position: Int)
+//    }
+//
+//    var itemClick : ItemClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
@@ -132,13 +135,29 @@ class CommunityAdapter(private val context: Context) :
 
 
 inner class ImageViewHolder(val binding: CommunityImageBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+    RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
     var title: TextView = binding.textCommunityTitle
     var nickname: TextView = binding.communityNickname
     var userID: TextView = binding.communityId
     var date: TextView = binding.dateCommunityImage
     var museum: TextView = binding.communityMuseumName
+    var detailPage = binding.root
+
+    init {
+        detailPage.setOnClickListener(this)
+    }
+    override fun onClick(v: View?) {
+        val position = absoluteAdapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return
+        intent = Intent(context, CommunityDetailActivity::class.java)
+        intent.apply {
+            putExtra("title", review[position].title)
+            putExtra("text", review[position].text)
+            putExtra("NickName", review[position].NickName)
+            putExtra("museum",review[position].museum)
+        }
+        context.startActivity(intent)
+    }
 
 }
 }

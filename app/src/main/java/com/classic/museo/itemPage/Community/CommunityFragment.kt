@@ -43,12 +43,12 @@ class CommunityFragment : Fragment() {
         binding = FragmentCommunityBinding.inflate(inflater, container, false)
         setupView()
 
-        adapter.itemClick = object : CommunityAdapter.ItemClick{
-            override fun onClick(view: View, position: Int) {
-                val intent = Intent(context, CommunityDetailActivity::class.java)
-                startActivity(intent)
-            }
-        }
+//        adapter.itemClick = object : CommunityAdapter.ItemClick{
+//            override fun onClick(view: View, position: Int) {
+//                val intent = Intent(context, CommunityDetailActivity::class.java)
+//                startActivity(intent)
+//            }
+//        }
 
         // +버튼 클릭시 새글추가 Activity로 이동
         binding.communityBtnPlus.setOnClickListener {
