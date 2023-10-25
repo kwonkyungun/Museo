@@ -38,76 +38,37 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/main_viewpager"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/main_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:navGraph = "@navigation/navigation"
+        app:defaultNavHost = "true"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-    </androidx.viewpager2.widget.ViewPager2>
-
+    </androidx.fragment.app.FragmentContainerView>
 
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/main_tl"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
         tools:layout_editor_absoluteX="0dp">
 
     </View>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/main_tl"
+    <me.ibrahimsn.lib.SmoothBottomBar
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        app:backgroundColor="#848482"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:tabIndicatorFullWidth="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:icon="@drawable/home"
-            android:text="Home">
-
-        </com.google.android.material.tabs.TabItem>
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:icon="@drawable/community"
-            android:text="community">
-
-        </com.google.android.material.tabs.TabItem>
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:icon="@drawable/mypage"
-            android:text="mypage">
-
-        </com.google.android.material.tabs.TabItem>
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:icon="@drawable/search"
-            android:text="search">
-
-        </com.google.android.material.tabs.TabItem>
-    </com.google.android.material.tabs.TabLayout>
-
-
-
+        app:menu="@menu/menu">
+    </me.ibrahimsn.lib.SmoothBottomBar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
