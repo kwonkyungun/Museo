@@ -74,6 +74,7 @@ class HomeAdapter2(var subject: String, val hContext: Context) :
 
         fun bind(pos: Int) {
             binding.textView2.text = museoData[pos].fcltyNm
+            binding.textView4.text="update : "+museoData[pos].referenceDate
             category(museoData[pos].fcltyNm)
         }
 
