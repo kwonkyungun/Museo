@@ -60,18 +60,17 @@ class HomeAdapter(
         item2.clear()
         fAdapter.clearItem()
         db.collection("museoInfo")
+            .whereGreaterThanOrEqualTo("rdnmadr","${text}")
+            .whereLessThanOrEqualTo("rdnmadr","${text}" + "\uf8ff").limit(20)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    var region = document.get("rdnmadr").toString()
-                    if (region.contains(text)) {
                         val value = gson.toJson(document.data)
                         val result = gson.fromJson(value, Record::class.java)
                         item2.add(result)
-                    }
                 }
-                data.put("무료 박물관/미술관", item2)
-                notifyDataSetChanged()
+                fAdapter.freeData=item2
+                fAdapter.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.w(ContentValues.TAG, "Error getting documents.", exception)
@@ -86,7 +85,7 @@ class HomeAdapter(
             if (binding.subject.text == "무료 박물관/미술관") {
                 binding.filter2.visibility = View.VISIBLE
                 binding.filter2.setOnSpinnerItemSelectedListener<String> { _, _, _, text ->
-//                    regionDB(text)
+                    regionDB(text)
                 }
             }
 
