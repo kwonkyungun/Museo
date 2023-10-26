@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.classic.museo.data.KakaoUsers
 import com.classic.museo.data.Users
 import com.classic.museo.databinding.ActivityCommunityPlusBinding
 import com.google.android.play.integrity.internal.aa
@@ -16,6 +17,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.GsonBuilder
+import com.kakao.sdk.user.UserApi
+import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -29,7 +32,8 @@ import java.util.Locale
 class CommunityPlusActivity : AppCompatActivity() {
 
     private var gson=GsonBuilder().create()
-    private lateinit var user:Users
+    private var kakaoUser=KakaoUsers()
+    private var user=Users()
     lateinit var binding: ActivityCommunityPlusBinding
     private val db = Firebase.firestore
     private var auth : FirebaseAuth? = null
@@ -47,11 +51,13 @@ class CommunityPlusActivity : AppCompatActivity() {
         }
         binding.communityPlus.setOnClickListener{
 
-            if(binding.communityPlusTitle.text.isEmpty()){
-                Toast.makeText(this,"ㅇㅇ",Toast.LENGTH_SHORT)
+            if(binding.communityPlusTitle.text.isEmpty()||binding.communityPlusEdittext.text.isEmpty()||
+                    binding.communityPlusMuseum.text.isEmpty()){
+                Toast.makeText(this,"빈칸을 채워주세요.",Toast.LENGTH_SHORT).show()
+            }else {
+                sendToData()
+                finish()
             }
-            sendToData()
-            finish()
         }
 
         auth = Firebase.auth
@@ -59,7 +65,22 @@ class CommunityPlusActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        userDBLoad(auth?.uid!!)
+        //if->파이어베이스 사용자정보, else->카카오 사용자정보
+        if(auth!!.uid!=null){
+            userDBLoad(auth?.uid!!)
+        }else {
+            UserApiClient.instance.me { user, error ->
+                if (error != null) {
+                    Log.e("에러", "사용자 정보 요청 실패", error)
+                }
+                else if (user != null) {
+                    kakaoUser.UID=user.id.toString()
+                    kakaoUser.Image=user.kakaoAccount?.profile?.profileImageUrl!!
+                    kakaoUser.UserId=user.kakaoAccount?.email!!
+                    kakaoUser.NickName=user.kakaoAccount?.profile?.nickname!!
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -89,16 +110,14 @@ class CommunityPlusActivity : AppCompatActivity() {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm ", Locale.KOREA).format(currentDate)
         val uid : String? = auth?.uid
 
-        Log.e("검사용","${user}")
-
         val post = hashMapOf(
             "title" to title,
             "text" to text,
             "date" to dateFormat,
             "museum" to museum,
-            "uid" to uid,
-            "NickName" to user.NickName,
-            "UserId" to user.UserId
+            "uid" to if (uid!=null){uid!!}else{kakaoUser.UID},
+            "NickName" to if (uid!=null){user.NickName}else{kakaoUser.NickName},
+            "UserId" to if (uid!=null){user.UserId}else{kakaoUser.UserId},
         )
 
         db.collection("post")

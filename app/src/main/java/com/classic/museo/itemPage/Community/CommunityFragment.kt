@@ -19,6 +19,7 @@ import com.classic.museo.itemPage.Community.CommunityDetailActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.GsonBuilder
+import com.kakao.sdk.user.UserApiClient
 
 
 class CommunityFragment : Fragment() {
@@ -110,6 +111,7 @@ class CommunityFragment : Fragment() {
             val intent = Intent(context, CommunityPlusActivity::class.java)
             startActivity(intent)
         }
+
         return binding.root
     }
 
