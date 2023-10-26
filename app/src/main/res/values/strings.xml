@@ -22,4 +22,9 @@
         <item>경상남도</item>
         <item>제주</item>
     </string-array>
+
+    <string-array name="communitySearch">
+        <item>title</item>
+        <item>museum</item>
+    </string-array>
 </resources>

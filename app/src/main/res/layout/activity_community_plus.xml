@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".itemPage.Community.CommunityPlusActivity">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/plus_logo_layout"
         android:layout_width="match_parent"
@@ -14,27 +15,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/community_plus_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:src="@drawable/btn_back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/community_plus_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/community_plus_back"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:srcCompat="@drawable/museo" />
 
-        <View
+
+    <View
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -66,7 +60,7 @@
         android:paddingVertical="10dp"
         android:paddingHorizontal="15dp"
         android:background="@drawable/login_edit"
-        android:hint="박물관을 입력해 주세요."
+        android:hint="박물관/미술관을 입력해 주세요."
         app:layout_constraintTop_toBottomOf="@+id/community_plus_title" />
 
 

@@ -19,13 +19,13 @@
 
     <TextView
         android:id="@+id/text_community"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="5dp"
         android:text="커뮤니티"
         android:textSize="25dp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +33,9 @@
         android:id="@+id/community_spinner1"
         android:layout_width="90dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/login_background"
         android:gravity="center"
         android:hint="검색필터"
@@ -41,27 +43,45 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/text_community"
-        app:layout_constraintStart_toEndOf="@+id/text_community"
-        app:layout_constraintTop_toTopOf="@+id/text_community"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
+        app:layout_constraintEnd_toStartOf="@+id/editText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_community"
         app:spinner_arrow_gravity="end"
+        app:spinner_item_array="@array/communitySearch"
         app:spinner_arrow_tint="@color/black"
-        app:spinner_divider_show="true"
-        app:spinner_divider_size="0.4dp"
+        app:spinner_popup_background="@drawable/login_background"
         app:spinner_item_height="46dp"
         app:spinner_popup_animation="dropdown"
         app:spinner_popup_elevation="14dp"
-        app:spinner_popup_height="200dp" />
+        app:spinner_popup_height="100dp" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:id="@+id/editText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="검색어를 입력해 주세요"
         android:paddingHorizontal="10dp"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/community_spinner1"
+        app:layout_constraintEnd_toStartOf="@+id/communitySearch"
         app:layout_constraintStart_toEndOf="@+id/community_spinner1"
         app:layout_constraintTop_toTopOf="@+id/community_spinner1" />
+
+    <ImageButton
+        android:id="@+id/communitySearch"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/search"
+        app:layout_constraintBottom_toTopOf="@+id/view3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/text_community" />
 
     <View
         android:id="@+id/view3"
@@ -74,7 +94,7 @@
         android:id="@+id/recyclerView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_community"
         tools:listitem="@layout/community_image" />

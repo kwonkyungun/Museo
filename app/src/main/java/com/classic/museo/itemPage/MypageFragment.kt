@@ -14,6 +14,7 @@ import com.classic.museo.itemPage.MypageInnerActivity.MypageLogoutDialog
 import com.classic.museo.itemPage.MypageInnerActivity.MypageWritten
 import com.classic.museo.data.Users
 import com.classic.museo.databinding.FragmentMypageBinding
+import com.classic.museo.itemPage.Community.CommunityDetailActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -46,6 +47,12 @@ class MypageFragment : Fragment() {
 
         //firestore에서 로그인한 회원 닉네임 보여주기
         NickName()
+
+        //커뮤니티 디테일 액티비티로 넘어가는 임시 코드
+        binding.tempbtn.setOnClickListener {
+            val TossToCommunityDetail = Intent(activity,CommunityDetailActivity::class.java)
+            startActivity(TossToCommunityDetail)
+        }
 
         return binding.root
 

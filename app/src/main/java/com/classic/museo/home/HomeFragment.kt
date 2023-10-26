@@ -25,8 +25,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -201,14 +199,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        freeItem()
-        popularItem()
-        uniqueItem()
-        biologyItem()
-        scienceItem()
+                freeItem()
+                popularItem()
+                uniqueItem()
+                biologyItem()
+                scienceItem()
         runBlocking {
-                homeSetting()
-                delay(2000L)
+            homeSetting()
         }
     }
 }
