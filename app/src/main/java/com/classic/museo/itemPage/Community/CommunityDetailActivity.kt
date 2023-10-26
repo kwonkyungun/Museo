@@ -26,6 +26,7 @@ class CommunityDetailActivity : AppCompatActivity() {
     var firestore: FirebaseFirestore? = null
     val itemList = arrayListOf<CommunityDetailDataClass>()
     val adapter = CommunityDetailListAdapter(itemList)
+    private var auth : FirebaseAuth? = null
     val db = Firebase.firestore
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SuspiciousIndentation", "NotifyDataSetChanged")
