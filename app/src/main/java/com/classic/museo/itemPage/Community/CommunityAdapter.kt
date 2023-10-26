@@ -155,6 +155,7 @@ inner class ImageViewHolder(val binding: CommunityImageBinding) :
             putExtra("text", review[position].text)
             putExtra("NickName", review[position].NickName)
             putExtra("museum",review[position].museum)
+            putExtra("date", review[position].date)
         }
         context.startActivity(intent)
     }

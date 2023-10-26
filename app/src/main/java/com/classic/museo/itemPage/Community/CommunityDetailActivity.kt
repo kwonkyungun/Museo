@@ -3,6 +3,7 @@ package com.classic.museo.itemPage.Community
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.classic.museo.itemPage.MypageInnerActivity.DummyItem
 import com.classic.museo.databinding.ActivityCommunityDetailBinding
@@ -27,18 +28,53 @@ class CommunityDetailActivity : AppCompatActivity() {
             Toast.makeText(this,"test",Toast.LENGTH_SHORT).show()
         }
 
+        // community recyclerview 아이템 클릭시 보낸 값 받아오기
         val title = intent.getStringExtra("title").toString()
         val text = intent.getStringExtra("text").toString()
         val museum = intent.getStringExtra("museum").toString()
-        val NickName = intent.getBooleanArrayExtra("NickName").toString()
+        val NickName = intent.getStringExtra("NickName").toString()
+        val date = intent.getStringExtra("date").toString()
 
         binding.communityDetailTitle.text = title
         binding.communityDetailText.text = text
         binding.communityDetailMuseum.text = museum
         binding.communityDetailName.text = NickName
-        Log.d("communityDetail","sj 박물관 이름 : $museum")
-        Log.d("communityDetail", "sj 닉네임 : $NickName")
+        binding.communityDetailDate.text = date
 
+        // 수정버튼 클릭
+        binding.btnCommunityDetailEdit.setOnClickListener{
+
+            binding.editPageText.visibility = View.VISIBLE
+            binding.communityPlusLogo.visibility = View.INVISIBLE
+            binding.communityDetailBack.visibility = View.INVISIBLE
+            binding.btnCommunityDetailFinish.visibility = View.VISIBLE
+            binding.btnCommunityDetailEdit.visibility = View.INVISIBLE
+            binding.btnCommunityDetailDelete.visibility = View.INVISIBLE
+            binding.communityDetailText.visibility = View.INVISIBLE
+            binding.communityDetailEdit.visibility = View.VISIBLE
+            binding.communityDetailEdit.setText(binding.communityDetailText.text)
+        }
+
+        //수정완료 버튼
+        binding.btnCommunityDetailFinish.setOnClickListener{
+
+            binding.editPageText.visibility = View.INVISIBLE
+            binding.communityPlusLogo.visibility = View.VISIBLE
+            binding.communityDetailBack.visibility = View.VISIBLE
+            binding.btnCommunityDetailFinish.visibility = View.INVISIBLE
+            binding.btnCommunityDetailEdit.visibility = View.VISIBLE
+            binding.btnCommunityDetailDelete.visibility = View.VISIBLE
+            binding.communityDetailText.visibility = View.VISIBLE
+            binding.communityDetailText.setText(binding.communityDetailEdit.text)
+            binding.communityDetailEdit.visibility = View.INVISIBLE
+        }
+
+        //삭제버튼 클릭
+        binding.btnCommunityDetailDelete.setOnClickListener{
+
+        }
+
+        // 뒤로가기 버튼
         binding.communityDetailBack.setOnClickListener{
             finish()
         }
