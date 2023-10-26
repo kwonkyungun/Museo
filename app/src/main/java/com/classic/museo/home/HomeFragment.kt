@@ -198,14 +198,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        freeItem()
-        popularItem()
-        uniqueItem()
-        biologyItem()
-        scienceItem()
+                freeItem()
+                popularItem()
+                uniqueItem()
+                biologyItem()
+                scienceItem()
         runBlocking {
-                homeSetting()
-                delay(2000L)
+            homeSetting()
         }
     }
 }

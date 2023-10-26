@@ -17,6 +17,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -25,8 +26,8 @@ class CommunityDetailActivity : AppCompatActivity() {
     var firestore: FirebaseFirestore? = null
     val itemList = arrayListOf<CommunityDetailDataClass>()
     val adapter = CommunityDetailListAdapter(itemList)
-    val db = Firebase.firestore
     private var auth : FirebaseAuth? = null
+    val db = Firebase.firestore
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SuspiciousIndentation", "NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
