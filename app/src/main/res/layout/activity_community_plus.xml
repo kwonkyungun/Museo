@@ -66,7 +66,7 @@
         android:paddingVertical="10dp"
         android:paddingHorizontal="15dp"
         android:background="@drawable/login_edit"
-        android:hint="박물관을 입력해 주세요."
+        android:hint="박물관/미술관을 입력해 주세요."
         app:layout_constraintTop_toBottomOf="@+id/community_plus_title" />
 
 

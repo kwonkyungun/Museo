@@ -2,10 +2,12 @@ package com.classic.museo.itemPage.Community
 
 import android.content.ContentValues
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.classic.museo.data.Users
 import com.classic.museo.databinding.ActivityCommunityPlusBinding
 import com.google.android.play.integrity.internal.aa
@@ -31,6 +33,7 @@ class CommunityPlusActivity : AppCompatActivity() {
     lateinit var binding: ActivityCommunityPlusBinding
     private val db = Firebase.firestore
     private var auth : FirebaseAuth? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCommunityPlusBinding.inflate(layoutInflater)
@@ -43,6 +46,10 @@ class CommunityPlusActivity : AppCompatActivity() {
             finish()
         }
         binding.communityPlus.setOnClickListener{
+
+            if(binding.communityPlusTitle.text.isEmpty()){
+                Toast.makeText(this,"ㅇㅇ",Toast.LENGTH_SHORT)
+            }
             sendToData()
             finish()
         }
@@ -53,6 +60,10 @@ class CommunityPlusActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         userDBLoad(auth?.uid!!)
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     private fun userDBLoad(uid:String) {

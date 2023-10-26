@@ -222,13 +222,15 @@
 
         <TextView
             android:id="@+id/close_day_tx"
-            android:layout_width="280dp"
+            android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/border"
             android:gravity="center"
             android:text="1월 1일+매주 월요일"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/close_day"
             app:layout_constraintTop_toBottomOf="@+id/dt_Introduction" />
 
@@ -247,12 +249,14 @@
 
         <TextView
             android:id="@+id/hoursuse_tx"
-            android:layout_width="280dp"
+            android:layout_width="0dp"
             android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/border"
             android:gravity="center"
             android:text="09:00 ~ 20:00 (공휴일 09:00 ~ 19:00)"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/hours_use"
             app:layout_constraintTop_toBottomOf="@+id/close_day_tx" />
 
@@ -271,12 +275,14 @@
 
         <TextView
             android:id="@+id/money_tx"
-            android:layout_width="280dp"
+            android:layout_width="0dp"
             android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/border"
             android:gravity="center"
             android:text="무료"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/money"
             app:layout_constraintTop_toBottomOf="@+id/hoursuse_tx" />
 
@@ -295,12 +301,14 @@
 
         <TextView
             android:id="@+id/homepage_tx"
-            android:layout_width="280dp"
+            android:layout_width="0dp"
             android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/border"
             android:gravity="center"
             android:text="https://museum.seoul.go.kr/"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/homepage"
             app:layout_constraintTop_toBottomOf="@+id/money_tx" />
 
@@ -319,12 +327,14 @@
 
         <TextView
             android:id="@+id/organization_tx"
-            android:layout_width="280dp"
+            android:layout_width="0dp"
             android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/border"
             android:gravity="center"
             android:text="국립춘천박물관"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/organization"
             app:layout_constraintTop_toBottomOf="@+id/homepage_tx" />
 
@@ -343,12 +353,14 @@
 
         <TextView
             android:id="@+id/Sortation_tx"
-            android:layout_width="280dp"
+            android:layout_width="0dp"
             android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/border"
             android:gravity="center"
             android:text="공립"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/Sortation"
             app:layout_constraintTop_toBottomOf="@+id/organization_tx" />
 

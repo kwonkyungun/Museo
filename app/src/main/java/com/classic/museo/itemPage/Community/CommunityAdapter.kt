@@ -58,6 +58,10 @@ class CommunityAdapter(private val context: Context) :
         return ImageViewHolder(binding)
     }
 
+    fun clearItem() {
+        review.clear()
+    }
+
     override fun getItemCount() = review.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -102,35 +106,7 @@ class CommunityAdapter(private val context: Context) :
             }
     }
 
-    fun usersFirestore() {
-        val userFirestore = FirebaseFirestore.getInstance()
-        userFirestore.collection("users").get()
-            .addOnSuccessListener { result ->
-                Log.d("usersFirestore", "sj usersFirestore : $result")
 
-                val newData = mutableListOf<CommunityDTO>()
-                for (i in result) {
-                    if (i.exists()) {
-                        Log.d("usersFirestore", "sj usersFirestore : ${newData.size} , $newData")
-                        val userstData = i.toObject(CommunityDTO::class.java)
-                        for(userData in review){
-                            Log.d("usersFirestore","$userstData, $userData")
-                            if(userstData.UID == userData.UID){
-                                userData.UserId = userstData.UserId
-                                userData.NickName = userstData.NickName
-                                newData.add(userData)
-                            }
-                        }
-                    }
-                }
-                review.clear()
-                review.addAll(newData)
-                notifyDataSetChanged()
-            }
-            .addOnFailureListener { e ->
-                Log.e("usersFirestore", "error : $e")
-            }
-    }
 
 
 
