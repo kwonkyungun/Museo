@@ -11,13 +11,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.test.uiautomator.Direction
 import com.classic.museo.itemPage.Community.CommunityPlusActivity
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.databinding.FragmentCommunityBinding
 import com.classic.museo.itemPage.Community.CommunityAdapter
 import com.classic.museo.itemPage.Community.CommunityDetailActivity
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.kakao.sdk.user.UserApiClient
 
@@ -30,16 +33,41 @@ class CommunityFragment : Fragment() {
     private lateinit var gridLayoutManager: StaggeredGridLayoutManager
     private val db=Firebase.firestore
     private var items= mutableListOf<CommunityDTO>()
-
+    private var idItems=mutableListOf<String>()
+    private var gson= GsonBuilder().create()
+    private var loadItems= mutableListOf<CommunityDTO>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         communityContext = context
     }
 
+    override fun onStart() {
+        super.onStart()
+    }
+
     override fun onResume() {
         super.onResume()
-        adapter.postFirestore()
+        postingLoad()
+    }
+
+    private fun postingLoad(){
+        adapter.clearItem()
+        val query=db.collection("post")
+        query.orderBy("date", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { result ->
+                for(document in result){
+                    val value=gson.toJson(document.data)
+                    val result=gson.fromJson(value, CommunityDTO::class.java)
+                    val documentId=gson.toJson(document.id)!!
+                    loadItems.add(result)
+                    idItems.add(documentId)
+                }
+                adapter.review=loadItems
+                adapter.documentID=idItems
+                adapter.notifyDataSetChanged()
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

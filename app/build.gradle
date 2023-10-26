@@ -57,6 +57,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx:20.2.2'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.7.4'
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.4'
+    implementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
     //DB연동

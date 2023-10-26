@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -26,32 +27,10 @@ class CommunityAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var review = mutableListOf<CommunityDTO>()
-    private var documentID = mutableListOf<String>()
+    var documentID = mutableListOf<String>()
     val db = Firebase.firestore
     private var intent = Intent()
 
-//    init {
-//        uid = FirebaseAuth.getInstance().uid
-//        firestore = FirebaseFirestore.getInstance()
-//
-//        firestore?.collection(uid!!)?.orderBy("post", Query.Direction.DESCENDING)
-//            ?.addSnapshotListener{querySnapshot, firebaseFirestoreException ->
-//                review.clear()
-//                if (querySnapshot == null) return@addSnapshotListener
-//
-//                for (snapshot in querySnapshot!!.documents){
-//                    var item = snapshot.toObject(CommunityDTO::class.java)
-//                    review.add(item!!)
-//                }
-//                notifyDataSetChanged()
-//            }
-//    }
-
-//    interface ItemClick{
-//        fun onClick(view: View, position: Int)
-//    }
-//
-//    var itemClick : ItemClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
@@ -61,92 +40,42 @@ class CommunityAdapter(private val context: Context) :
 
     fun clearItem() {
         review.clear()
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = review.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val currentReview = review[position]
-//        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val holder = holder as ImageViewHolder
-
-        holder.title.text = currentReview.title
-        holder.nickname.text = currentReview.NickName
-        holder.userID.text = currentReview.UserId
-        holder.date.text = currentReview.date
-        holder.museum.text = currentReview.museum
-        Log.d("holder", "sj $currentReview")
-
+        (holder as ImageViewHolder).bind(position)
     }
 
-    fun postFirestore() {
-        db.collection("post")
-            .orderBy("date", Query.Direction.DESCENDING)
-            .get().addOnSuccessListener {
-                for (document in it){
-                    documentID.add(document.id)
-                }
-                Log.d("document", "sj ${documentID.toString()}")
-            }
+    inner class ImageViewHolder(val binding: CommunityImageBinding) :
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
+        var detailPage = binding.root
 
-        db.collection("post")
-            .orderBy("date", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener { result ->
-                Log.d("postFirestore", "sj postFirestore : $result")
-
-                val newPostData = mutableListOf<CommunityDTO>()
-                for (i in result) {
-                    if (i.exists()) {
-                        Log.d(
-                            "postFirestore",
-                            "sj postFirestore : ${newPostData.size} , $newPostData"
-                        )
-                        val postData = i.toObject(CommunityDTO::class.java)
-                        newPostData.add(postData)
-                    }
-                    review.clear()
-                    review.addAll(newPostData)
-                }
-                notifyDataSetChanged()
-            }
-            .addOnFailureListener { e ->
-                Log.e("postFirestore", "error : $e")
-            }
-    }
-
-
-
-
-
-inner class ImageViewHolder(val binding: CommunityImageBinding) :
-    RecyclerView.ViewHolder(binding.root), View.OnClickListener {
-
-    var title: TextView = binding.textCommunityTitle
-    var nickname: TextView = binding.communityNickname
-    var userID: TextView = binding.communityId
-    var date: TextView = binding.dateCommunityImage
-    var museum: TextView = binding.communityMuseumName
-    var detailPage = binding.root
-
-    init {
-        detailPage.setOnClickListener(this)
-    }
-    override fun onClick(v: View?) {
-        val position = absoluteAdapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return
-        intent = Intent(context, CommunityDetailActivity::class.java)
-        intent.apply {
-            putExtra("title", review[position].title)
-            putExtra("text", review[position].text)
-            putExtra("NickName", review[position].NickName)
-            putExtra("museum",review[position].museum)
-            putExtra("date", review[position].date)
-            putExtra("UID",review[position].UID)
-            putExtra("documentID",documentID[position])
+        init {
+            detailPage.setOnClickListener(this)
         }
-        context.startActivity(intent)
-    }
 
-}
+        fun bind(pos: Int) {
+            binding.textCommunityTitle.text = review[pos].title
+            binding.communityNickname.text = review[pos].NickName
+            binding.communityId.text = review[pos].UserId
+            binding.dateCommunityImage.text = review[pos].date
+            binding.communityMuseumName.text = review[pos].museum
+        }
+
+        override fun onClick(v: View?) {
+            val position =
+                bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return
+            intent = Intent(context, CommunityDetailActivity::class.java)
+            intent.apply {
+                putExtra("communityData",review[position])
+                putExtra("documentId",documentID[position])
+            }
+            context.startActivity(intent)
+        }
+
+    }
 }
