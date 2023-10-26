@@ -26,6 +26,7 @@ class CommunityAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var review = mutableListOf<CommunityDTO>()
+    private var documentID = mutableListOf<String>()
     val db = Firebase.firestore
     private var intent = Intent()
 
@@ -75,6 +76,15 @@ class CommunityAdapter(private val context: Context) :
     }
 
     fun postFirestore() {
+        db.collection("post")
+            .orderBy("date", Query.Direction.DESCENDING)
+            .get().addOnSuccessListener {
+                for (document in it){
+                    documentID.add(document.id)
+                }
+                Log.d("document", "sj ${documentID.toString()}")
+            }
+
 
         db.collection("post")
             .orderBy("date", Query.Direction.DESCENDING)
@@ -156,6 +166,8 @@ inner class ImageViewHolder(val binding: CommunityImageBinding) :
             putExtra("NickName", review[position].NickName)
             putExtra("museum",review[position].museum)
             putExtra("date", review[position].date)
+            putExtra("UID",review[position].UID)
+            putExtra("documentID",documentID[position])
         }
         context.startActivity(intent)
     }
