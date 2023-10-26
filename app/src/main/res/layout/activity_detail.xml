@@ -22,32 +22,23 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/museo" />
 
-            <View
-                android:id="@+id/view2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView">
-
-            </View>
-
             <ImageView
                 android:id="@+id/dt_back"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_margin="15dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
                 android:src="@drawable/back"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,8 +48,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
             android:layout_width="380dp"
-            android:layout_height="290dp"
+            android:layout_height="0dp"
             android:layout_marginTop="20dp"
+            android:padding="10dp"
             android:background="@drawable/border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +60,7 @@
                 android:id="@+id/kakao_map"
                 android:layout_width="370dp"
                 android:layout_height="180dp"
+                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -79,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
-                android:background="#C5C5C5"
+                android:background="@drawable/border"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/kakao_map">
@@ -149,8 +142,8 @@
 
             <ImageView
                 android:id="@+id/dt_share"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_margin="10dp"
                 android:src="@drawable/share"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -158,10 +151,10 @@
 
             <ImageView
                 android:id="@+id/dt_like"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/like"
+                android:src="@drawable/unbookmark"
                 app:layout_constraintEnd_toStartOf="@+id/dt_share"
                 app:layout_constraintTop_toBottomOf="@+id/view3" />
 
@@ -206,160 +199,161 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view4" />
 
-        <TextView
-            android:id="@+id/close_day"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:text="휴무일"
-            android:textSize="14dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dt_Introduction" />
-
-        <TextView
-            android:id="@+id/close_day_tx"
-            android:layout_width="280dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:text="1월 1일+매주 월요일"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/close_day"
-            app:layout_constraintTop_toBottomOf="@+id/dt_Introduction" />
-
-        <TextView
-            android:id="@+id/hours_use"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="16dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:text="이용시간"
-            android:textSize="14dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/close_day" />
-
-        <TextView
-            android:id="@+id/hoursuse_tx"
-            android:layout_width="280dp"
-            android:layout_height="30dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:text="09:00 ~ 20:00 (공휴일 09:00 ~ 19:00)"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/hours_use"
-            app:layout_constraintTop_toBottomOf="@+id/close_day_tx" />
-
-        <TextView
-            android:id="@+id/money"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="16dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:text="입장료"
-            android:textSize="14dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hours_use" />
-
-        <TextView
-            android:id="@+id/money_tx"
-            android:layout_width="280dp"
-            android:layout_height="30dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:text="무료"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/money"
-            app:layout_constraintTop_toBottomOf="@+id/hoursuse_tx" />
-
-        <TextView
-            android:id="@+id/homepage"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="16dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:text="운영홈페이지"
-            android:textSize="14dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/money_tx" />
-
-        <TextView
-            android:id="@+id/homepage_tx"
-            android:layout_width="280dp"
-            android:layout_height="30dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:text="https://museum.seoul.go.kr/"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/homepage"
-            app:layout_constraintTop_toBottomOf="@+id/money_tx" />
-
-        <TextView
-            android:id="@+id/organization"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="16dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:text="관리기관명"
-            android:textSize="14dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homepage" />
-
-        <TextView
-            android:id="@+id/organization_tx"
-            android:layout_width="280dp"
-            android:layout_height="30dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:text="국립춘천박물관"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/organization"
-            app:layout_constraintTop_toBottomOf="@+id/homepage_tx" />
-
-        <TextView
-            android:id="@+id/Sortation"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="16dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:text="박물관구분"
-            android:textSize="14dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/organization" />
-
-        <TextView
-            android:id="@+id/Sortation_tx"
-            android:layout_width="280dp"
-            android:layout_height="30dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:text="공립"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/Sortation"
-            app:layout_constraintTop_toBottomOf="@+id/organization_tx" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
+        <TableLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Sortation_tx">
+            app:layout_constraintTop_toBottomOf="@+id/dt_Introduction"
+            >
+            <TableRow>
 
-        </TextView>
+                <TextView
+                    android:id="@+id/close_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="휴무일"
+                    android:background="@drawable/border"
+                    android:padding="3dp"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/close_day_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@drawable/border"
+                    android:padding="3dp"
+                    android:textSize="14dp"
+                    android:textStyle="bold"
+                    android:text="1월 1일+매주 월요일"
+                    />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/hours_use"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:background="@drawable/border"
+                    android:text="이용시간"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/hoursuse_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="3dp"
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="14dp"
+                    android:text="09:00 ~ 20:00 (공휴일 09:00 ~ 19:00)"
+                    />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:background="@drawable/border"
+                    android:text="입장료"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/money_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:background="@drawable/border"
+                    android:text="무료"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/homepage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:background="@drawable/border"
+                    android:text="운영홈페이지"
+                    android:textStyle="bold"
+                    android:textSize="14dp"
+                    />
+                <TextView
+                    android:id="@+id/homepage_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:background="@drawable/border"
+                    android:textSize="14dp"
+                    android:text="https://museum.seoul.go.kr/"
+                    android:textStyle="bold" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/organization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="관리기관명"
+                    android:padding="3dp"
+                    android:textSize="14dp"
+                    android:background="@drawable/border"
+                    android:textStyle="bold"
+                   />
+                <TextView
+                    android:id="@+id/organization_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:background="@drawable/border"
+                    android:text="국립춘천박물관"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/Sortation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:background="@drawable/border"
+                    android:text="박물관구분"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/Sortation_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text="공립"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+        </TableLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

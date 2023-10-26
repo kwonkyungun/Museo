@@ -62,6 +62,7 @@ class HomeFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         hContext = context
+
     }
 
     private fun homeSetting() {
