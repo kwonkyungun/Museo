@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classic.museo.R
 import com.classic.museo.data.Record
@@ -47,7 +48,6 @@ class SearchFragment : Fragment() {
 
     private fun searchTry() {
         binding.searchImage.setOnClickListener {
-            Log.e("버튼", "ㅂㅂ")
             var text = binding.editTextText2.text.toString()
             searchAdapter.clearItem()
             searchOne(text)
@@ -62,34 +62,36 @@ class SearchFragment : Fragment() {
     }
 
     private fun searchOne(text: String) {
-        db.collection("museoInfo")
-            .get()
-            .addOnSuccessListener { result ->
+        searchAdapter.clearItem()
+        val query=db.collection("museoInfo").whereEqualTo("fcltyNm","${text}")
+
+        query.get().addOnSuccessListener { result ->
                 for (document in result) {
-                    var name = document.get("fcltyNm").toString()
-                    if (name.contains(text)) {
                         val value = gson.toJson(document.data)
                         val result = gson.fromJson(value, Record::class.java)
                         items.add(result)
-                    }
+                }
+                if(items.isEmpty()){
+                    Toast.makeText(sContext,"찾는 박물관/미술관이 없습니다.",Toast.LENGTH_SHORT).show()
                 }
                 searchAdapter.searchItems = items
                 searchAdapter.notifyDataSetChanged()
-            }
+            }.addOnFailureListener { exception ->
+            Log.w(ContentValues.TAG, "Error getting documents.", exception)
+        }
     }
 
     private fun regionSearchDB(text: String) {
         searchAdapter.clearItem()
         db.collection("museoInfo")
+            .whereGreaterThanOrEqualTo("rdnmadr","${text}")
+            .whereLessThanOrEqualTo("rdnmadr","${text}" + "\uf8ff").limit(20)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    var region = document.get("rdnmadr").toString()
-                    if (region.contains(text)) {
                         val value = gson.toJson(document.data)
                         val result = gson.fromJson(value, Record::class.java)
                         items.add(result)
-                    }
                 }
                 searchAdapter.searchItems = items
                 searchAdapter.notifyDataSetChanged()

@@ -46,6 +46,7 @@ class HomeFragment : Fragment() {
     private var items3 = mutableListOf<Record>() //이색 박물관/미술관 목록
     private var items4 = mutableListOf<Record>() //해양박물관 목록
     private var items5 = mutableListOf<Record>() //과학박물관 목록
+    private var items6 = mutableListOf<Record>()
     private var returnData: Map<String, String> = HashMap<String, String>() //참고용
     private var db = Firebase.firestore
 
@@ -204,7 +205,7 @@ class HomeFragment : Fragment() {
         scienceItem()
         runBlocking {
                 homeSetting()
-                delay(2500L)
+                delay(2000L)
         }
     }
 }

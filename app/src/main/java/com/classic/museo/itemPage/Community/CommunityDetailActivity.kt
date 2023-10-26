@@ -24,6 +24,9 @@ class CommunityDetailActivity : AppCompatActivity() {
         dummy.add(DummyItem("테스트 제목4","테스트 내용4"))
         binding.recyclerView3.adapter = CommunityDetailItem(this,dummy)
 
+        firestore = FirebaseFirestore.getInstance()
+
+        //등록버튼 클릭리스너
         binding.communityDetailSave.setOnClickListener {
             Toast.makeText(this,"test",Toast.LENGTH_SHORT).show()
         }
@@ -78,5 +81,62 @@ class CommunityDetailActivity : AppCompatActivity() {
         binding.communityDetailBack.setOnClickListener{
             finish()
         }
+
+            val plusTime: LocalDateTime? = LocalDateTime.now()
+            val formatterDate = DateTimeFormatter.ISO_DATE
+            val formattedDate = plusTime?.format(formatterDate)
+            val formatterTime = DateTimeFormatter.ISO_LOCAL_TIME
+            val formattedTime = plusTime?.format(formatterTime)
+            val text = binding.communityDetailComment.text.toString()
+
+            val test = hashMapOf(
+                "text" to text,
+                "date" to formattedDate
+            )
+
+            //데이터 저장하기
+            db.collection("Comment")
+                .add(test)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(ContentValues.TAG, "Error adding document", e)
+                }
+
+            //데이터 가져오기
+            db.collection("Comment")
+                .get()
+                .addOnSuccessListener { result ->
+                    //중복출력 방지용 리사이클러뷰 초기화
+                    itemList.clear()
+                    for (document in result) {
+                        Log.d(ContentValues.TAG, "receive ${document.id} => ${document.data}")
+                        val item = CommunityDetailDataClass(document["text"] as String, document["date"] as String)
+                        itemList.add(item)
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+                .addOnFailureListener { exception ->
+                    Log.w(ContentValues.TAG, "Error getting documents.", exception)
+                }
+        }
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onResume() {
+        super.onResume()
+        db.collection("Comment")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+                    val item = CommunityDetailDataClass(document["text"] as String, document["date"] as String)
+                    itemList.add(item)
+                }
+                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.w(ContentValues.TAG, "Error getting documents.", exception)
+            }
     }
 }

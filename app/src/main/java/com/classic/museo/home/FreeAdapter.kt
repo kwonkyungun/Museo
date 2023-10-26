@@ -42,6 +42,8 @@ class FreeAdapter(val hContext: Context) : RecyclerView.Adapter<RecyclerView.Vie
 
         fun bind(pos: Int) {
             binding.textView2.text = freeData[pos].fcltyNm
+            binding.textView4.text = "update : "+freeData[pos].referenceDate
+
         }
 
         override fun onClick(v: View?) {
