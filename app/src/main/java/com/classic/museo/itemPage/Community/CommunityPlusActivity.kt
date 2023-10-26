@@ -36,6 +36,7 @@ class CommunityPlusActivity : AppCompatActivity() {
         }
         binding.communityPlus.setOnClickListener{
             sendToData()
+            finish()
         }
 
         auth = Firebase.auth
@@ -45,7 +46,7 @@ class CommunityPlusActivity : AppCompatActivity() {
         val text = binding.communityPlusEdittext.text.toString()
         val museum = binding.communityPlusMuseum.text.toString()
         val currentDate = Calendar.getInstance().time
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(currentDate)
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm ", Locale.KOREA).format(currentDate)
         val uid : String? = auth?.uid
 
         val post = hashMapOf(
