@@ -106,14 +106,21 @@ class CommunityDetailActivity : AppCompatActivity() {
             binding.btnCommunityDetailFinish.visibility = View.VISIBLE
             binding.btnCommunityDetailEdit.visibility = View.INVISIBLE
             binding.btnCommunityDetailDelete.visibility = View.INVISIBLE
+            binding.communityDetailTitle.visibility = View.INVISIBLE
+            binding.communityDetailTitleEdit.visibility = View.VISIBLE
+            binding.communityDetailTitleEdit.setText(binding.communityDetailTitle.text)
+            binding.communityDetailMuseum.visibility = View.INVISIBLE
+            binding.communityDetailMuseumEdit.visibility = View.VISIBLE
+            binding.communityDetailMuseumEdit.setText(binding.communityDetailMuseum.text)
             binding.communityDetailText.visibility = View.INVISIBLE
-            binding.communityDetailEdit.visibility = View.VISIBLE
-            binding.communityDetailEdit.setText(binding.communityDetailText.text)
+            binding.communityDetailTextEdit.visibility = View.VISIBLE
+            binding.communityDetailTextEdit.setText(binding.communityDetailText.text)
         }
 
         //수정완료 버튼
         binding.btnCommunityDetailFinish.setOnClickListener{
             val documentEdit = intent.getStringExtra("documentID")
+            Log.d("communitydetail", "$documentEdit")
 
             binding.editPageText.visibility = View.INVISIBLE
             binding.communityPlusLogo.visibility = View.VISIBLE
@@ -121,12 +128,28 @@ class CommunityDetailActivity : AppCompatActivity() {
             binding.btnCommunityDetailFinish.visibility = View.INVISIBLE
             binding.btnCommunityDetailEdit.visibility = View.VISIBLE
             binding.btnCommunityDetailDelete.visibility = View.VISIBLE
+            binding.communityDetailTitle.visibility = View.VISIBLE
+            binding.communityDetailTitleEdit.visibility = View.INVISIBLE
+            binding.communityDetailTitle.setText(binding.communityDetailTitleEdit.text)
+            binding.communityDetailMuseum.visibility = View.VISIBLE
+            binding.communityDetailMuseumEdit.visibility = View.INVISIBLE
+            binding.communityDetailMuseum.setText(binding.communityDetailMuseumEdit.text)
             binding.communityDetailText.visibility = View.VISIBLE
-            binding.communityDetailText.setText(binding.communityDetailEdit.text)
-            binding.communityDetailEdit.visibility = View.INVISIBLE
+            binding.communityDetailText.setText(binding.communityDetailTextEdit.text)
+            binding.communityDetailTextEdit.visibility = View.INVISIBLE
 
-            db.collection("post").document(documentEdit!!)
-                .update("text", "${binding.communityDetailEdit.text}")
+            db.collection("post").document("$documentEdit")
+                .update("title", "${binding.communityDetailTitleEdit.text}")
+                .addOnSuccessListener { Log.d("CommunityDetail", "DocumentSnapshot successfully updated!") }
+                .addOnFailureListener { e -> Log.w("CommunityDetail", "Error updating document", e) }
+
+            db.collection("post").document("$documentEdit")
+                .update("text", "${binding.communityDetailTextEdit.text}")
+                .addOnSuccessListener { Log.d("CommunityDetail", "DocumentSnapshot successfully updated!") }
+                .addOnFailureListener { e -> Log.w("CommunityDetail", "Error updating document", e) }
+
+            db.collection("post").document("$documentEdit")
+                .update("museum", "${binding.communityDetailMuseumEdit.text}")
                 .addOnSuccessListener { Log.d("CommunityDetail", "DocumentSnapshot successfully updated!") }
                 .addOnFailureListener { e -> Log.w("CommunityDetail", "Error updating document", e) }
         }
@@ -173,6 +196,7 @@ class CommunityDetailActivity : AppCompatActivity() {
         auth = Firebase.auth
         val UID = intent.getStringExtra("UID")
         val currentUser = auth?.currentUser?.uid
+        Log.d("communityDetail","sj $currentUser")
 
         if(UID == currentUser){
             binding.btnCommunityDetailEdit.visibility = View.VISIBLE

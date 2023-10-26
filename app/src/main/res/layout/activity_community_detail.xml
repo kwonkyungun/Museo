@@ -73,15 +73,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo_layout" />
 
+    <EditText
+        android:id="@+id/community_detail_titleEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:paddingStart="10dp"
+        android:background="@null"
+        android:text="제목"
+        android:textColor="#808080"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo_layout" />
+
+
     <TextView
         android:id="@+id/community_detail_museum"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="5dp"
         android:paddingStart="10dp"
         android:text="박물관이름"
         android:textSize="17sp"
+        app:layout_constraintEnd_toStartOf="@+id/community_detail_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/community_detail_title" />
+
+    <EditText
+        android:id="@+id/community_detail_museumEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"
+        android:background="@null"
+        android:paddingStart="10dp"
+        android:text="박물관이름"
+        android:textColor="#808080"
+        android:textSize="17sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/community_detail_museum"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/community_detail_title" />
 
@@ -95,26 +130,16 @@
         app:layout_constraintTop_toBottomOf="@+id/community_detail_museum"
         tools:layout_editor_absoluteX="16dp" />
 
-    <ImageView
-        android:id="@+id/community_detail_profile"
-        android:layout_width="60dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/community_picture"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
-
     <TextView
         android:id="@+id/community_detail_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="30dp"
         android:text="홍길동"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/community_detail_profile"
-        app:layout_constraintStart_toEndOf="@+id/community_detail_profile"
-        app:layout_constraintTop_toTopOf="@+id/community_detail_profile" />
+        app:layout_constraintBottom_toTopOf="@+id/community_detail_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <android.widget.Button
         android:id="@+id/btn_community_detail_edit"
@@ -145,8 +170,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10sp"
         android:text="완료"
-        android:visibility="invisible"
         android:textSize="16sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/community_detail_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -179,7 +205,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_community_detail_edit" />
 
     <EditText
-        android:id="@+id/community_detail_edit"
+        android:id="@+id/community_detail_textEdit"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
@@ -190,6 +216,7 @@
         android:minHeight="250dp"
         android:padding="15dp"
         android:textSize="16sp"
+        android:textColor="#808080"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView3"
         app:layout_constraintEnd_toEndOf="parent"
