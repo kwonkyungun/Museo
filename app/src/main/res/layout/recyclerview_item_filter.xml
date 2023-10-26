@@ -7,11 +7,15 @@
     android:layout_margin="10dp"
     android:elevation="10dp">
 
+
     <ImageView
         android:id="@+id/imageview4"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:scaleType="fitXY"
+        android:clipToOutline="true"
+        android:padding="10dp"
+        android:background="@drawable/item_border"
         app:srcCompat="@drawable/museumicon" />
 
     <TextView

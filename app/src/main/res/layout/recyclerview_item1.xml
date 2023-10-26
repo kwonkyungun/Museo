@@ -7,21 +7,33 @@
     android:orientation="vertical">
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/subject_im"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:padding="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/top" />
 
         <TextView
-                android:id="@+id/subject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:text="제목"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="127dp"
-                tools:layout_editor_absoluteY="9dp" />
+            android:id="@+id/subject"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:text="제목"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/filter2"
+            app:layout_constraintStart_toEndOf="@+id/subject_im" />
 
         <com.skydoves.powerspinner.PowerSpinnerView
             android:id="@+id/filter2"
@@ -30,7 +42,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="지역별"
-            android:padding="10dp"
+            android:padding="5dp"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textSize="18sp"
@@ -38,7 +50,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.065"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/subject"
             app:layout_constraintTop_toTopOf="parent"
             app:spinner_arrow_gravity="end"
             app:spinner_arrow_padding="8dp"
@@ -52,7 +64,9 @@
             app:spinner_popup_background="@color/white"
             app:spinner_popup_elevation="14dp"
             app:spinner_popup_height="200dp" />
-    </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerHome2"

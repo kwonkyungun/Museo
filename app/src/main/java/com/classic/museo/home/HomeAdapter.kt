@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
+import com.classic.museo.R
 import com.classic.museo.data.Record
 import com.classic.museo.databinding.RecyclerviewItem1Binding
 import com.google.firebase.firestore.ktx.firestore
@@ -79,8 +80,22 @@ class HomeAdapter(
 
     inner class Item01(private val binding: RecyclerviewItem1Binding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(pos: Int) {
             binding.subject.text = data.keys.elementAt(pos)
+
+                if(binding.subject.text =="인기"){
+                    binding.subjectIm.setImageResource(R.drawable.top)
+                }else if(binding.subject.text =="이색 박물관"){
+                    binding.subjectIm.setImageResource(R.drawable.unique)
+                }else if (binding.subject.text =="생물 박물관"){
+                    binding.subjectIm.setImageResource(R.drawable.biology)
+                }else if (binding.subject.text =="과학 박물관"){
+                    binding.subjectIm.setImageResource(R.drawable.science)
+                }else if (binding.subject.text =="무료 박물관/미술관"){
+                    binding.subjectIm.setImageResource(R.drawable.free)
+                }
+
 
             if (binding.subject.text == "무료 박물관/미술관") {
                 binding.filter2.visibility = View.VISIBLE
