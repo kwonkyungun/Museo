@@ -1,8 +1,10 @@
 package com.classic.museo.data
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.sql.Timestamp
 
-
+@Parcelize
 data class CommunityDTO(
     var title:String,
     var text:String,
@@ -10,7 +12,8 @@ data class CommunityDTO(
     var UserId:String,
     var NickName:String,
     var museum:String,
-    var UID:String,
-){
+    var uid:String,
+
+) : Parcelable {
     constructor() : this("","","","","","","")
 }

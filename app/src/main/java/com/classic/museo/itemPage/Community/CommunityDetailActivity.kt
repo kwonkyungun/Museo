@@ -10,6 +10,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.classic.museo.data.CommunityDTO
+import com.classic.museo.data.Record
 import com.classic.museo.itemPage.MypageInnerActivity.DummyItem
 import com.classic.museo.databinding.ActivityCommunityDetailBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -58,39 +60,42 @@ class CommunityDetailActivity : AppCompatActivity() {
 
 
 
-            //데이터 저장하기
-            db.collection("Comment")
-                .add(test)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                }
-                .addOnFailureListener { e ->
-                    Log.w(ContentValues.TAG, "Error adding document", e)
-                }
-
-            //데이터 가져오기
-            db.collection("Comment")
-                .get()
-                .addOnSuccessListener { result ->
-                    //중복출력 방지용 리사이클러뷰 초기화
-                    itemList.clear()
-                    for (document in result) {
-                        Log.d(ContentValues.TAG, "receive ${document.id} => ${document.data}")
-                        val item = CommunityDetailDataClass(document["text"] as String, document["date"] as String)
-                        itemList.add(item)
-                    }
-                    adapter.notifyDataSetChanged()
-                }
-                .addOnFailureListener { exception ->
-                    Log.w(ContentValues.TAG, "Error getting documents.", exception)
-                }
+//            //데이터 저장하기
+//            db.collection("Comment")
+//                .add(test)
+//                .addOnSuccessListener { documentReference ->
+//                    Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+//                }
+//                .addOnFailureListener { e ->
+//                    Log.w(ContentValues.TAG, "Error adding document", e)
+//                }
+//
+//            //데이터 가져오기
+//            db.collection("Comment")
+//                .get()
+//                .addOnSuccessListener { result ->
+//                    //중복출력 방지용 리사이클러뷰 초기화
+//                    itemList.clear()
+//                    for (document in result) {
+//                        Log.d(ContentValues.TAG, "receive ${document.id} => ${document.data}")
+//                        val item = CommunityDetailDataClass(document["text"] as String, document["date"] as String)
+//                        itemList.add(item)
+//                    }
+//                    adapter.notifyDataSetChanged()
+//                }
+//                .addOnFailureListener { exception ->
+//                    Log.w(ContentValues.TAG, "Error getting documents.", exception)
+//                }
         }
         // community recyclerview 아이템 클릭시 보낸 값 받아오기
-        val title = intent.getStringExtra("title").toString()
-        val content = intent.getStringExtra("text").toString()
-        val museum = intent.getStringExtra("museum").toString()
-        val NickName = intent.getStringExtra("NickName").toString()
-        val date = intent.getStringExtra("date").toString()
+
+        val comm=intent.getParcelableExtra<CommunityDTO>("communityData")!!
+
+        val title = comm.title
+        val content = comm.text
+        val museum = comm.museum
+        val NickName = comm.NickName
+        val date = comm.date
 
         binding.communityDetailTitle.text = title
         binding.communityDetailText.text = content
@@ -121,8 +126,6 @@ class CommunityDetailActivity : AppCompatActivity() {
         //수정완료 버튼
         binding.btnCommunityDetailFinish.setOnClickListener{
             val documentEdit = intent.getStringExtra("documentID")
-            Log.d("communitydetail", "$documentEdit")
-
             binding.editPageText.visibility = View.INVISIBLE
             binding.communityPlusLogo.visibility = View.VISIBLE
             binding.communityDetailBack.visibility = View.VISIBLE
@@ -175,27 +178,12 @@ class CommunityDetailActivity : AppCompatActivity() {
             finish()
         }
     }
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onResume() {
-        super.onResume()
-        db.collection("Comment")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
-                    val item = CommunityDetailDataClass(document["text"] as String, document["date"] as String)
-                    itemList.add(item)
-                }
-                adapter.notifyDataSetChanged()
-            }
-            .addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error getting documents.", exception)
-            }
-    }
 
     fun btnEdit(){
+        val comm=intent.getParcelableExtra<CommunityDTO>("communityData")!!
         auth = Firebase.auth
-        val UID = intent.getStringExtra("UID")
+        val UID = comm.uid
+        Log.d("한글","$UID")
         val currentUser = auth?.currentUser?.uid
         Log.d("communityDetail","sj $currentUser")
 
