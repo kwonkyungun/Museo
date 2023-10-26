@@ -78,13 +78,13 @@ class HomeAdapter(
             }
     }
 
-    inner class Item01(private val binding: RecyclerviewItem1Binding) :
+    inner class Item01(private var binding: RecyclerviewItem1Binding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(pos: Int) {
             binding.subject.text = data.keys.elementAt(pos)
 
-                if(binding.subject.text =="인기"){
+                if(binding.subject.text == "인기"){
                     binding.subjectIm.setImageResource(R.drawable.top)
                 }else if(binding.subject.text =="이색 박물관"){
                     binding.subjectIm.setImageResource(R.drawable.unique)
