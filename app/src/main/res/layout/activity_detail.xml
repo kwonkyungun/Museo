@@ -240,8 +240,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:background="@drawable/border"
                     android:text="이용시간"
+                    android:background="@drawable/border"
                     android:textSize="14dp"
                     android:textStyle="bold" />
                 <TextView
@@ -287,8 +287,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:background="@drawable/border"
                     android:text="운영홈페이지"
+                    android:background="@drawable/border"
                     android:textStyle="bold"
                     android:textSize="14dp"
                     />
@@ -312,8 +312,8 @@
                     android:gravity="center"
                     android:text="관리기관명"
                     android:padding="3dp"
-                    android:textSize="14dp"
                     android:background="@drawable/border"
+                    android:textSize="14dp"
                     android:textStyle="bold"
                    />
                 <TextView
@@ -335,8 +335,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:background="@drawable/border"
                     android:text="박물관구분"
+                    android:background="@drawable/border"
                     android:textSize="14dp"
                     android:textStyle="bold" />
                 <TextView
