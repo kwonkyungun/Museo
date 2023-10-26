@@ -1,16 +1,21 @@
 package com.classic.museo.itemPage
 
+//import com.kakao.vectormap.MapView
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.text.util.Linkify
+import android.text.util.Linkify.TransformFilter
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.classic.museo.R
 import com.classic.museo.data.Record
 import com.classic.museo.databinding.ActivityDetailBinding
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
-
-//import com.kakao.vectormap.MapView
 import net.daum.mf.map.api.MapView
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 class DetailActivity : AppCompatActivity() {
@@ -96,7 +101,6 @@ class DetailActivity : AppCompatActivity() {
         binding.closeDayTx.text = a.rstdeInfo
         //이용시간
         binding.hoursuseTx.text = "${a.weekdayOperOpenHhmm}~${a.weekdayOperColseHhmm} (공휴일 ${a.holidayOperOpenHhmm} ~ ${a.holidayCloseOpenHhmm})"
-
         //관람료 기타정보(입장료)
         binding.moneyTx.text = "${a.adultChrge}원 ${a.etcChrgeInfo}"
         //운영홈페이지
@@ -106,5 +110,15 @@ class DetailActivity : AppCompatActivity() {
         //박물관 구분
         binding.SortationTx.text = a.fcltyType
 
+        //제목 클릭 시 해당 홈페이지로 이동
+        val dt_title = findViewById<View>(R.id.dt_title) as TextView
+        val text = a.fcltyNm
+
+        dt_title.text = text
+
+        val mTransform = Linkify.TransformFilter(){ _, _ -> ""
+        }
+        val pattern = Pattern.compile(a.fcltyNm)    //링크 걸 단어를 맞게 설정해 줘야함
+        Linkify.addLinks(dt_title, pattern, a.homepageUrl, null, mTransform)
     }
 }
