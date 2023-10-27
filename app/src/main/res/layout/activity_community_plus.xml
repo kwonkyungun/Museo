@@ -11,21 +11,24 @@
         android:id="@+id/plus_logo_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="#867070"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <ImageView
+        <TextView
             android:id="@+id/community_plus_back"
-            android:layout_width="120dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="게시글 작성"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/museo" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
     <View
