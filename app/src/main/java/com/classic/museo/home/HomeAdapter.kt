@@ -33,6 +33,10 @@ class HomeAdapter(
     private lateinit var adapter: HomeAdapter2
     private lateinit var fAdapter: FreeAdapter
 
+    fun clearItem() {
+
+    }
+
     var data = mutableMapOf(
         "인기" to item,
         "이색 박물관" to item3,
@@ -53,7 +57,9 @@ class HomeAdapter(
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.e("테스트", "${position}")
+        Log.e("테스트", "${item}")
+        Log.e("테스트", "${item2}")
+        Log.e("테스트", "${item5}")
         (holder as Item01).bind(position)
     }
 
@@ -84,7 +90,7 @@ class HomeAdapter(
         fun bind(pos: Int) {
             binding.subject.text = data.keys.elementAt(pos)
 
-                if(binding.subject.text == "인기"){
+                if(binding.subject.text == "인기" ){
                     binding.subjectIm.setImageResource(R.drawable.top)
                 }else if(binding.subject.text =="이색 박물관"){
                     binding.subjectIm.setImageResource(R.drawable.unique)

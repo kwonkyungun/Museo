@@ -35,7 +35,6 @@ import kotlinx.coroutines.tasks.await
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var database: DatabaseReference
     private lateinit var hContext: Context
     private lateinit var hAdapter: HomeAdapter
     private var gson = GsonBuilder().create()
@@ -46,7 +45,7 @@ class HomeFragment : Fragment() {
     private var items3 = mutableListOf<Record>() //이색 박물관/미술관 목록
     private var items4 = mutableListOf<Record>() //해양박물관 목록
     private var items5 = mutableListOf<Record>() //과학박물관 목록
-    private var items6 = mutableListOf<Record>()
+
     private var returnData: Map<String, String> = HashMap<String, String>() //참고용
     private var db = Firebase.firestore
 
@@ -63,6 +62,11 @@ class HomeFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
+
     private fun homeSetting() {
         hAdapter = HomeAdapter(hContext)
         binding.recyclerHome1.adapter = hAdapter
@@ -71,25 +75,27 @@ class HomeFragment : Fragment() {
     }
 
     private fun freeItem() {
+        items2.clear()
         val query = db.collection("museoInfo").where(
             Filter.or(
                 Filter.equalTo("adultChrge", "0"), Filter.equalTo("etcChrgeInfo", "무료")
             )
         ).limit(20)
         query.get().addOnSuccessListener { result ->
-                for (document in result) {
-                    val value = gson.toJson(document.data)
-                    val result = gson.fromJson(value, Record::class.java)
-                    items2.add(result)
-                }
-                hAdapter.data.put("무료 박물관/미술관", items2)
-                hAdapter.notifyDataSetChanged()
-            }.addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error getting documents.", exception)
+            for (document in result) {
+                val value = gson.toJson(document.data)
+                val result = gson.fromJson(value, Record::class.java)
+                items2.add(result)
             }
+            hAdapter.data.put("무료 박물관/미술관", items2)
+            hAdapter.notifyDataSetChanged()
+        }.addOnFailureListener { exception ->
+            Log.w(ContentValues.TAG, "Error getting documents.", exception)
+        }
     }
 
     private fun biologyItem() {
+        items4.clear()
         val query = db.collection("museoInfo").where(
             Filter.or(
                 Filter.equalTo("fcltyNm", "고성공룡박물관"),
@@ -117,6 +123,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun scienceItem() {
+        items5.clear()
         val query = db.collection("museoInfo").where(
             Filter.or(
                 Filter.equalTo("fcltyNm", "경상북도산림과학박물관"),
@@ -143,6 +150,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun popularItem() {
+        items.clear()
         val query = db.collection("museoInfo").where(
             Filter.or(
                 Filter.equalTo("fcltyNm", "국립경주박물관"),
@@ -158,19 +166,20 @@ class HomeFragment : Fragment() {
             )
         )
         query.get().addOnSuccessListener { result ->
-                for (document in result) {
-                    val value = gson.toJson(document.data)
-                    val result = gson.fromJson(value, Record::class.java)
-                    items.add(result)
-                }
-                hAdapter.data.put("인기", items)
-                hAdapter.notifyDataSetChanged()
-            }.addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error getting documents.", exception)
+            for (document in result) {
+                val value = gson.toJson(document.data)
+                val result = gson.fromJson(value, Record::class.java)
+                items.add(result)
             }
+            hAdapter.data.put("인기", items)
+            hAdapter.notifyDataSetChanged()
+        }.addOnFailureListener { exception ->
+            Log.w(ContentValues.TAG, "Error getting documents.", exception)
+        }
     }
 
     private fun uniqueItem() {
+        items3.clear()
         val query = db.collection("museoInfo").where(
             Filter.or(
                 Filter.equalTo("fcltyNm", "헬로키티아일랜드"),
@@ -185,27 +194,25 @@ class HomeFragment : Fragment() {
             )
         )
         query.get().addOnSuccessListener { result ->
-                for (document in result) {
-                    val value = gson.toJson(document.data)
-                    val result = gson.fromJson(value, Record::class.java)
-                    items3.add(result)
-                }
-                hAdapter.data.put("이색 박물관", items3)
-                hAdapter.notifyDataSetChanged()
-            }.addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error getting documents.", exception)
+            for (document in result) {
+                val value = gson.toJson(document.data)
+                val result = gson.fromJson(value, Record::class.java)
+                items3.add(result)
             }
+            hAdapter.data.put("이색 박물관", items3)
+            hAdapter.notifyDataSetChanged()
+        }.addOnFailureListener { exception ->
+            Log.w(ContentValues.TAG, "Error getting documents.", exception)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-                freeItem()
-                popularItem()
-                uniqueItem()
-                biologyItem()
-                scienceItem()
-        runBlocking {
-            homeSetting()
-        }
+        homeSetting()
+        freeItem()
+        popularItem()
+        uniqueItem()
+        biologyItem()
+        scienceItem()
     }
 }

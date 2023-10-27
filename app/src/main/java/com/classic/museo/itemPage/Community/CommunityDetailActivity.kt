@@ -94,6 +94,8 @@ class CommunityDetailActivity : AppCompatActivity() {
         // community recyclerview 아이템 클릭시 보낸 값 받아오기
 
         val comm=intent.getParcelableExtra<CommunityDTO>("communityData")!!
+        val documentDelete = intent.getStringExtra("documentId")
+        Log.e("community", "sj communityID : $documentDelete")
 
         val title = comm.title
         val content = comm.text
@@ -143,6 +145,7 @@ class CommunityDetailActivity : AppCompatActivity() {
                 //수정완료버튼 클릭
                 binding.btnCommunityDetailFinish.setOnClickListener{
                     val documentEdit = intent.getStringExtra("documentID")
+                    Log.d("community","sj documentID : $documentEdit")
                     binding.editPageText.visibility = View.INVISIBLE
                     binding.communityPlusLogo.visibility = View.VISIBLE
                     binding.communityDetailBack.visibility = View.VISIBLE
@@ -181,11 +184,14 @@ class CommunityDetailActivity : AppCompatActivity() {
                 deleteBuilder.setIcon(R.drawable.coment)
 
                 deleteBuilder.setPositiveButton("확인"){ dialog ,_ ->
-                    val documentDelete = intent.getStringExtra("documentID")
                     db.collection("post").document(documentDelete!!)
                         .delete()
-                        .addOnSuccessListener { Log.d("CommunityDetail", "DocumentSnapshot successfully deleted!") }
+                        .addOnSuccessListener {
+                            Toast.makeText(this,"게시물이 삭제되었습니다.",Toast.LENGTH_SHORT).show()
+                            Log.d("CommunityDetail", "DocumentSnapshot successfully deleted!") }
                         .addOnFailureListener { e -> Log.w("CommunityDetail", "Error deleting document", e) }
+                    adapter.notifyDataSetChanged()
+                    finish()
                 }
                 deleteBuilder.setNegativeButton("취소"){ dialog ,_ ->
                     dialog.dismiss()
