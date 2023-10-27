@@ -37,6 +37,19 @@ class LoginActivity : AppCompatActivity() {
     private var db = Firebase.firestore
     private lateinit var auth: FirebaseAuth //전역으로 사용할 FirebaseAuth 생성
 
+    init {
+        //로그인화면으로 돌아올경우 모두로그아웃으로 초기화
+        FirebaseAuth.getInstance().signOut()
+        UserApiClient.instance.logout { error ->
+            if (error != null) {
+                Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+            }
+            else {
+                Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+            }
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,30 +82,32 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener {
             val id = binding.editId.text.toString()
             val pw = binding.editPw.text.toString()
-            if (id.isEmpty() || pw.isEmpty()){
-                Toast.makeText(this,"아이디/비밀번호를 입력해주세요",Toast.LENGTH_LONG).show()
-            }else{
+            if (id.isEmpty() || pw.isEmpty()) {
+                Toast.makeText(this, "아이디/비밀번호를 입력해주세요", Toast.LENGTH_LONG).show()
+            } else {
                 //아이디를 이메일 형식으로 유효성 검사
                 if (!Pattern.matches("^[_0-9a-zA-Z-]+@[0-9a-zA-Z]+(.[_0-9a-zA-Z-]+)*\$", id)) {
                     Toast.makeText(this, "아이디를 확인해주세요", Toast.LENGTH_SHORT).show()
                 }
                 //비밀번호는 최소 8자리 이상이며 영문+특수문자+숫자가 합쳐져야 한다
-                else if(!Pattern.matches("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\$@\$!%*#?&.])[A-Za-z[0-9]\$@\$!%*#?&.]{8,16}\$", pw)) {
+                else if (!Pattern.matches(
+                        "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\$@\$!%*#?&.])[A-Za-z[0-9]\$@\$!%*#?&.]{8,16}\$",
+                        pw
+                    )
+                ) {
                     Toast.makeText(this, "비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show()
-                }
-                else{
+                } else {
                     auth.signInWithEmailAndPassword(id, pw)
                         .addOnCompleteListener(this) { task ->
-                            Log.d("sss",task.toString())
+                            Log.d("sss", task.toString())
                             if (task.isSuccessful) {
                                 //로그인 성공시 메인화면으로 이동
-                                Toast.makeText(this,"로그인 성공하였습니다!",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "로그인 성공하였습니다!", Toast.LENGTH_SHORT).show()
                                 moveMainPage(task.result.user)
 
-                            }
-                            else{
+                            } else {
                                 //로그인 실패시 Toast 메세지 출력
-                                Toast.makeText(this,"아이디와 비밀번호를 확인해주세요.",Toast.LENGTH_LONG).show()
+                                Toast.makeText(this, "아이디와 비밀번호를 확인해주세요.", Toast.LENGTH_LONG).show()
                             }
                         }
                 }
@@ -103,9 +118,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     //로그인 성공하면 다음 페이지로 넘어가는 함수
-    private fun moveMainPage (user: FirebaseUser?) {
+    private fun moveMainPage(user: FirebaseUser?) {
         //파이어베이스에 유저 상태가 있어야 다음 페이지로 넘어갈 수 있음
-        if (user != null){
+        if (user != null) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
