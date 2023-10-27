@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.test.uiautomator.Direction
 import com.classic.museo.itemPage.Community.CommunityPlusActivity
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.databinding.FragmentCommunityBinding
@@ -140,6 +139,9 @@ class CommunityFragment : Fragment() {
             startActivity(intent)
         }
 
+        //새글추가 버튼 맨 앞으로 보내기
+        binding.communityBtnPlus.bringToFront()
+
         return binding.root
     }
 
@@ -150,5 +152,6 @@ class CommunityFragment : Fragment() {
         binding.recyclerView2.adapter = adapter
         binding.recyclerView2.itemAnimator = null
     }
+
 
 }

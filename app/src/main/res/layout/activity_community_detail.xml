@@ -141,25 +141,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
-    <android.widget.Button
-        android:id="@+id/btn_community_detail_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10sp"
-        android:text="수정"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_community_detail_delete"
-        app:layout_constraintEnd_toStartOf="@+id/btn_community_detail_delete"
-        app:layout_constraintTop_toTopOf="@+id/btn_community_detail_delete" />
-
-    <android.widget.Button
+    <ImageView
         android:id="@+id/btn_community_detail_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="10sp"
-        android:text="삭제"
-        android:textSize="16sp"
+        android:layout_marginEnd="25sp"
+        android:src="@drawable/community_edit"
+        android:clipToOutline="true"
+        android:background="@drawable/community_img_cycle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -171,6 +161,7 @@
         android:layout_marginEnd="10sp"
         android:text="완료"
         android:textSize="16sp"
+        android:background="#D5B4B4"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/community_detail_text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -202,7 +193,7 @@
         app:layout_constraintBottom_toTopOf="@+id/recyclerView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_community_detail_edit" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_community_detail_finish" />
 
     <EditText
         android:id="@+id/community_detail_textEdit"
@@ -221,7 +212,7 @@
         app:layout_constraintBottom_toTopOf="@+id/recyclerView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_community_detail_edit"
+        app:layout_constraintTop_toBottomOf="@+id/btn_community_detail_finish"
         app:layout_constraintVertical_bias="0.0" />
 
     <View

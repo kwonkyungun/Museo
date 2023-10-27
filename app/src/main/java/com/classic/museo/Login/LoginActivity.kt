@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
                             Log.d("sss",task.toString())
                             if (task.isSuccessful) {
                                 //로그인 성공시 메인화면으로 이동
-                                Toast.makeText(this,"로그인 성공하였습니다!.",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this,"로그인 성공하였습니다!",Toast.LENGTH_SHORT).show()
                                 moveMainPage(task.result.user)
 
                             }
