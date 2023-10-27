@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="20dp"
+    android:paddingHorizontal="10dp"
+    android:background="@drawable/community_dialog_shape"
+    android:orientation="vertical">
+
+        <android.widget.Button
+            android:id="@+id/dialog_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="수정"
+            android:background="#F5EBEB"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
+
+        <android.widget.Button
+            android:id="@+id/dialog_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="삭제"
+            android:background="#D5B4B4"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
+
+        <android.widget.Button
+            android:id="@+id/dialog_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="취소"
+            android:background="#AE8D8D"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
+
+
+</LinearLayout>
