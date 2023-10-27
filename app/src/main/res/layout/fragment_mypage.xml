@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="내 정보"
             android:textColor="@color/black"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -198,22 +199,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/MypageLogout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="32dp"
-                android:layout_weight="1"
-                android:background="#F2EB35"
-                android:text="로그아웃"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/MypageInfoLayout"
-                tools:ignore="MissingConstraints" />
+
 
             <View
                 android:id="@+id/MypageSplit1"
@@ -233,13 +219,22 @@
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="16dp" />
 
-            <Button
-                android:id="@+id/tempbtn"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/MypageLogout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="32dp"
+                android:layout_weight="1"
+                android:background="#D5B4B4"
+                android:text="로그아웃"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/MypageInfoLayout"
+                tools:ignore="MissingConstraints" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -48,11 +48,6 @@ class MypageFragment : Fragment() {
         //firestore에서 로그인한 회원 닉네임 보여주기
         NickName()
 
-        //커뮤니티 디테일 액티비티로 넘어가는 임시 코드
-        binding.tempbtn.setOnClickListener {
-            val TossToCommunityDetail = Intent(activity,CommunityDetailActivity::class.java)
-            startActivity(TossToCommunityDetail)
-        }
 
         return binding.root
 
