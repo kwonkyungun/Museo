@@ -70,7 +70,7 @@ class MypageFragment : Fragment() {
                 }else if(user!=null) {
                     Glide.with(this)
                         .load(user.kakaoAccount?.profile?.profileImageUrl)
-                        .error(R.drawable.mypage_imagesample)
+                        .error(R.drawable.baseline_account_circle_24)
                         .into(binding.imageView2)
                 }
             }
