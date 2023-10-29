@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.CheckBox
 import android.widget.Toast
 import com.classic.museo.MainActivity
 import com.classic.museo.databinding.ActivityLoginBinding
@@ -79,7 +80,28 @@ class LoginActivity : AppCompatActivity() {
 
     //로그인
     fun login() {
+
         binding.btnLogin.setOnClickListener {
+            //SharedPreferences를 활용한 로그인정보 저장하기
+            var checkbox = 0
+            val pref = getSharedPreferences("pref",0)
+            val edit = pref.edit()
+            if(binding.LoginRemember.isChecked){
+                //로그인정보 저장 체크
+                checkbox = 1
+                edit.putInt("CheckBox",checkbox)
+                edit.putString("ID", binding.editId.text.toString())
+                edit.putString("PW", binding.editPw.text.toString())
+                edit.apply()
+            } else {
+                //로그인정보 저장 해제
+                checkbox = 0
+                edit.putInt("CheckBox",checkbox)
+                edit.putString("ID", "")
+                edit.putString("PW", "")
+                edit.apply()
+            }
+
             val id = binding.editId.text.toString()
             val pw = binding.editPw.text.toString()
             if (id.isEmpty() || pw.isEmpty()) {
@@ -113,8 +135,16 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-        //아래의 코드는 마이페이지에 로그아웃 버튼에 추가해야됨
-        //FirebaseAuth.getInstance().signOut()
+        //로그인정보 기억하기 체크했을때 값 받아오기
+        val pref = getSharedPreferences("pref",0)
+        binding.editId.setText(pref.getString("ID",""))
+        binding.editPw.setText(pref.getString("PW",""))
+        if(pref.getInt("CheckBox",0) == 1){
+            binding.LoginRemember.isChecked = true
+        } else{
+            binding.LoginRemember.isChecked = false
+        }
+
     }
 
     //로그인 성공하면 다음 페이지로 넘어가는 함수
