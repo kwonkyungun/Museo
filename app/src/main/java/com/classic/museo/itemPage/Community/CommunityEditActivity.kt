@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.classic.museo.R
 import com.classic.museo.databinding.ActivityCommunityEditBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -41,8 +42,8 @@ class CommunityEditActivity : AppCompatActivity() {
 
             editContent()
 
-            val intent = Intent(this, CommunityDetailActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, CommunityDetailActivity::class.java)
+//            startActivity(intent)
         }
 
         //뒤로가기버튼
@@ -61,18 +62,24 @@ class CommunityEditActivity : AppCompatActivity() {
         Log.d("communityEdit","sj documentID $documentId")
 
         db.collection("post").document("$documentId")
-            .update("title", "수정")
-            .addOnSuccessListener { Log.d("CommunitEdit", "DocumentSnapshot successfully updated!") }
+            .update("title" , "${binding.communityTitleEdit.text}",
+            "text" , "${binding.communityTextEdit.text}",
+            "museum" , "${binding.communityMuseumEdit.text}")
+            .addOnSuccessListener {
+                Toast.makeText(this,"게시물이 수정되었습니다.",Toast.LENGTH_SHORT).show()
+                Log.d("CommunitEdit", "DocumentSnapshot successfully updated!")
+            finish()
+            }
             .addOnFailureListener { e -> Log.w("CommunitEdit", "Error updating document", e) }
 
-        db.collection("post").document("$documentId")
-            .update("text", "${binding.communityTextEdit.text}")
-            .addOnSuccessListener { Log.d("CommunitEdit", "DocumentSnapshot successfully updated!") }
-            .addOnFailureListener { e -> Log.w("CommunityEdit", "Error updating document", e) }
-
-        db.collection("post").document("$documentId")
-            .update("museum", "${binding.communityMuseumEdit.text}")
-            .addOnSuccessListener { Log.d("CommunitEdit", "DocumentSnapshot successfully updated!") }
-            .addOnFailureListener { e -> Log.w("CommunitEdit", "Error updating document", e) }
+//        db.collection("post").document("$documentId")
+//            .update("text", "${binding.communityTextEdit.text}")
+//            .addOnSuccessListener { Log.d("CommunitEdit", "DocumentSnapshot successfully updated!") }
+//            .addOnFailureListener { e -> Log.w("CommunityEdit", "Error updating document", e) }
+//
+//        db.collection("post").document("$documentId")
+//            .update("museum", "${binding.communityMuseumEdit.text}")
+//            .addOnSuccessListener { Log.d("CommunitEdit", "DocumentSnapshot successfully updated!") }
+//            .addOnFailureListener { e -> Log.w("CommunitEdit", "Error updating document", e) }
     }
 }

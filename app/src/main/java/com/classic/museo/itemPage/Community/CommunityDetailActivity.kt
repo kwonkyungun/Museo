@@ -22,8 +22,10 @@ import com.classic.museo.databinding.ActivityCommunityDetailBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.GsonBuilder
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -195,5 +197,32 @@ class CommunityDetailActivity : AppCompatActivity() {
         else {
             binding.btnCommunityDetailDelete.visibility = View.INVISIBLE
         }
+    }
+
+    fun setItem(){
+        val documentID = intent.getStringExtra("documentId")
+        var gson= GsonBuilder().create()
+        db.collection("post").document("$documentID")
+            .get()
+            .addOnSuccessListener { document ->
+                    val value=gson.toJson(document.data)
+                    val result=gson.fromJson(value, CommunityDTO::class.java)
+                    val documentId=document.id
+                    Log.d("Community",documentId)
+
+                binding.communityDetailTitle.text = result.title
+                binding.communityDetailText.text = result.text
+                binding.communityDetailMuseum.text = result.museum
+                binding.communityDetailName.text = result.NickName
+                binding.communityDetailDate.text = result.date
+            }
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        setItem()
     }
 }
