@@ -41,14 +41,16 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initialSetUp()
         binding.searchSpinner.setOnSpinnerItemSelectedListener<String> { _, _, _, text ->
-            regionSearchDB(text)
+            binding.searchImage.setOnClickListener{
+                regionSearchDB(text)
+            }
         }
         searchTry()
     }
 
     private fun searchTry() {
-        binding.searchImage.setOnClickListener {
-            var text = binding.editTextText2.text.toString()
+        binding.searchImage2.setOnClickListener {
+            var text = binding.editTextText3.text.toString()
             searchAdapter.clearItem()
             searchOne(text)
         }
@@ -85,7 +87,7 @@ class SearchFragment : Fragment() {
         searchAdapter.clearItem()
         db.collection("museoInfo")
             .whereGreaterThanOrEqualTo("rdnmadr","${text}")
-            .whereLessThanOrEqualTo("rdnmadr","${text}" + "\uf8ff").limit(20)
+            .whereLessThanOrEqualTo("rdnmadr","${text}" + "\uf8ff").limit(45)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {

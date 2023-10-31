@@ -1,42 +1,56 @@
 package com.classic.museo.itemPage.MypageInnerActivity
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.classic.museo.R
+import com.classic.museo.data.CommunityDTO
+import com.classic.museo.databinding.MypostItemBinding
+import com.classic.museo.itemPage.Community.CommunityDetailActivity
+import com.classic.museo.itemPage.DetailActivity
 
-class WrittenAdapter(val mContext: MypageWritten, val mItems: MutableList<DummyItem>) : BaseAdapter() {
+class WrittenAdapter(val mItems: MutableList<CommunityDTO>,val context:Context,val postId:MutableList<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val view= MypostItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return MyPost(view)
+    }
 
-    override fun getCount(): Int {
+    override fun getItemCount(): Int {
         return mItems.size
     }
 
-    override fun getItem(position: Int): Any {
-        return mItems[position]
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as MyPost).bind(position)
     }
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
+    inner class MyPost(private var binding : MypostItemBinding) : RecyclerView.ViewHolder(binding.root),View.OnClickListener {
+        var myPostView=binding.root
+
+        init {
+            myPostView.setOnClickListener(this)
+        }
+        fun bind(pos:Int){
+            binding.itemTitle.text=mItems[pos].title
+            binding.itemSub.text=mItems[pos].date
+        }
+
+        override fun onClick(v : View?) {
+            val position=bindingAdapterPosition.takeIf { it!=RecyclerView.NO_POSITION } ?:return
+            val intent=Intent(context,CommunityDetailActivity::class.java)
+            intent.apply {
+                putExtra("communityData",mItems[position])
+                putExtra("documentId",postId[position])
+            }
+            context.startActivity(intent)
+        }
+
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
-
-        var convertView = convertView
-        if (convertView == null) convertView = LayoutInflater.from(parent?.context).inflate(R.layout.activity_mypage_dummyitem, parent, false)
-
-        val item : DummyItem = mItems[position]
-
-        val tv_title = convertView?.findViewById<TextView>(R.id.itemTitle)
-        val tv_sub = convertView?.findViewById<TextView>(R.id.itemSub)
-
-
-        tv_title?.text = item.aTitle
-        tv_sub?.text = item.aSub
-
-        return convertView
-    }
 }

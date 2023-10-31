@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.classic.museo.R
 import com.classic.museo.data.Record
+import com.classic.museo.databinding.RecyclerviewFreeBinding
 import com.classic.museo.databinding.RecyclerviewItem2Binding
 import com.classic.museo.itemPage.DetailActivity
 
@@ -15,7 +17,7 @@ class FreeAdapter(val hContext: Context) : RecyclerView.Adapter<RecyclerView.Vie
     var freeData = mutableListOf<Record>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view =
-            RecyclerviewItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
+            RecyclerviewFreeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FreeItem02(view)
     }
 
@@ -31,7 +33,7 @@ class FreeAdapter(val hContext: Context) : RecyclerView.Adapter<RecyclerView.Vie
         (holder as FreeItem02).bind(position)
     }
 
-    inner class FreeItem02(private val binding: RecyclerviewItem2Binding) :
+    inner class FreeItem02(private val binding: RecyclerviewFreeBinding) :
         RecyclerView.ViewHolder(binding.root),
         View.OnClickListener {
         var freeView = binding.root
@@ -41,9 +43,13 @@ class FreeAdapter(val hContext: Context) : RecyclerView.Adapter<RecyclerView.Vie
         }
 
         fun bind(pos: Int) {
-            binding.textView2.text = freeData[pos].fcltyNm
-            binding.textView4.text = "update : "+freeData[pos].referenceDate
-
+            binding.textViewFree.text = freeData[pos].fcltyNm
+            binding.textViewUpdate.text = "update : "+freeData[pos].referenceDate
+            if(binding.textViewFree.text.endsWith("미술관")){
+                binding.imageViewFree.setImageResource(R.drawable.drawing)
+            }else {
+                binding.imageViewFree.setImageResource(R.drawable.museumicon)
+            }
         }
 
         override fun onClick(v: View?) {

@@ -33,36 +33,48 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/editTextText3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:ems="10"
         android:hint="검색어를 입력해주세요."
         android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="@+id/search_spinner"
-        app:layout_constraintEnd_toStartOf="@id/searchImage"
-        app:layout_constraintStart_toEndOf="@+id/search_spinner"
-        app:layout_constraintTop_toTopOf="@+id/search_spinner" />
+        app:layout_constraintBottom_toTopOf="@+id/search_recyclerview"
+        app:layout_constraintEnd_toStartOf="@id/searchImage2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_spinner" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/mapicon"
+        app:layout_constraintBottom_toTopOf="@+id/editTextText3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     <com.skydoves.powerspinner.PowerSpinnerView
         android:id="@+id/search_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
         android:background="#D9D9D9"
         android:gravity="center"
         android:hint="지역"
-        android:padding="10dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/view8"
-        app:layout_constraintEnd_toStartOf="@+id/editTextText2"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/searchImage"
+        app:layout_constraintStart_toEndOf="@id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         app:layout_constraintVertical_bias="0.0"
         app:spinner_arrow_gravity="end"
@@ -76,6 +88,7 @@
         app:spinner_popup_animation="dropdown"
         app:spinner_popup_background="#D9D9D9"
         app:spinner_popup_elevation="14dp"
+
         app:spinner_popup_height="200dp" />
 
     <View
@@ -89,24 +102,33 @@
         android:id="@+id/search_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_spinner"
-        tools:listitem="@layout/search_image"/>
+        tools:listitem="@layout/search_image" />
 
     <ImageButton
         android:id="@+id/searchImage"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="24dp"
         android:background="@android:color/transparent"
         android:src="@drawable/search"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextText2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextText2"
-        app:layout_constraintTop_toTopOf="@+id/editTextText2" />
+        app:layout_constraintBottom_toTopOf="@+id/editTextText3"
+        app:layout_constraintStart_toEndOf="@+id/search_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <ImageButton
+        android:id="@+id/searchImage2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/search"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextText3"
+        app:layout_constraintStart_toEndOf="@+id/editTextText3"
+        app:layout_constraintTop_toTopOf="@+id/editTextText3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
