@@ -2,6 +2,7 @@ package com.classic.museo.itemPage.Community
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -103,6 +104,16 @@ class CommunityDetailActivity : AppCompatActivity() {
         val NickName = comm.NickName
         val date = comm.date
 
+        //수정페이지로 데이터 보내기
+        val editIntent = Intent(this, CommunityEditActivity::class.java)
+        editIntent.putExtra("title",title)
+        editIntent.putExtra("museum",museum)
+        editIntent.putExtra("text",content)
+        editIntent.putExtra("NickName",NickName)
+        editIntent.putExtra("date",date)
+        editIntent.putExtra("documentId",documentDelete)
+
+
         binding.communityDetailTitle.text = title
         binding.communityDetailText.text = content
         binding.communityDetailMuseum.text = museum
@@ -125,58 +136,13 @@ class CommunityDetailActivity : AppCompatActivity() {
             val btnDelete = dialogView.findViewById<Button>(R.id.dialog_delete)
             val btnCancel = dialogView.findViewById<Button>(R.id.dialog_cancel)
 
+            //다이얼로그 수정버튼 클릭
             btnEdit.setOnClickListener{
-                binding.editPageText.visibility = View.VISIBLE
-                binding.communityPlusLogo.visibility = View.INVISIBLE
-                binding.communityDetailBack.visibility = View.INVISIBLE
-                binding.btnCommunityDetailFinish.visibility = View.VISIBLE
-                binding.btnCommunityDetailDelete.visibility = View.INVISIBLE
-                binding.communityDetailTitle.visibility = View.INVISIBLE
-                binding.communityDetailTitleEdit.visibility = View.VISIBLE
-                binding.communityDetailTitleEdit.setText(binding.communityDetailTitle.text)
-                binding.communityDetailMuseum.visibility = View.INVISIBLE
-                binding.communityDetailMuseumEdit.visibility = View.VISIBLE
-                binding.communityDetailMuseumEdit.setText(binding.communityDetailMuseum.text)
-                binding.communityDetailText.visibility = View.INVISIBLE
-                binding.communityDetailTextEdit.visibility = View.VISIBLE
-                binding.communityDetailTextEdit.setText(binding.communityDetailText.text)
+                startActivity(editIntent)
                 alertDialog.dismiss()
-
-                //수정완료버튼 클릭
-                binding.btnCommunityDetailFinish.setOnClickListener{
-                    val documentEdit = intent.getStringExtra("documentID")
-                    Log.d("community","sj documentID : $documentEdit")
-                    binding.editPageText.visibility = View.INVISIBLE
-                    binding.communityPlusLogo.visibility = View.VISIBLE
-                    binding.communityDetailBack.visibility = View.VISIBLE
-                    binding.btnCommunityDetailFinish.visibility = View.INVISIBLE
-                    binding.btnCommunityDetailDelete.visibility = View.VISIBLE
-                    binding.communityDetailTitle.visibility = View.VISIBLE
-                    binding.communityDetailTitleEdit.visibility = View.INVISIBLE
-                    binding.communityDetailTitle.setText(binding.communityDetailTitleEdit.text)
-                    binding.communityDetailMuseum.visibility = View.VISIBLE
-                    binding.communityDetailMuseumEdit.visibility = View.INVISIBLE
-                    binding.communityDetailMuseum.setText(binding.communityDetailMuseumEdit.text)
-                    binding.communityDetailText.visibility = View.VISIBLE
-                    binding.communityDetailText.setText(binding.communityDetailTextEdit.text)
-                    binding.communityDetailTextEdit.visibility = View.INVISIBLE
-
-                    db.collection("post").document("$documentEdit")
-                        .update("title", "${binding.communityDetailTitleEdit.text}")
-                        .addOnSuccessListener { Log.d("CommunityDetail", "DocumentSnapshot successfully updated!") }
-                        .addOnFailureListener { e -> Log.w("CommunityDetail", "Error updating document", e) }
-
-                    db.collection("post").document("$documentEdit")
-                        .update("text", "${binding.communityDetailTextEdit.text}")
-                        .addOnSuccessListener { Log.d("CommunityDetail", "DocumentSnapshot successfully updated!") }
-                        .addOnFailureListener { e -> Log.w("CommunityDetail", "Error updating document", e) }
-
-                    db.collection("post").document("$documentEdit")
-                        .update("museum", "${binding.communityDetailMuseumEdit.text}")
-                        .addOnSuccessListener { Log.d("CommunityDetail", "DocumentSnapshot successfully updated!") }
-                        .addOnFailureListener { e -> Log.w("CommunityDetail", "Error updating document", e) }
-                }
             }
+
+            //다이얼로그 삭제버튼 클릭
             btnDelete.setOnClickListener{
                 val deleteBuilder =AlertDialog.Builder(this)
                 deleteBuilder.setTitle("게시글 삭제")
@@ -199,6 +165,7 @@ class CommunityDetailActivity : AppCompatActivity() {
                 deleteBuilder.show()
                 alertDialog.dismiss()
             }
+            //다이얼로그 취소버튼 클릭
             btnCancel.setOnClickListener{
                 alertDialog.dismiss()
             }
