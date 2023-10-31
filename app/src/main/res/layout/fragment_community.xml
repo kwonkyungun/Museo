@@ -64,7 +64,7 @@
         app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
         app:layout_constraintEnd_toStartOf="@+id/editText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_community"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         app:spinner_arrow_gravity="end"
         app:spinner_item_array="@array/communitySearch"
         app:spinner_arrow_tint="@color/black"
@@ -99,7 +99,7 @@
         app:layout_constraintBottom_toTopOf="@+id/view3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/text_community" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     <View
         android:id="@+id/view3"
