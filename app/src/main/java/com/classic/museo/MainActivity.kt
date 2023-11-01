@@ -1,9 +1,12 @@
 package com.classic.museo
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowInsets
@@ -14,12 +17,15 @@ import androidx.navigation.NavHost
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.classic.museo.Login.LoginActivity
 import com.classic.museo.databinding.ActivityMainBinding
 import com.classic.museo.home.HomeFragment
 import com.classic.museo.itemPage.MypageFragment
 import com.classic.museo.itemPage.search.SearchFragment
 import com.classic.museo.itemPage.CommunityFragment
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
+import com.kakao.sdk.user.UserApiClient
 
 
 //팀 노션 : https://teamsparta.notion.site/3-Museo-72e01c364bd64fa18324fa82dad2b300
@@ -46,6 +52,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        FirebaseAuth.getInstance().signOut()
+        UserApiClient.instance.logout { error ->
+            if (error != null) {
+                Log.e(ContentValues.TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+            }
+            else {
+                Log.i(ContentValues.TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+            }
+        }
     }
 
     //바텀 네비게이션 기능

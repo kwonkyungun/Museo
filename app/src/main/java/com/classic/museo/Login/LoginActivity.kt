@@ -38,18 +38,12 @@ class LoginActivity : AppCompatActivity() {
     private var db = Firebase.firestore
     private lateinit var auth: FirebaseAuth //전역으로 사용할 FirebaseAuth 생성
 
-    init {
-        //로그인화면으로 돌아올경우 모두로그아웃으로 초기화
-        FirebaseAuth.getInstance().signOut()
-        UserApiClient.instance.logout { error ->
-            if (error != null) {
-                Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
-            }
-            else {
-                Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
-            }
-        }
+    override fun onResume() {
+        super.onResume()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,19 +78,19 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener {
             //SharedPreferences를 활용한 로그인정보 저장하기
             var checkbox = 0
-            val pref = getSharedPreferences("pref",0)
+            val pref = getSharedPreferences("pref", 0)
             val edit = pref.edit()
-            if(binding.LoginRemember.isChecked){
+            if (binding.LoginRemember.isChecked) {
                 //로그인정보 저장 체크
                 checkbox = 1
-                edit.putInt("CheckBox",checkbox)
+                edit.putInt("CheckBox", checkbox)
                 edit.putString("ID", binding.editId.text.toString())
                 edit.putString("PW", binding.editPw.text.toString())
                 edit.apply()
             } else {
                 //로그인정보 저장 해제
                 checkbox = 0
-                edit.putInt("CheckBox",checkbox)
+                edit.putInt("CheckBox", checkbox)
                 edit.putString("ID", "")
                 edit.putString("PW", "")
                 edit.apply()
@@ -136,12 +130,12 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         //로그인정보 기억하기 체크했을때 값 받아오기
-        val pref = getSharedPreferences("pref",0)
-        binding.editId.setText(pref.getString("ID",""))
-        binding.editPw.setText(pref.getString("PW",""))
-        if(pref.getInt("CheckBox",0) == 1){
+        val pref = getSharedPreferences("pref", 0)
+        binding.editId.setText(pref.getString("ID", ""))
+        binding.editPw.setText(pref.getString("PW", ""))
+        if (pref.getInt("CheckBox", 0) == 1) {
             binding.LoginRemember.isChecked = true
-        } else{
+        } else {
             binding.LoginRemember.isChecked = false
         }
 
@@ -152,6 +146,7 @@ class LoginActivity : AppCompatActivity() {
         //파이어베이스에 유저 상태가 있어야 다음 페이지로 넘어갈 수 있음
         if (user != null) {
             val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
     }
@@ -159,6 +154,7 @@ class LoginActivity : AppCompatActivity() {
     //카카오 로그인
     fun kakaoSingUp() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         binding.kakaoLogin.setOnClickListener {
             val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                 if (error != null) {

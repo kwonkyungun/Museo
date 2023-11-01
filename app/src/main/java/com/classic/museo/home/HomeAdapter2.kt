@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.classic.museo.itemPage.DetailActivity
 import com.classic.museo.R
 import com.classic.museo.data.Record
@@ -21,6 +22,7 @@ class HomeAdapter2(var subject: String, val hContext: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var museoData = mutableListOf<Record>()
     private var intent = Intent()
+    private val glide: RequestManager = Glide.with(hContext)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view =
             RecyclerviewItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -74,7 +76,7 @@ class HomeAdapter2(var subject: String, val hContext: Context) :
 
         fun bind(pos: Int) {
             binding.textView2.text = museoData[pos].fcltyNm
-            binding.textView4.text="update : "+museoData[pos].referenceDate
+            binding.textView4.text = "update : " + museoData[pos].referenceDate
             category(museoData[pos].fcltyNm)
         }
 
@@ -93,16 +95,16 @@ class HomeAdapter2(var subject: String, val hContext: Context) :
             var category = ""
             if (subject == "이색 박물관") {
                 category = "unique"
-            }else if (subject == "생물 박물관") {
+            } else if (subject == "생물 박물관") {
                 category = "Biology"
-            }else if (subject == "과학 박물관") {
+            } else if (subject == "과학 박물관") {
                 category = "science"
             }
             val storageReference = storageRef.child("${category}/${text}.png")
-
             storageReference.downloadUrl.addOnSuccessListener { uri ->
+
                 val imageURL = uri!!
-                Glide.with(hContext)
+                glide
                     .load(imageURL)
                     .into(binding.imageView2)
                 Log.e("이미지", "${imageURL}")

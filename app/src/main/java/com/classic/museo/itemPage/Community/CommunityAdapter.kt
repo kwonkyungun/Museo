@@ -59,6 +59,7 @@ class CommunityAdapter(private val context: Context) :
         }
 
         fun bind(pos: Int) {
+            Log.e("checkone","${review[pos].title}-${pos}")
             binding.textCommunityTitle.text = review[pos].title
             binding.communityNickname.text = review[pos].NickName
             binding.communityId.text = review[pos].UserId
