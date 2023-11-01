@@ -17,6 +17,7 @@ import com.classic.museo.itemPage.MypageInnerActivity.MypageWritten
 import com.classic.museo.data.Users
 import com.classic.museo.databinding.FragmentMypageBinding
 import com.classic.museo.itemPage.Community.CommunityDetailActivity
+import com.classic.museo.itemPage.announcement.AnnouncementActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -133,7 +134,8 @@ class MypageFragment : Fragment() {
     fun Info(){
         binding.MypageInfoLayout.setOnClickListener {
             //공지사항 페이지는 아직 없으므로 기능은 미구현
-            Toast.makeText(activity,"공지사항 버튼클릭!",Toast.LENGTH_SHORT).show()
+            val announcement = Intent(activity,AnnouncementActivity::class.java)
+            startActivity(announcement)
         }
     }
 }

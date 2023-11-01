@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".Login.GlobalApplication"
@@ -16,6 +16,16 @@
         android:theme="@style/Theme.Museo"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".itemPage.announcement.AnnouncementDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".itemPage.announcement.AnnouncementPlusActivity"
+            android:exported="false" />
+        <activity
+            android:name=".itemPage.announcement.AnnouncementActivity"
+            android:exported="false" />
+
         <activity
             android:name=".itemPage.Community.CommunityEditActivity"
             android:exported="false" />
