@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.classic.museo.R
 import com.classic.museo.data.Record
 import com.classic.museo.databinding.SearchImageBinding
 import com.classic.museo.itemPage.DetailActivity
@@ -45,6 +46,11 @@ class SearchAdapter(val sContext: Context) :
         fun bind(pos: Int) {
             binding.searchName.text = searchItems[pos].fcltyNm
             binding.reference.text="update : "+searchItems[pos].referenceDate
+            if(binding.searchName.text.endsWith("미술관")){
+                binding.searchImage.setImageResource(R.drawable.drawing)
+            }else {
+                binding.searchImage.setImageResource(R.drawable.museumicon)
+            }
         }
 
         override fun onClick(v: View?) {

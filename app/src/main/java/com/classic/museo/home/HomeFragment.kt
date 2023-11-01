@@ -64,7 +64,6 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
     }
 
     private fun homeSetting() {
@@ -76,11 +75,8 @@ class HomeFragment : Fragment() {
 
     private fun freeItem() {
         items2.clear()
-        val query = db.collection("museoInfo").where(
-            Filter.or(
-                Filter.equalTo("adultChrge", "0"), Filter.equalTo("etcChrgeInfo", "무료")
-            )
-        ).limit(20)
+        val query = db.collection("museoInfo").whereEqualTo("adultChrge","0")
+            .whereEqualTo("etcChrgeInfo","무료").limit(20)
         query.get().addOnSuccessListener { result ->
             for (document in result) {
                 val value = gson.toJson(document.data)

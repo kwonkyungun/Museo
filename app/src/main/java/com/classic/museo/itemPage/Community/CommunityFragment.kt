@@ -59,7 +59,8 @@ class CommunityFragment : Fragment() {
                 for(document in result){
                     val value=gson.toJson(document.data)
                     val result=gson.fromJson(value, CommunityDTO::class.java)
-                    val documentId=gson.toJson(document.id)!!
+                    val documentId=document.id
+                    Log.d("Community",documentId)
                     loadItems.add(result)
                     idItems.add(documentId)
                 }

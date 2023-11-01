@@ -28,7 +28,7 @@ class CommunityDetailItem(val mContext: CommunityDetailActivity, val mItems: Mut
 
         var convertView = convertView
         if (convertView == null) convertView = LayoutInflater.from(parent?.context)
-            .inflate(R.layout.activity_mypage_dummyitem, parent, false)
+            .inflate(R.layout.mypost_item, parent, false)
 
         val item: DummyItem = mItems[position]
 
