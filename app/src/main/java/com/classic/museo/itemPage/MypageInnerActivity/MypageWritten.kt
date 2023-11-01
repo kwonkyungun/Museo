@@ -33,7 +33,7 @@ class MypageWritten : AppCompatActivity() {
         //카카오 로그인 유저 게시물
         UserApiClient.instance.me { user, error ->
             if (error != null) {
-                Log.e("에러", "사용자 정보 요청 실패", error)
+                Log.e("일반 로그인", "사용자 정보 요청 실패", error)
             } else if (user != null) {
                 kUid = user.id.toString()
 

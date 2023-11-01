@@ -56,10 +56,13 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         hContext = context
-
     }
 
     override fun onResume() {

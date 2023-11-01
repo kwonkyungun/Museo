@@ -49,6 +49,7 @@ class CommunityPlusActivity : AppCompatActivity() {
         binding.communityPlusCancle.setOnClickListener{
             finish()
         }
+        //게시버튼
         binding.communityPlus.setOnClickListener{
 
             if(binding.communityPlusTitle.text.isEmpty()||binding.communityPlusEdittext.text.isEmpty()||
