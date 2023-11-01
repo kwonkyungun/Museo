@@ -49,6 +49,7 @@ dependencies {
     //bottom navigation
     implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.9'
     //firebase
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation("com.google.firebase:firebase-storage")
 
     implementation "com.google.android.material:material:1.6.0-alpha01"
