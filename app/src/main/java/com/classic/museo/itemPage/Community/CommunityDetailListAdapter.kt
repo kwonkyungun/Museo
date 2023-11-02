@@ -1,19 +1,34 @@
 package com.classic.museo.itemPage.Community
 
-import android.media.Image
+import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ListAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.classic.museo.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
-class CommunityDetailListAdapter(val itemList: ArrayList<CommunityDetailDataClass>): RecyclerView.Adapter<CommunityDetailListAdapter.ViewHolder>() {
+interface ClickListener {
+   fun clickDropDown(){}
+}
+
+class CommunityDetailListAdapter(val itemList: ArrayList<CommunityDetailDataClass>, val clickListener: ClickListener): RecyclerView.Adapter<CommunityDetailListAdapter.ViewHolder>() {
+    var firestore: FirebaseFirestore? = null
+    val db = Firebase.firestore
+
+    private var intent = Intent()
+
+    val documentDelete = intent.getStringExtra("documentUID")
+    val documentID = documentDelete?.substring(1 until documentDelete?.lastIndex!!)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityDetailListAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_community_detail_item, parent, false)
         return ViewHolder(view)
@@ -24,23 +39,14 @@ class CommunityDetailListAdapter(val itemList: ArrayList<CommunityDetailDataClas
     }
 
     override fun onBindViewHolder(holder: CommunityDetailListAdapter.ViewHolder, position: Int) {
+        val thiscontext = holder.itemView.context
+        firestore = FirebaseFirestore.getInstance()
+
         holder.text.text = itemList[position].text
         holder.date.text = itemList[position].date
         //holder.time.text = itemList[position].time
         holder.dropdown.setOnClickListener {
-            Log.d("드롭다운버튼 테스트","")
-//            val items = arrayOf("수정","삭제")
-//            var checked = 0
-//            MaterialAlertDialogBuilder(CommunityDetailActivity())
-//                .setNeutralButton("취소") { dialog, which ->
-//                }
-//                .setPositiveButton("확인") { dialog, which ->
-//                    Log.d("test", items[checked])
-//                }
-//                .setSingleChoiceItems(items, checked) { dialog, which ->
-//                    checked = which
-//                }
-//                .show()
+            clickListener.clickDropDown()
         }
     }
 

@@ -4,10 +4,12 @@ import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.classic.museo.data.KakaoUsers
 import com.classic.museo.data.Users
 import com.classic.museo.databinding.ActivityCommunityPlusBinding
@@ -26,6 +28,8 @@ import java.sql.Date
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
@@ -35,8 +39,8 @@ class CommunityPlusActivity : AppCompatActivity() {
     private var kakaoUser=KakaoUsers()
     private var user=Users()
     lateinit var binding: ActivityCommunityPlusBinding
-    private val db = Firebase.firestore
-    private var auth : FirebaseAuth? = null
+    val db = Firebase.firestore
+    var auth : FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +106,7 @@ class CommunityPlusActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendToData(){
+    fun sendToData(){
         val title = binding.communityPlusTitle.text.toString()
         val text = binding.communityPlusEdittext.text.toString()
         val museum = binding.communityPlusMuseum.text.toString()

@@ -29,7 +29,7 @@ class CommunityAdapter(private val context: Context) :
     var review = mutableListOf<CommunityDTO>()
     var documentID = mutableListOf<String>()
     val db = Firebase.firestore
-    private var intent = Intent()
+    var intent = Intent()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
