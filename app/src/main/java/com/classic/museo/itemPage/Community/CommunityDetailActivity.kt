@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.classic.museo.R
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.databinding.ActivityCommunityDetailBinding
+import com.classic.museo.itemPage.MypageInnerActivity.WrittenAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -28,6 +29,8 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.gson.GsonBuilder
+import com.kakao.sdk.user.UserApiClient
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -35,7 +38,9 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
     lateinit var binding: ActivityCommunityDetailBinding
     var firestore: FirebaseFirestore? = null
     val itemList = arrayListOf<CommunityDetailDataClass>()
-    val adapter = CommunityDetailListAdapter(itemList, this)
+    private lateinit var comm: CommunityDTO
+    private var documentDelete: String? = null
+    val adapter = CommunityDetailListAdapter(itemList)
     private var auth: FirebaseAuth? = null
     val db = Firebase.firestore
 
@@ -52,8 +57,8 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
         binding.recyclerView3.adapter = adapter
 
         firestore = FirebaseFirestore.getInstance()
-        val documentDelete = intent.getStringExtra("documentId")
-        val documentIDCut = documentDelete?.substring(1 until documentDelete?.lastIndex!!)
+        val documentID = intent.getStringExtra("documentId")
+        val documentIDCut = documentID?.substring(1 until documentDelete?.lastIndex!!)
 
         //등록버튼 클릭리스너
         binding.communityDetailSave.setOnClickListener {
@@ -72,9 +77,8 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
                 "time" to formattedTime
             )
 
-
             //데이터 저장하기
-            db.collection("post").document(documentDelete!!).collection("comment")
+            db.collection("post").document(documentID!!).collection("comment")
                 .add(test)
                 .addOnSuccessListener { documentReference ->
                     Log.d(
@@ -89,7 +93,7 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
 
             //데이터 가져오기
             itemList.clear()
-            db.collection("post").document(documentDelete!!).collection("comment")
+            db.collection("post").document(documentID!!).collection("comment")
                 .get()
                 .addOnSuccessListener { result ->
                     //중복출력 방지용 리사이클러뷰 초기화
@@ -108,7 +112,7 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
                 }
         }
         //액티비티 실행시 댓글DB불러오기
-        db.collection("post").document(documentDelete!!).collection("comment")
+        db.collection("post").document(documentID!!).collection("comment")
             .get()
             .addOnSuccessListener { result ->
                 //중복출력 방지용 리사이클러뷰 초기화
@@ -129,7 +133,8 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
         itemList.clear()
         // community recyclerview 아이템 클릭시 보낸 값 받아오기
 
-        val comm = intent.getParcelableExtra<CommunityDTO>("communityData")!!
+        comm = intent.getParcelableExtra<CommunityDTO>("communityData")!!
+        documentDelete = intent.getStringExtra("documentId")
         Log.e("community", "sj communityID : $documentDelete")
 
         val title = comm.title
@@ -146,13 +151,6 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
         editIntent.putExtra("NickName", NickName)
         editIntent.putExtra("date", date)
         editIntent.putExtra("documentId", documentDelete)
-
-
-        binding.communityDetailTitle.text = title
-        binding.communityDetailText.text = content
-        binding.communityDetailMuseum.text = museum
-        binding.communityDetailName.text = NickName
-        binding.communityDetailDate.text = date
 
         //수정버튼
         binding.btnCommunityDetailDelete.setOnClickListener {
@@ -184,20 +182,14 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
                 deleteBuilder.setIcon(R.drawable.coment)
 
                 deleteBuilder.setPositiveButton("확인") { dialog, _ ->
-                    db.collection("post").document(documentDelete!!)
-                        .delete()
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "게시물이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-                            Log.d("CommunityDetail", "DocumentSnapshot successfully deleted!")
-                        }
-                        .addOnFailureListener { e ->
-                            Log.w(
-                                "CommunityDetail",
-                                "Error deleting document",
-                                e
-                            )
-                        }
-                    adapter.notifyDataSetChanged()
+                    db.collection("post").document(documentDelete!!).delete().addOnSuccessListener {
+                        Toast.makeText(this, "게시물이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                        Log.d("CommunityDetail", "DocumentSnapshot successfully deleted!")
+                    }.addOnFailureListener { e ->
+                        Log.w(
+                            "CommunityDetail", "Error deleting document", e
+                        )
+                    }
                     finish()
                 }
                 deleteBuilder.setNegativeButton("취소") { dialog, _ ->
@@ -226,7 +218,6 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
         val comm = intent.getParcelableExtra<CommunityDTO>("communityData")!!
         auth = Firebase.auth
         val UID = comm.uid
-        Log.d("한글", "$UID")
         val currentUser = auth?.currentUser?.uid
         Log.d("communityDetail", "sj $currentUser")
 
@@ -235,32 +226,35 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
         } else {
             binding.btnCommunityDetailDelete.visibility = View.INVISIBLE
         }
+
+        UserApiClient.instance.me { user, error ->
+            if (user!=null) {
+                if(user.id.toString()==UID){
+                    binding.btnCommunityDetailDelete.visibility = View.VISIBLE
+                }
+            }
+        }
+
     }
 
-    fun setItem() {
+    private fun setItem() {
         val documentID = intent.getStringExtra("documentId")
         var gson = GsonBuilder().create()
-        db.collection("post").document("$documentID")
-            .get()
-            .addOnSuccessListener { document ->
-                val value = gson.toJson(document.data)
-                val result = gson.fromJson(value, CommunityDTO::class.java)
-                val documentId = document.id
-                Log.d("Community", value)
-
-                binding.communityDetailTitle.text = result.title
-                binding.communityDetailText.text = result.text
-                binding.communityDetailMuseum.text = result.museum
-                binding.communityDetailName.text = result.NickName
-                binding.communityDetailDate.text = result.date
-            }
-
+        db.collection("post").document("$documentID").get().addOnSuccessListener { document ->
+            val value = gson.toJson(document.data)
+            val result = gson.fromJson(value, CommunityDTO::class.java)
+            val documentId = document.id
+            binding.communityDetailTitle.text = result.title
+            binding.communityDetailText.text = result.text
+            binding.communityDetailMuseum.text = result.museum
+            binding.communityDetailName.text = result.NickName
+            binding.communityDetailDate.text = result.date
+        }
 
     }
 
     override fun onResume() {
         super.onResume()
-
         setItem()
     }
 
