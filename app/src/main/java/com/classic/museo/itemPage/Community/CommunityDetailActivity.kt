@@ -40,7 +40,7 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
     val itemList = arrayListOf<CommunityDetailDataClass>()
     private lateinit var comm: CommunityDTO
     private var documentDelete: String? = null
-    val adapter = CommunityDetailListAdapter(itemList)
+    val adapter = CommunityDetailListAdapter(itemList, this)
     private var auth: FirebaseAuth? = null
     val db = Firebase.firestore
 
@@ -58,7 +58,7 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
 
         firestore = FirebaseFirestore.getInstance()
         val documentID = intent.getStringExtra("documentId")
-        val documentIDCut = documentID?.substring(1 until documentDelete?.lastIndex!!)
+//        val documentIDCut = documentID?.substring(1 until documentDelete?.lastIndex!!)
 
         //등록버튼 클릭리스너
         binding.communityDetailSave.setOnClickListener {
