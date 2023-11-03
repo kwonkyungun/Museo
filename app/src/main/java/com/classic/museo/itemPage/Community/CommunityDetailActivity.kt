@@ -2,7 +2,6 @@ package com.classic.museo.itemPage.Community
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.classic.museo.R
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.data.Record
-import com.classic.museo.data.Users
 import com.classic.museo.itemPage.MypageInnerActivity.DummyItem
 import com.classic.museo.databinding.ActivityCommunityDetailBinding
 import com.classic.museo.itemPage.MypageInnerActivity.WrittenAdapter
