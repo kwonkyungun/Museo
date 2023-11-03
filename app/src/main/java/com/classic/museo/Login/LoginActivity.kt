@@ -83,20 +83,36 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             //SharedPreferences를 활용한 로그인정보 저장하기
-            var checkbox = 0
+            var inforemember = 0
+            var autologin = 0
             val pref = getSharedPreferences("pref",0)
             val edit = pref.edit()
             if(binding.LoginRemember.isChecked){
-                //로그인정보 저장 체크
-                checkbox = 1
-                edit.putInt("CheckBox",checkbox)
-                edit.putString("ID", binding.editId.text.toString())
-                edit.putString("PW", binding.editPw.text.toString())
-                edit.apply()
+                if(binding.LoginAuto.isChecked){
+                    //로그인정보 저장 체크 + 자동로그인 체크
+                    inforemember = 1
+                    autologin = 1
+                    edit.putInt("Auto",autologin)
+                    edit.putInt("Remember",inforemember)
+                    edit.putString("ID", binding.editId.text.toString())
+                    edit.putString("PW", binding.editPw.text.toString())
+                    edit.apply()
+                } else{
+                    //로그인정보 저장 체크 + 자동로그인 해제
+                    autologin = 0
+                    inforemember = 1
+                    edit.putInt("Auto",autologin)
+                    edit.putInt("Remember",inforemember)
+                    edit.putString("ID", binding.editId.text.toString())
+                    edit.putString("PW", binding.editPw.text.toString())
+                    edit.apply()
+                }
             } else {
                 //로그인정보 저장 해제
-                checkbox = 0
-                edit.putInt("CheckBox",checkbox)
+                autologin = 0
+                inforemember = 0
+                edit.putInt("Auto",autologin)
+                edit.putInt("Remember",inforemember)
                 edit.putString("ID", "")
                 edit.putString("PW", "")
                 edit.apply()
@@ -137,11 +153,42 @@ class LoginActivity : AppCompatActivity() {
         }
         //로그인정보 기억하기 체크했을때 값 받아오기
         val pref = getSharedPreferences("pref",0)
+        val ManualLogout = intent.getStringExtra("ManualLogout")
         binding.editId.setText(pref.getString("ID",""))
         binding.editPw.setText(pref.getString("PW",""))
-        if(pref.getInt("CheckBox",0) == 1){
+
+        if(pref.getInt("Remember",0) == 1){
+            if(pref.getInt("Auto",0) == 1){
+                if(ManualLogout == "Yes"){
+                    binding.LoginAuto.isChecked = true
+                }else {
+                    //자동로그인 체크 + 로그인정보 체크
+                    binding.LoginAuto.isChecked = true
+
+                    //로그인 코드
+                    val id = binding.editId.text.toString()
+                    val pw = binding.editPw.text.toString()
+                    auth.signInWithEmailAndPassword(id, pw)
+                        .addOnCompleteListener(this) { task ->
+                            Log.d("sss", task.toString())
+                            if (task.isSuccessful) {
+                                //로그인 성공시 메인화면으로 이동
+                                Toast.makeText(this, "로그인 성공하였습니다!", Toast.LENGTH_SHORT).show()
+                                moveMainPage(task.result.user)
+
+                            } else {
+                                //로그인 실패시 Toast 메세지 출력
+                                Toast.makeText(this, "아이디와 비밀번호를 확인해주세요.", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                }
+            } else{
+                binding.LoginAuto.isChecked = false
+            }
+            //자동로그인 해제 + 로그인정보 해제
             binding.LoginRemember.isChecked = true
         } else{
+            //로그인정보 해제
             binding.LoginRemember.isChecked = false
         }
 
