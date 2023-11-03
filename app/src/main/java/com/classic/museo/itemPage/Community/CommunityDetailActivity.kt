@@ -20,7 +20,6 @@ import com.bumptech.glide.RequestManager
 import com.classic.museo.R
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.data.Record
-import com.classic.museo.itemPage.MypageInnerActivity.DummyItem
 import com.classic.museo.databinding.ActivityCommunityDetailBinding
 import com.classic.museo.itemPage.MypageInnerActivity.WrittenAdapter
 import com.google.android.gms.tasks.OnCompleteListener
