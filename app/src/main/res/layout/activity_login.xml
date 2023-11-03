@@ -12,31 +12,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/dodo2"
-         />
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <ImageView
-            android:id="@+id/museo_logo"
-            android:layout_width="168dp"
-            android:layout_height="75dp"
-            android:layout_marginTop="70dp"
-            android:src="@drawable/museo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/text_id"/>
+        android:id="@+id/museo_logo"
+        android:layout_width="190dp"
+        android:layout_height="87dp"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/museo"
+        app:layout_constraintBottom_toTopOf="@id/text_id"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/text_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
-            android:text="ID"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/museo_logo"
-            app:layout_constraintBottom_toTopOf="@id/edit_id"/>
+    <TextView
+        android:id="@+id/text_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:text="ID"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/edit_id"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/museo_logo" />
 
     <EditText
         android:id="@+id/edit_id"
@@ -44,30 +45,30 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/login_edit"
         android:hint="아이디를 입력해 주세요."
         android:inputType="textEmailAddress"
-        android:padding="15dp"
+        android:paddingHorizontal="25dp"
+        android:paddingVertical="19dp"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/text_pw"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_id"
-        app:layout_constraintBottom_toTopOf="@id/text_pw"/>
+        app:layout_constraintTop_toBottomOf="@+id/text_id" />
 
     <TextView
         android:id="@+id/text_pw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="16dp"
         android:text="Password"
         android:textSize="25sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/edit_pw"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_id"
-        app:layout_constraintBottom_toTopOf="@id/edit_pw"/>
+        app:layout_constraintTop_toBottomOf="@+id/edit_id" />
 
     <EditText
         android:id="@+id/edit_pw"
@@ -75,67 +76,78 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/login_edit"
         android:hint="비밀번호를 입력해 주세요."
         android:inputType="textPassword"
-        android:padding="15dp"
+        android:paddingVertical="19dp"
+        android:paddingHorizontal="25dp"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/btn_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_pw"
-        app:layout_constraintBottom_toTopOf="@id/btn_login"/>
+        app:layout_constraintTop_toBottomOf="@+id/text_pw" />
 
     <android.widget.Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/login_background"
         android:gravity="center"
-        android:padding="10dp"
+        android:paddingHorizontal="25dp"
+        android:paddingVertical="15dp"
         android:text="로그인"
-        android:textColor="@color/black"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
-        android:textStyle="bold"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_pw"
-        app:layout_constraintBottom_toTopOf="@id/btn_signup"/>
+        app:layout_constraintTop_toBottomOf="@+id/edit_pw" />
 
-    <android.widget.Button
-        android:id="@+id/btn_signup"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/login_background"
-        android:padding="10dp"
-        android:gravity="center"
-        android:text="회원가입"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:textColor="#5A5A5A"
+        android:text="@string/underline_2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login"
-        app:layout_constraintBottom_toTopOf="@id/kakao_login"/>
+        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+
+    <TextView
+        android:id="@+id/btn_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        android:text="@string/underline"
+        android:textColor="#5A5A5A"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
     <android.widget.ImageButton
         android:id="@+id/kakao_login"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:layout_marginHorizontal="50dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginBottom="50dp"
         android:background="@drawable/login_kakao_radius"
         android:clickable="true"
-        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_signup" />
 
@@ -145,23 +157,24 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/btn_login"
         app:layout_constraintEnd_toEndOf="@+id/edit_pw"
-        app:layout_constraintStart_toStartOf="@+id/edit_pw"
         app:layout_constraintTop_toBottomOf="@+id/edit_pw">
 
         <CheckBox
             android:id="@+id/LoginRemember"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:checked="false"
-            android:text="로그인정보 기억하기" />
+            android:text="로그인정보 기억"
+            android:textColor="#707070" />
 
         <CheckBox
             android:id="@+id/LoginAuto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="자동 로그인" />
+            android:text="자동 로그인"
+            android:textColor="#707070" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

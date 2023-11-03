@@ -52,9 +52,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation("com.google.firebase:firebase-storage")
 
-    implementation "com.google.android.material:material:1.6.0-alpha01"
-    implementation 'com.google.android.material:material:<version>'
-
     implementation 'com.google.firebase:firebase-auth:22.2.0'
     implementation 'com.google.firebase:firebase-firestore:24.9.0'
     implementation 'com.google.firebase:firebase-database-ktx:20.2.2'

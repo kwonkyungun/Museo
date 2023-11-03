@@ -23,6 +23,9 @@
         <item>제주</item>
     </string-array>
 
+    <string name="underline"><u>회원가입</u></string>
+    <string name="underline_2"><u>비회원 로그인</u></string>
+
     <string-array name="communitySearch">
         <item>title</item>
         <item>museum</item>
