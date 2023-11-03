@@ -14,18 +14,21 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.classic.museo.R
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.data.Record
 import com.classic.museo.itemPage.MypageInnerActivity.DummyItem
 import com.classic.museo.databinding.ActivityCommunityDetailBinding
 import com.classic.museo.itemPage.MypageInnerActivity.WrittenAdapter
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.google.gson.GsonBuilder
 import com.kakao.sdk.user.UserApiClient
 import java.time.LocalDate
@@ -157,6 +160,15 @@ class CommunityDetailActivity : AppCompatActivity() {
                             "CommunityDetail", "Error deleting document", e
                         )
                     }
+                    //이미지 삭제
+                    val documentID = intent.getStringExtra("documentId")
+                    val storageReference = Firebase.storage.reference
+                    val desertImage = storageReference.child("postedImage/$documentID.jpg")
+                    desertImage.delete().addOnCompleteListener{
+                        // File deleted successfully
+                    }.addOnFailureListener {
+                        // Uh-oh, an error occurred!
+                    }
                     finish()
                 }
                 deleteBuilder.setNegativeButton("취소") { dialog, _ ->
@@ -216,6 +228,8 @@ class CommunityDetailActivity : AppCompatActivity() {
             binding.communityDetailMuseum.text = result.museum
             binding.communityDetailName.text = result.NickName
             binding.communityDetailDate.text = result.date
+
+            downloadImage() // 이미지 다운로드
         }
 
     }
@@ -223,5 +237,19 @@ class CommunityDetailActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         setItem()
+    }
+
+    private fun downloadImage() {
+        val docID = intent.getStringExtra("documentId")
+        val storageReference = Firebase.storage.reference.child("postedImage/$docID.jpg")
+        val imageView = binding.communityDetailImage
+
+        storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Glide.with(this)
+                    .load(task.result)
+                    .into(imageView)
+            }
+        })
     }
 }

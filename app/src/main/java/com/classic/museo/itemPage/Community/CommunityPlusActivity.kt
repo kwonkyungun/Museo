@@ -4,8 +4,11 @@ import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import com.classic.museo.data.KakaoUsers
@@ -16,12 +19,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.google.gson.GsonBuilder
 import com.kakao.sdk.user.UserApi
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
 import java.sql.Date
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
@@ -61,7 +66,19 @@ class CommunityPlusActivity : AppCompatActivity() {
             }
         }
 
+        binding.communityPlusImage.setOnClickListener{
+            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            startActivityForResult(gallery,100)
+        }
+
         auth = Firebase.auth
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == RESULT_OK && requestCode == 100 ){
+            binding.communityPlusImage.setImageURI(data?.data)
+        }
     }
 
     override fun onStart() {
@@ -121,13 +138,39 @@ class CommunityPlusActivity : AppCompatActivity() {
             "UserId" to if (uid!=null){user.UserId}else{kakaoUser.UserId},
         )
 
-        db.collection("post")
-            .add(post)
+        val docID =  db.collection("post").document().id
+
+        db.collection("post").document(docID)
+            .set(post)
             .addOnSuccessListener { documentReference ->
-                Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${docID}")
             }
             .addOnFailureListener { e ->
                 Log.w(ContentValues.TAG, "Error adding document", e)
             }
+
+        sendToImage(docID) // storage 이미지 업로드
+    }
+
+    private fun sendToImage(docID:String){
+        val storage = Firebase.storage
+        val storageRef = storage.reference
+        val mountainsRef = storageRef.child("postedImage/$docID.jpg")
+
+        val imageView = binding.communityPlusImage
+        imageView.isDrawingCacheEnabled = true
+        imageView.buildDrawingCache()
+        val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        var uploadTask = mountainsRef.putBytes(data)
+        uploadTask.addOnFailureListener {
+            // Handle unsuccessful uploads
+        }.addOnSuccessListener { taskSnapshot ->
+            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+            // ...
+        }
     }
 }

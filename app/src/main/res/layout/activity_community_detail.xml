@@ -10,7 +10,7 @@
         android:id="@+id/logo_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#867070"
+        android:background="#D8B674"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,25 +26,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/community_plus_logo"
-            android:layout_width="120dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/museo" />
-
         <TextView
             android:id="@+id/editPage_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit Page"
+            android:text="게시판"
             android:textSize="33sp"
             android:textStyle="bold"
-            android:visibility="invisible"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,175 +51,158 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/community_detail_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:paddingStart="10dp"
-        android:text="제목"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo_layout" />
-
-    <EditText
-        android:id="@+id/community_detail_titleEdit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:paddingStart="10dp"
-        android:background="@null"
-        android:text="제목"
-        android:textColor="#808080"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo_layout" />
-
-
-    <TextView
-        android:id="@+id/community_detail_museum"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="5dp"
-        android:paddingStart="10dp"
-        android:text="박물관이름"
-        android:textSize="17sp"
-        app:layout_constraintEnd_toStartOf="@+id/community_detail_date"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_detail_title" />
-
-    <EditText
-        android:id="@+id/community_detail_museumEdit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="5dp"
-        android:background="@null"
-        android:paddingStart="10dp"
-        android:text="박물관이름"
-        android:textColor="#808080"
-        android:textSize="17sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/community_detail_museum"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_detail_title" />
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
-        android:background="#D9D9D9"
-        app:layout_constraintTop_toBottomOf="@+id/community_detail_museum"
-        tools:layout_editor_absoluteX="16dp" />
-
-    <TextView
-        android:id="@+id/community_detail_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="홍길동"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/community_detail_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
-
-    <ImageView
-        android:id="@+id/btn_community_detail_delete"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="25sp"
-        android:src="@drawable/community_edit"
-        android:clipToOutline="true"
-        android:background="@drawable/community_img_cycle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
-
-    <TextView
-        android:id="@+id/community_detail_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:text="2023-10-25 19:13"
-        android:textSize="15sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/community_detail_museum"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/community_detail_text"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="top"
-        android:minHeight="250dp"
-        android:padding="15dp"
-        android:text="내용"
-        android:textSize="16sp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_community_detail_delete" />
-
-    <EditText
-        android:id="@+id/community_detail_textEdit"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:background="@null"
-        android:gravity="top"
-        android:minHeight="250dp"
-        android:padding="15dp"
-        android:textSize="16sp"
-        android:textColor="#808080"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_community_detail_delete"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <View
-        android:id="@+id/view3"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="10dp"
-        android:background="#D9D9D9"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
-        app:layout_constraintTop_toBottomOf="@+id/community_detail_text"
-        tools:layout_editor_absoluteX="10dp" />
-
     <ScrollView
-        android:id="@+id/constraintLayout3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="11dp"
-        app:layout_constraintBottom_toTopOf="@+id/view4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_detail_text"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/logo_layout"
+        app:layout_constraintBottom_toTopOf="@+id/view4">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView3"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/community_detail_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:paddingStart="10dp"
+                android:text="제목"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+            <TextView
+                android:id="@+id/community_detail_museum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="5dp"
+                android:paddingStart="10dp"
+                android:text="박물관이름"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toStartOf="@+id/community_detail_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/community_detail_title" />
+
+            <TextView
+                android:id="@+id/community_detail_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="2023-10-25 19:13"
+                android:textSize="15sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/community_detail_museum"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#D9D9D9"
+                app:layout_constraintTop_toBottomOf="@+id/community_detail_museum"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <TextView
+                android:id="@+id/community_detail_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="홍길동"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/view5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+            <ImageView
+                android:id="@+id/btn_community_detail_delete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25sp"
+                android:background="@drawable/community_img_cycle"
+                android:clipToOutline="true"
+                android:src="@drawable/community_edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#D9D9D9"
+                app:layout_constraintTop_toBottomOf="@+id/btn_community_detail_delete"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이미지가 비어있습니다."
+                android:textColor="#D8B674"
+                app:layout_constraintBottom_toBottomOf="@+id/community_detail_image"
+                app:layout_constraintEnd_toEndOf="@+id/community_detail_image"
+                app:layout_constraintStart_toStartOf="@+id/community_detail_image"
+                app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+            <ImageView
+                android:id="@+id/community_detail_image"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
+                android:clipToOutline="true"
+                android:background="@drawable/community_detail_comment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view5" />
+
+            <TextView
+                android:id="@+id/community_detail_text"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="top"
+                android:minHeight="250dp"
+                android:padding="15dp"
+                android:text="내용"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/community_detail_image" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="#D9D9D9"
+                app:layout_constraintTop_toBottomOf="@+id/community_detail_text"
+                tools:layout_editor_absoluteX="10dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view3" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <View
@@ -249,7 +221,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="120dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/community_deatil_comment"
+        android:background="@drawable/community_detail_comment"
         android:hint="댓글을 입력해 주세요"
         android:padding="10dp"
         android:textSize="16sp"
