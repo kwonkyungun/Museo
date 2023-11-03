@@ -2,6 +2,7 @@ package com.classic.museo.itemPage.Community
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.classic.museo.R
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.data.Record
@@ -35,11 +37,12 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class CommunityDetailActivity : AppCompatActivity() {
+class CommunityDetailActivity() : AppCompatActivity() {
     lateinit var binding: ActivityCommunityDetailBinding
     var firestore: FirebaseFirestore? = null
     val itemList = arrayListOf<CommunityDetailDataClass>()
     private lateinit var comm: CommunityDTO
+    private val glide : RequestManager = Glide.with(this)
     private var documentDelete: String? = null
     val adapter = CommunityDetailListAdapter(itemList)
     private var auth: FirebaseAuth? = null
@@ -246,7 +249,7 @@ class CommunityDetailActivity : AppCompatActivity() {
 
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
             if (task.isSuccessful) {
-                Glide.with(this)
+                glide
                     .load(task.result)
                     .into(imageView)
             }

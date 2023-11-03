@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.classic.museo.R
 import com.classic.museo.databinding.ActivityCommunityEditBinding
 import com.google.android.gms.tasks.OnCompleteListener
@@ -22,6 +23,7 @@ import java.io.ByteArrayOutputStream
 class CommunityEditActivity : AppCompatActivity() {
     lateinit var binding : ActivityCommunityEditBinding
     lateinit var adapter : CommunityAdapter
+    private val glide : RequestManager = Glide.with(this)
     var firestore : FirebaseFirestore? = null
     private var auth : FirebaseAuth? = null
     val db = Firebase.firestore
@@ -127,7 +129,7 @@ class CommunityEditActivity : AppCompatActivity() {
 
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
             if (task.isSuccessful) {
-                Glide.with(this)
+                glide
                     .load(task.result)
                     .into(imageView)
             }
