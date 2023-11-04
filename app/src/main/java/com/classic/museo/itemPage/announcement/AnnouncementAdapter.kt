@@ -21,7 +21,11 @@ class AnnouncementAdapter(private val context: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
-            AnnouncementItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            AnnouncementItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return AnnouncementViewHolder(binding)
     }
 

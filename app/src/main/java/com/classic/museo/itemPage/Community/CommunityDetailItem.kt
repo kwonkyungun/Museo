@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import com.classic.museo.itemPage.MypageInnerActivity.DummyItem
 import com.classic.museo.R
+import com.classic.museo.data.MyPostDTO
 
-class CommunityDetailItem(val mContext: CommunityDetailActivity, val mItems: MutableList<DummyItem>) : BaseAdapter() {
+class CommunityDetailItem(val mContext: CommunityDetailActivity, val mItems: MutableList<MyPostDTO>) : BaseAdapter() {
 
     override fun getCount(): Int {
         return mItems.size
@@ -30,7 +30,7 @@ class CommunityDetailItem(val mContext: CommunityDetailActivity, val mItems: Mut
         if (convertView == null) convertView = LayoutInflater.from(parent?.context)
             .inflate(R.layout.mypost_item, parent, false)
 
-        val item: DummyItem = mItems[position]
+        val item: MyPostDTO = mItems[position]
 
         val tv_title = convertView?.findViewById<TextView>(R.id.itemTitle)
         val tv_sub = convertView?.findViewById<TextView>(R.id.itemSub)
