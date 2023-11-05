@@ -2,6 +2,7 @@ package com.classic.museo
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,8 @@ import com.classic.museo.itemPage.search.SearchFragment
 import com.classic.museo.itemPage.CommunityFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
 
 
@@ -36,10 +39,13 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private var auth : FirebaseAuth?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        auth= Firebase.auth
 
         //네이게이션 컨트롤러
         val fragment = supportFragmentManager.findFragmentById(R.id.main_fragment) as NavHostFragment
@@ -56,7 +62,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        FirebaseAuth.getInstance().signOut()
+        if(auth!!.uid!=null){
+            FirebaseAuth.getInstance().signOut()
+            Log.w(TAG,"파이어베이스 로그아웃 완료")
+        }
         UserApiClient.instance.logout { error ->
             if (error != null) {
                 Log.e(ContentValues.TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)

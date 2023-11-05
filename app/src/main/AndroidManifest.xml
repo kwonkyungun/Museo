@@ -20,9 +20,6 @@
             android:name=".itemPage.announcement.AnnouncementDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".itemPage.announcement.AnnouncementPlusActivity"
-            android:exported="false" />
-        <activity
             android:name=".itemPage.announcement.AnnouncementActivity"
             android:exported="false" />
 
