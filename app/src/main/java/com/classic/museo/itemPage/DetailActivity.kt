@@ -169,86 +169,105 @@ class DetailActivity : AppCompatActivity() {
                         //firestor 박물관별 문서id 가져오기
                         subId = document.id
                         Log.e("asd", subId)
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.e("qwe", "Error getting documents: ", exception)
-                }
 
-            db.collection("users")
-                .document("$uid")
-                .collection("myLike")
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        val subcollectionId = document.id
-                        Log.e("dd", subcollectionId)
 
-                        val subcollectionRef = db.collection("users")
+                        db.collection("users")
                             .document("$uid")
                             .collection("myLike")
-                        Log.e("asd", subId)
-
-                        // 중복을 확인할 문서 ID가 이미 존재하는지 검사
-                        subcollectionRef.whereEqualTo(FieldPath.documentId(), subId)
                             .get()
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    val querySnapshot = task.result
+                            .addOnSuccessListener { documents ->
+                                for (document in documents) {
+                                    val subcollectionId = document.id
+                                    Log.e("dd", subcollectionId)
 
-                                    if (querySnapshot != null) {
-                                        if (!querySnapshot.isEmpty) {
-                                            // 중복되는 문서 ID가 존재할 때
-                                            Log.e("성공맞냐", "${subId}")
+                                    val subcollectionRef = db.collection("users")
+                                        .document("$uid")
+                                        .collection("myLike")
+                                    Log.e("asd", subId)
 
-                                            //데이터 삭제
-                                            val collectionPath =
-                                                "users/$uid/myLike"
-                                            subcollectionRef.whereEqualTo(FieldPath.documentId(), subId)
-                                            db.collection(collectionPath)
-                                                .document(subId)
-                                                .delete()
-                                                .addOnSuccessListener { Log.d("성공", "DocumentSnapshot successfully deleted!") }
-                                                .addOnFailureListener { e -> Log.w("실패", "Error deleting document", e) }
+                                    // 중복을 확인할 문서 ID가 이미 존재하는지 검사
+                                    subcollectionRef.whereEqualTo(FieldPath.documentId(), subId)
+                                        .get()
+                                        .addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                                val querySnapshot = task.result
 
-                                        } else {
-                                            // 중복되는 문서 ID가 존재하지 않을 때
-                                            Log.e("실패맞냐", "${subId}")
+                                                if (querySnapshot != null) {
+                                                    if (!querySnapshot.isEmpty) {
+                                                        // 중복되는 문서 ID가 존재할 때
+                                                        Log.e("성공맞냐", "${subId}")
 
-                                            //데이터 생성
-                                            if (uid != null) {
-                                                val collectionPath =
-                                                    "users/$uid/myLike"
-                                                // 서브컬렉션에 새 문서 추가
-                                                val data = hashMapOf(
-                                                    "title" to title,
-                                                    "address" to address,
-                                                    "category" to category,
-                                                    "museum" to museum,
-                                                )
-                                                db.collection(collectionPath)
-                                                    .document(subId)
-                                                    .set(data)
-                                                    .addOnSuccessListener { documentReference ->
-                                                        Log.e("성공zzz", "${documentReference}")
+                                                        //데이터 삭제
+                                                        val collectionPath =
+                                                            "users/$uid/myLike"
+                                                        subcollectionRef.whereEqualTo(
+                                                            FieldPath.documentId(),
+                                                            subId
+                                                        )
+                                                        db.collection(collectionPath)
+                                                            .document(subId)
+                                                            .delete()
+                                                            .addOnSuccessListener {
+                                                                Log.d(
+                                                                    "성공",
+                                                                    "DocumentSnapshot successfully deleted!"
+                                                                )
+                                                            }
+                                                            .addOnFailureListener { e ->
+                                                                Log.w(
+                                                                    "실패",
+                                                                    "Error deleting document",
+                                                                    e
+                                                                )
+                                                            }
+
+                                                    } else {
+                                                        // 중복되는 문서 ID가 존재하지 않을 때
+                                                        Log.e("실패맞냐", "${subId}")
+
+                                                        //데이터 생성
+                                                        if (uid != null) {
+                                                            val collectionPath =
+                                                                "users/$uid/myLike"
+                                                            // 서브컬렉션에 새 문서 추가
+                                                            val data = hashMapOf(
+                                                                "title" to title,
+                                                                "address" to address,
+                                                                "category" to category,
+                                                                "museum" to museum,
+                                                            )
+                                                            db.collection(collectionPath)
+                                                                .document(subId)
+                                                                .set(data)
+                                                                .addOnSuccessListener { documentReference ->
+                                                                    Log.e(
+                                                                        "성공zzz",
+                                                                        "${documentReference}"
+                                                                    )
+                                                                }
+                                                                .addOnFailureListener { e ->
+                                                                    Log.e("실패eee", "$e")
+                                                                }
+                                                        } else {
+                                                            Toast.makeText(
+                                                                this,
+                                                                "사용자가 로그인하지 않았습니다..",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                        }
                                                     }
-                                                    .addOnFailureListener { e ->
-                                                        Log.e("실패eee", "$e")
-                                                    }
+                                                }
                                             } else {
-                                                Toast.makeText(
-                                                    this,
-                                                    "사용자가 로그인하지 않았습니다..",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
+                                                // 쿼리를 실행하는 동안 오류가 발생했을 때
+                                                println("쿼리를 실행하는 동안 오류가 발생했습니다: ${task.exception}")
                                             }
                                         }
-                                    }
-                                } else {
-                                    // 쿼리를 실행하는 동안 오류가 발생했을 때
-                                    println("쿼리를 실행하는 동안 오류가 발생했습니다: ${task.exception}")
                                 }
                             }
+                            .addOnFailureListener { exception ->
+                                Log.e("qwe", "Error getting documents: ", exception)
+                            }
+
                     }
                 }
         }
