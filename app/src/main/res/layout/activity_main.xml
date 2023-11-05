@@ -37,7 +37,7 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:backgroundColor="#867070"
+        app:backgroundColor="#D8B674"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu">
     </me.ibrahimsn.lib.SmoothBottomBar>
