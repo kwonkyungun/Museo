@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -32,6 +33,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.GsonBuilder
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -41,7 +47,6 @@ class CommunityDetailActivity() : AppCompatActivity() {
     var firestore: FirebaseFirestore? = null
     val itemList = arrayListOf<CommunityDetailDataClass>()
     private lateinit var comm: CommunityDTO
-    private val glide : RequestManager = Glide.with(this)
     private var documentDelete: String? = null
     val adapter = CommunityDetailListAdapter(itemList)
     private var auth: FirebaseAuth? = null
@@ -123,6 +128,12 @@ class CommunityDetailActivity() : AppCompatActivity() {
         editIntent.putExtra("NickName", NickName)
         editIntent.putExtra("date", date)
         editIntent.putExtra("documentId", documentDelete)
+
+
+
+        CoroutineScope(Dispatchers.IO).launch{
+            downloadImage() // 이미지 다운로드
+        }
 
         //수정버튼
         binding.btnCommunityDetailDelete.setOnClickListener {
@@ -219,6 +230,9 @@ class CommunityDetailActivity() : AppCompatActivity() {
     }
 
     private fun setItem() {
+
+        downloadImage() // 이미지 다운로드
+
         val documentID = intent.getStringExtra("documentId")
         var gson = GsonBuilder().create()
         db.collection("post").document("$documentID").get().addOnSuccessListener { document ->
@@ -230,10 +244,7 @@ class CommunityDetailActivity() : AppCompatActivity() {
             binding.communityDetailMuseum.text = result.museum
             binding.communityDetailName.text = result.NickName
             binding.communityDetailDate.text = result.date
-
-            downloadImage() // 이미지 다운로드
         }
-
     }
 
     override fun onResume() {
@@ -243,12 +254,12 @@ class CommunityDetailActivity() : AppCompatActivity() {
 
     private fun downloadImage() {
         val docID = intent.getStringExtra("documentId")
-        val storageReference = Firebase.storage.reference.child("postedImage/$docID.jpg")
+        val storageReference = Firebase.storage.reference.child("postedImage/$docID.png")
         val imageView = binding.communityDetailImage
 
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
             if (task.isSuccessful) {
-                glide
+                Glide.with(this)
                     .load(task.result)
                     .into(imageView)
             }

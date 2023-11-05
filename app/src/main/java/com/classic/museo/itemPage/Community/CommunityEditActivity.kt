@@ -18,12 +18,15 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.ByteArrayOutputStream
 
 class CommunityEditActivity : AppCompatActivity() {
     lateinit var binding : ActivityCommunityEditBinding
     lateinit var adapter : CommunityAdapter
-    private val glide : RequestManager = Glide.with(this)
     var firestore : FirebaseFirestore? = null
     private var auth : FirebaseAuth? = null
     val db = Firebase.firestore
@@ -47,15 +50,13 @@ class CommunityEditActivity : AppCompatActivity() {
         binding.communityEditDate.text = date
 
         //이미지 띄워주기
-        downloadImage()
+        CoroutineScope(Dispatchers.IO).launch {
+            downloadImage()
+        }
 
         //수정버튼
         binding.communityEdit.setOnClickListener{
-
             editContent()
-
-//            val intent = Intent(this, CommunityDetailActivity::class.java)
-//            startActivity(intent)
         }
 
         // 이미지 클릭시 수정
@@ -91,9 +92,14 @@ class CommunityEditActivity : AppCompatActivity() {
             "text" , "${binding.communityTextEdit.text}",
             "museum" , "${binding.communityMuseumEdit.text}")
             .addOnSuccessListener {
-                Toast.makeText(this,"게시물이 수정되었습니다.",Toast.LENGTH_SHORT).show()
                 Log.d("CommunitEdit", "DocumentSnapshot successfully updated!")
-                sendToImage()
+                val editImage = CoroutineScope(Dispatchers.IO).launch {
+                    sendToImage()
+                }
+                runBlocking {
+                    editImage.join()
+                }
+                Toast.makeText(this,"게시물이 수정되었습니다.",Toast.LENGTH_SHORT).show()
                 finish()
             }
             .addOnFailureListener { e -> Log.w("CommunitEdit", "Error updating document", e) }
@@ -103,7 +109,7 @@ class CommunityEditActivity : AppCompatActivity() {
         val docID = intent.getStringExtra("documentId")
         val storage = Firebase.storage
         val storageRef = storage.reference
-        val mountainsRef = storageRef.child("postedImage/$docID.jpg")
+        val mountainsRef = storageRef.child("postedImage/$docID.png")
 
         val imageView = binding.communityEditImage
         imageView.isDrawingCacheEnabled = true
@@ -124,12 +130,12 @@ class CommunityEditActivity : AppCompatActivity() {
 
     private fun downloadImage() {
         val docID = intent.getStringExtra("documentId")
-        val storageReference = Firebase.storage.reference.child("postedImage/$docID.jpg")
+        val storageReference = Firebase.storage.reference.child("postedImage/$docID.png")
         val imageView = binding.communityEditImage
 
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
             if (task.isSuccessful) {
-                glide
+                Glide.with(this)
                     .load(task.result)
                     .into(imageView)
             }

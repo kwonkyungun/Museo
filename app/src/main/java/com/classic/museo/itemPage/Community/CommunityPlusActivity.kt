@@ -23,6 +23,8 @@ import com.google.firebase.storage.ktx.storage
 import com.google.gson.GsonBuilder
 import com.kakao.sdk.user.UserApi
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -61,7 +63,9 @@ class CommunityPlusActivity : AppCompatActivity() {
                     binding.communityPlusMuseum.text.isEmpty()){
                 Toast.makeText(this,"빈칸을 채워주세요.",Toast.LENGTH_SHORT).show()
             }else {
-                sendToData()
+                CoroutineScope(Dispatchers.IO).launch {
+                    sendToData()
+                }
                 finish()
             }
         }
@@ -155,7 +159,7 @@ class CommunityPlusActivity : AppCompatActivity() {
     private fun sendToImage(docID:String){
         val storage = Firebase.storage
         val storageRef = storage.reference
-        val mountainsRef = storageRef.child("postedImage/$docID.jpg")
+        val mountainsRef = storageRef.child("postedImage/$docID.png")
 
         val imageView = binding.communityPlusImage
         imageView.isDrawingCacheEnabled = true
