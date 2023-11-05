@@ -12,13 +12,13 @@
         android:icon="@drawable/community"/>
 
     <item
-        android:id="@+id/mypage"
-        android:title=""
-        android:icon="@drawable/mypage"/>
-
-    <item
         android:id="@+id/search"
         android:title=""
         android:icon="@drawable/search"/>
+
+    <item
+        android:id="@+id/mypage"
+        android:title=""
+        android:icon="@drawable/mypage"/>
 
 </menu>

@@ -12,7 +12,6 @@
         android:layout_height="210dp"
         android:gravity="center"
         android:elevation="20dp"
-        android:background="@drawable/item_border"
         >
 
     <ImageView
