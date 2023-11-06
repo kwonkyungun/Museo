@@ -5,6 +5,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.widget.CheckBox
 import android.widget.Toast
@@ -154,33 +155,37 @@ class LoginActivity : AppCompatActivity() {
         //로그인정보 기억하기 체크했을때 값 받아오기
         val pref = getSharedPreferences("pref",0)
         val ManualLogout = intent.getStringExtra("ManualLogout")
+        val signin = intent.getStringExtra("SignIn")
         binding.editId.setText(pref.getString("ID",""))
         binding.editPw.setText(pref.getString("PW",""))
 
         if(pref.getInt("Remember",0) == 1){
             if(pref.getInt("Auto",0) == 1){
                 if(ManualLogout == "Yes"){
+                        //수동 로그아웃
                     binding.LoginAuto.isChecked = true
                 }else {
-                    //자동로그인 체크 + 로그인정보 체크
-                    binding.LoginAuto.isChecked = true
+                        //자동로그인 체크 + 로그인정보 체크
+                        binding.LoginAuto.isChecked = true
 
-                    //로그인 코드
-                    val id = binding.editId.text.toString()
-                    val pw = binding.editPw.text.toString()
-                    auth.signInWithEmailAndPassword(id, pw)
-                        .addOnCompleteListener(this) { task ->
-                            Log.d("sss", task.toString())
-                            if (task.isSuccessful) {
-                                //로그인 성공시 메인화면으로 이동
-                                Toast.makeText(this, "로그인 성공하였습니다!", Toast.LENGTH_SHORT).show()
-                                moveMainPage(task.result.user)
+                        //로그인 코드
+                        val id = binding.editId.text.toString()
+                        val pw = binding.editPw.text.toString()
+                        auth.signInWithEmailAndPassword(id, pw)
+                            .addOnCompleteListener(this) { task ->
+                                Log.d("sss", task.toString())
+                                if (task.isSuccessful) {
+                                    //로그인 성공시 메인화면으로 이동
+                                    Toast.makeText(this, "로그인 성공하였습니다!", Toast.LENGTH_SHORT).show()
+                                    moveMainPage(task.result.user)
 
-                            } else {
-                                //로그인 실패시 Toast 메세지 출력
-                                Toast.makeText(this, "아이디와 비밀번호를 확인해주세요.", Toast.LENGTH_LONG).show()
+                                } else {
+                                    //로그인 실패시 Toast 메세지 출력
+                                    Toast.makeText(this, "아이디와 비밀번호를 확인해주세요.", Toast.LENGTH_LONG)
+                                        .show()
+                                }
                             }
-                        }
+
                 }
             } else{
                 binding.LoginAuto.isChecked = false
@@ -192,6 +197,13 @@ class LoginActivity : AppCompatActivity() {
             binding.LoginRemember.isChecked = false
         }
 
+        if(signin == "True"){
+            //새로 회원가입한 경우
+            binding.editId.text = null
+            binding.editPw.text = null
+            binding.LoginAuto.isChecked = false
+            binding.LoginRemember.isChecked = false
+        }
     }
 
     //로그인 성공하면 다음 페이지로 넘어가는 함수

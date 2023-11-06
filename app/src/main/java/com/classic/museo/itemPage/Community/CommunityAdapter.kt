@@ -59,9 +59,13 @@ class CommunityAdapter(private val context: Context) :
         }
 
         fun bind(pos: Int) {
+            val fullid = review[pos].UserId
+            val blind = "*****"
             binding.textCommunityTitle.text = review[pos].title
             binding.communityNickname.text = review[pos].NickName
-            binding.communityId.text = review[pos].UserId
+            if (fullid != null) {
+                binding.communityId.text = fullid.substring(0,fullid.indexOf("@"))+"@"+blind
+            }
             binding.dateCommunityImage.text = review[pos].date
             binding.communityMuseumName.text = review[pos].museum
         }

@@ -246,6 +246,7 @@ class SignupActivity : AppCompatActivity() {
                     //회원가입 완료 후 화면이동
                     if (auth.currentUser != null) {
                         var intent = Intent(this, LoginActivity::class.java)
+                        intent.putExtra("SignIn","True")
                         startActivity(intent)
                     }
                 } else {
