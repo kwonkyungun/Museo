@@ -1,11 +1,14 @@
 package com.classic.museo.itemPage.Community
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.content.Context
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -14,25 +17,36 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.classic.museo.R
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.data.CommentDTO
 import com.classic.museo.data.KakaoUsers
 import com.classic.museo.data.Users
 import com.classic.museo.databinding.ActivityCommunityDetailBinding
+import com.classic.museo.itemPage.MypageInnerActivity.WrittenAdapter
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class CommunityDetailActivity : AppCompatActivity() {
+class CommunityDetailActivity() : AppCompatActivity() {
     lateinit var binding: ActivityCommunityDetailBinding
     var firestore: FirebaseFirestore? = null
     private var data = mutableMapOf<String, CommentDTO>()
@@ -178,6 +192,12 @@ class CommunityDetailActivity : AppCompatActivity() {
         editIntent.putExtra("date", date)
         editIntent.putExtra("documentId", documentDelete)
 
+
+
+        CoroutineScope(Dispatchers.IO).launch{
+            downloadImage() // 이미지 다운로드
+        }
+
         //수정버튼
         binding.btnCommunityDetailDelete.setOnClickListener {
 
@@ -215,6 +235,15 @@ class CommunityDetailActivity : AppCompatActivity() {
                         Log.w(
                             "CommunityDetail", "Error deleting document", e
                         )
+                    }
+                    //이미지 삭제
+                    val documentID = intent.getStringExtra("documentId")
+                    val storageReference = Firebase.storage.reference
+                    val desertImage = storageReference.child("postedImage/$documentID.jpg")
+                    desertImage.delete().addOnCompleteListener{
+                        // File deleted successfully
+                    }.addOnFailureListener {
+                        // Uh-oh, an error occurred!
                     }
                     finish()
                 }
@@ -264,6 +293,9 @@ class CommunityDetailActivity : AppCompatActivity() {
     }
 
     private fun setItem() {
+
+        downloadImage() // 이미지 다운로드
+
         val documentID = intent.getStringExtra("documentId")
         var gson = GsonBuilder().create()
         db.collection("post").document("$documentID").get().addOnSuccessListener { document ->
@@ -316,5 +348,22 @@ class CommunityDetailActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         setItem()
+    }
+
+    private fun downloadImage() {
+        val docID = intent.getStringExtra("documentId")
+        val storageReference = Firebase.storage.reference.child("postedImage/$docID.png")
+        val imageView = binding.communityDetailImage
+
+        storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Glide.with(this)
+                    .load(task.result)
+                    .into(imageView)
+            }
+            else {
+                imageView.visibility = View.GONE
+            }
+        })
     }
 }
