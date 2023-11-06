@@ -44,6 +44,7 @@ class CommunityPlusActivity : AppCompatActivity() {
     lateinit var binding: ActivityCommunityPlusBinding
     private val db = Firebase.firestore
     private var auth : FirebaseAuth? = null
+    private var isImageUploade = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +83,7 @@ class CommunityPlusActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK && requestCode == 100 ){
             binding.communityPlusImage.setImageURI(data?.data)
+            isImageUploade = true
         }
     }
 
@@ -153,7 +155,9 @@ class CommunityPlusActivity : AppCompatActivity() {
                 Log.w(ContentValues.TAG, "Error adding document", e)
             }
 
-        sendToImage(docID) // storage 이미지 업로드
+        if(isImageUploade == true){
+            sendToImage(docID)
+        } // storage 이미지 업로드
     }
 
     private fun sendToImage(docID:String){

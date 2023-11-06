@@ -59,11 +59,11 @@ class CommunityEditActivity : AppCompatActivity() {
             editContent()
         }
 
-        // 이미지 클릭시 수정
-        binding.communityEditImage.setOnClickListener{
-            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-            startActivityForResult(gallery,100)
-        }
+//        // 이미지 클릭시 수정
+//        binding.communityEditImage.setOnClickListener{
+//            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+//            startActivityForResult(gallery,100)
+//        }
 
         //뒤로가기버튼
         binding.communityEditBack.setOnClickListener{
@@ -77,12 +77,12 @@ class CommunityEditActivity : AppCompatActivity() {
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == RESULT_OK && requestCode == 100 ){
-            binding.communityEditImage.setImageURI(data?.data)
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if(resultCode == RESULT_OK && requestCode == 100 ){
+//            binding.communityEditImage.setImageURI(data?.data)
+//        }
+//    }
     fun editContent(){
         val documentId = intent.getStringExtra("documentId")
         Log.d("communityEdit","sj documentID $documentId")
@@ -93,40 +93,35 @@ class CommunityEditActivity : AppCompatActivity() {
             "museum" , "${binding.communityMuseumEdit.text}")
             .addOnSuccessListener {
                 Log.d("CommunitEdit", "DocumentSnapshot successfully updated!")
-                val editImage = CoroutineScope(Dispatchers.IO).launch {
-                    sendToImage()
-                }
-                runBlocking {
-                    editImage.join()
-                }
+//                    sendToImage()
                 Toast.makeText(this,"게시물이 수정되었습니다.",Toast.LENGTH_SHORT).show()
                 finish()
             }
             .addOnFailureListener { e -> Log.w("CommunitEdit", "Error updating document", e) }
     }
 
-    private fun sendToImage(){
-        val docID = intent.getStringExtra("documentId")
-        val storage = Firebase.storage
-        val storageRef = storage.reference
-        val mountainsRef = storageRef.child("postedImage/$docID.png")
-
-        val imageView = binding.communityEditImage
-        imageView.isDrawingCacheEnabled = true
-        imageView.buildDrawingCache()
-        val bitmap = (imageView.drawable as BitmapDrawable).bitmap
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val data = baos.toByteArray()
-
-        var uploadTask = mountainsRef.putBytes(data)
-        uploadTask.addOnFailureListener {
-            // Handle unsuccessful uploads
-        }.addOnSuccessListener { taskSnapshot ->
-            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-            // ...
-        }
-    }
+//    private fun sendToImage(){
+//        val docID = intent.getStringExtra("documentId")
+//        val storage = Firebase.storage
+//        val storageRef = storage.reference
+//        val mountainsRef = storageRef.child("postedImage/$docID.png")
+//
+//        val imageView = binding.communityEditImage
+//        imageView.isDrawingCacheEnabled = true
+//        imageView.buildDrawingCache()
+//        val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+//        val baos = ByteArrayOutputStream()
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+//        val data = baos.toByteArray()
+//
+//        var uploadTask = mountainsRef.putBytes(data)
+//        uploadTask.addOnFailureListener {
+//            // Handle unsuccessful uploads
+//        }.addOnSuccessListener { taskSnapshot ->
+//            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+//            // ...
+//        }
+//    }
 
     private fun downloadImage() {
         val docID = intent.getStringExtra("documentId")

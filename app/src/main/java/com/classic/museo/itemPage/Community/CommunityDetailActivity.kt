@@ -361,6 +361,9 @@ class CommunityDetailActivity() : AppCompatActivity() {
                     .load(task.result)
                     .into(imageView)
             }
+            else {
+                imageView.visibility = View.GONE
+            }
         })
     }
 }

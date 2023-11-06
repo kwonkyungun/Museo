@@ -144,24 +144,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_community_detail_delete"
                 tools:layout_editor_absoluteX="16dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="이미지가 비어있습니다."
-                android:textColor="#D8B674"
-                app:layout_constraintBottom_toBottomOf="@+id/community_detail_image"
-                app:layout_constraintEnd_toEndOf="@+id/community_detail_image"
-                app:layout_constraintStart_toStartOf="@+id/community_detail_image"
-                app:layout_constraintTop_toBottomOf="@+id/view5" />
-
             <ImageView
                 android:id="@+id/community_detail_image"
                 android:layout_width="180dp"
                 android:layout_height="180dp"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerCrop"
-                android:clipToOutline="true"
-                android:background="@drawable/community_detail_comment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view5" />
