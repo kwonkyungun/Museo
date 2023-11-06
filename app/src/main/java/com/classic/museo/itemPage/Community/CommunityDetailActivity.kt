@@ -1,9 +1,10 @@
 package com.classic.museo.itemPage.Community
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -12,36 +13,35 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.classic.museo.R
 import com.classic.museo.data.CommunityDTO
+import com.classic.museo.data.CommentDTO
+import com.classic.museo.data.KakaoUsers
+import com.classic.museo.data.Users
 import com.classic.museo.databinding.ActivityCommunityDetailBinding
-import com.classic.museo.itemPage.MypageInnerActivity.WrittenAdapter
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.kakao.sdk.user.UserApiClient
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class CommunityDetailActivity : AppCompatActivity(),ClickListener {
+class CommunityDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityCommunityDetailBinding
     var firestore: FirebaseFirestore? = null
-    val itemList = arrayListOf<CommunityDetailDataClass>()
+    private var data = mutableMapOf<String, CommentDTO>()
     private lateinit var comm: CommunityDTO
-    private var documentDelete: String? = null
-    val adapter = CommunityDetailListAdapter(itemList, this)
+    private var documentDelete: String? = null  //커뮤니티 디테일화면 documentId받기위한 변수
+    private lateinit var adapter: CommunityDetailListAdapter
     private var auth: FirebaseAuth? = null
+    private var user = Users()
+    private var kakaoUser = KakaoUsers()
     val db = Firebase.firestore
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -52,85 +52,111 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
         val view = binding.root
         setContentView(view)
 
-        binding.recyclerView3.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerView3.adapter = adapter
+        initSetting()
 
         firestore = FirebaseFirestore.getInstance()
-        val documentID = intent.getStringExtra("documentId")
-//        val documentIDCut = documentID?.substring(1 until documentDelete?.lastIndex!!)
-
+        auth = Firebase.auth
+        if (auth!!.uid != null) {
+            val uid = auth!!.currentUser!!.uid
+            //댓글 달 회원정보 가져오기
+            val userRef = db.collection("users").document("${uid}")
+            userRef.get()
+                .addOnSuccessListener { document ->
+                    val gson = GsonBuilder().create()
+                    if (document != null) {
+                        val value = gson.toJson(document.data)
+                        user = gson.fromJson(value, Users::class.java)
+                    } else {
+                        Log.d(TAG, "no such document")
+                    }
+                }
+        } else {
+            UserApiClient.instance.me { user, error ->
+                if (error != null) {
+                    Log.e("에러", "사용자 정보 요청 실패")
+                } else if (user != null) {
+                    kakaoUser.UserId = user.kakaoAccount?.email!!
+                    kakaoUser.NickName = user.kakaoAccount?.profile?.nickname!!
+                    kakaoUser.UID = user.id.toString()
+                }
+            }
+        }
         //등록버튼 클릭리스너
         binding.communityDetailSave.setOnClickListener {
+
+            val documentId = intent.getStringExtra("documentId")!!
+            comm = intent.getParcelableExtra<CommunityDTO>("communityData")!!
 
             val plusTime: LocalDateTime? = LocalDateTime.now()
             val formatterDate = DateTimeFormatter.ISO_DATE
             val formattedDate = plusTime?.format(formatterDate)
             val formatterTime = DateTimeFormatter.ISO_LOCAL_TIME
             val formattedTime = plusTime?.format(formatterTime)
-            val text = binding.communityDetailComment.text.toString()
-            val uid: String? = auth?.uid
+            var text = binding.communityDetailComment.text.toString()
 
-            val test = hashMapOf(
-                "text" to text,
-                "date" to formattedDate,
-                "time" to formattedTime
-            )
-
-            //데이터 저장하기
-            db.collection("post").document(documentID!!).collection("comment")
-                .add(test)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(
-                        "CommunityDetail댓글",
-                        "DocumentSnapshot added with ID: ${documentReference.id}"
-                    )
-                    val tester = documentReference.id
-                }
-                .addOnFailureListener { e ->
-                    Log.w("CommunityDetail댓글", "Error adding document", e)
-                }
-
-            //데이터 가져오기
-            itemList.clear()
-            db.collection("post").document(documentID!!).collection("comment")
-                .get()
-                .addOnSuccessListener { result ->
-                    //중복출력 방지용 리사이클러뷰 초기화
-                    for (document in result) {
-                        Log.d("CommunityDetail댓글", "receive ${document.id} => ${document.data}")
-                        val item = CommunityDetailDataClass(
-                            document["text"] as String,
-                            document["date"] as String
-                        )
-                        itemList.add(item)
+            if (text.isEmpty()) {
+                Toast.makeText(this, "댓글을 입력해주세요!", Toast.LENGTH_SHORT).show()
+            } else {
+                val cmtDelivery = hashMapOf(
+                    "uid" to if (auth!!.uid != null) {
+                        user.UID
+                    } else {
+                        kakaoUser.UID
+                    },
+                    "text" to text,
+                    "date" to "${formattedDate!!}" + " ${formattedTime!!.substring(0 until 5)}",
+                    "id" to if (auth!!.uid != null) {
+                        user.UserId
+                    } else {
+                        kakaoUser.UserId
+                    },
+                    "nickname" to if (auth!!.uid != null) {
+                        user.NickName
+                    } else {
+                        kakaoUser.NickName
                     }
-                    adapter.notifyDataSetChanged()
-                }
-                .addOnFailureListener { exception ->
-                    Log.w("CommunityDetail댓글", "Error getting documents.", exception)
-                }
+                )
+                //코멘트 DB저장
+                db.collection("post")
+                    .document(documentId)
+                    .collection("comment")
+                    .add(cmtDelivery)
+                    .addOnSuccessListener { result ->
+                        Log.d(
+                            "댓글",
+                            "DocumentSnapshot added with ID: ${result.id}"
+                        )
+                    }.addOnFailureListener { error ->
+                        Log.w(TAG, "오류", error)
+                    }
+
+                data.clear()
+                adapter.clearItem()
+                //코멘트DB에서 불러오기
+
+                db.collection("post")
+                    .document(documentId)
+                    .collection("comment")
+                    .orderBy("date", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnSuccessListener { result ->
+                        val gson = GsonBuilder().create()
+                        for (document in result) {
+                            val value = gson.toJson(document.data)
+                            val v = gson.fromJson(value, CommentDTO::class.java)
+                            data.put(document.id, v)
+                        }
+                        adapter.notifyDataSetChanged()
+                    }.addOnFailureListener { error ->
+                        Log.w(TAG, "오류", error)
+                    }
+
+                Toast.makeText(this, "댓글이 등록되었습니다.", Toast.LENGTH_SHORT).show()
+                //댓글 등록완료 하면 초기화
+                binding.communityDetailComment.setText("")
+            }
         }
-        //액티비티 실행시 댓글DB불러오기
-        db.collection("post").document(documentID!!).collection("comment")
-            .get()
-            .addOnSuccessListener { result ->
-                //중복출력 방지용 리사이클러뷰 초기화
-                itemList.clear()
-                for (document in result) {
-                    Log.d("CommunityDetail댓글", "receive ${document.id} => ${document.data}")
-                    val item = CommunityDetailDataClass(
-                        document["text"] as String,
-                        document["date"] as String
-                    )
-                    itemList.add(item)
-                }
-                adapter.notifyDataSetChanged()
-            }
-            .addOnFailureListener { exception ->
-                Log.w("CommunityDetail댓글", "Error getting documents.", exception)
-            }
-        itemList.clear()
+
         // community recyclerview 아이템 클릭시 보낸 값 받아오기
 
         comm = intent.getParcelableExtra<CommunityDTO>("communityData")!!
@@ -228,8 +254,8 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
         }
 
         UserApiClient.instance.me { user, error ->
-            if (user!=null) {
-                if(user.id.toString()==UID){
+            if (user != null) {
+                if (user.id.toString() == UID) {
                     binding.btnCommunityDetailDelete.visibility = View.VISIBLE
                 }
             }
@@ -253,127 +279,42 @@ class CommunityDetailActivity : AppCompatActivity(),ClickListener {
 
     }
 
+    override fun onStart() {
+        data.clear()
+        adapter.clearItem()
+        super.onStart()
+        //디테일액티비티 들어왔을때
+        val documentId = intent.getStringExtra("documentId")!!
+        db.collection("post")
+            .document(documentId)
+            .collection("comment")
+            .orderBy("date", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { result ->
+                val gson = GsonBuilder().create()
+                for (document in result) {
+                    val value = gson.toJson(document.data)
+                    val v = gson.fromJson(value, CommentDTO::class.java)
+                    data.put(document.id, v)
+                }
+                adapter.notifyDataSetChanged()
+            }.addOnFailureListener { error ->
+                Log.w(TAG, "오류", error)
+            }
+    }
+
+    private fun initSetting() {
+        var postId = ""
+        binding.recyclerView3.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        postId = intent.getStringExtra("documentId")!!
+        adapter = CommunityDetailListAdapter(data, this, postId)
+        binding.recyclerView3.adapter = adapter
+
+    }
+
     override fun onResume() {
         super.onResume()
         setItem()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        itemList.clear()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("NotifyDataSetChanged")
-    override fun clickDropDown() {
-        val documentDelete = intent.getStringExtra("documentId")
-
-        //테스트구역 시작
-//        //1차
-//        db.collection("post").document(documentDelete!!).collection("comment").document(auth?.uid.toString())
-//        .get()
-//        .addOnCompleteListener {task ->
-//            var commentuid = task.result?.toObject(CommunityDetailDataClass::class.java)
-//            Log.d("Test", auth?.uid.toString())
-//        }
-//        //2차
-//        db.collection("post").document(documentDelete!!).collection("comment")
-//            .get()
-//            .addOnSuccessListener {result->
-//            val documentuid : MutableList<DocumentSnapshot> = result.documents
-//                for(document in documentuid) {
-//                    Log.d("테스트 로그", document.id)
-//                }
-//                Log.d("", documentuid.toString())
-//            }
-//        //3차
-//        var documentID = mutableListOf<String>()
-//        fun onClick(v: View?) {
-//            val position = bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return
-//            intent.apply {
-//                putExtra("documentId",documentID[position])
-//            }
-//        }
-//        //4차
-//        var gson= GsonBuilder().create()
-//        db.collection("post").document("$documentDelete").collection("comment").document()
-//            .get()
-//            .addOnSuccessListener { document ->
-//                val value = gson.toJson(document.data)
-//                val result = gson.fromJson(value, CommunityDetailDataClass::class.java)
-//                val documentId = document.id
-//                Log.d("테스트 구역", result.toString())
-//            }
-//        //5차
-//        val test = db.collection("post").document("$documentDelete").collection("comment").document()
-//        test.get()
-//            .addOnSuccessListener { document ->
-//                Log.d("ID로 테스트", "DocumentSnapshot data: ${document.id}")
-//                val tester = mutableListOf<String>()
-//                tester.forEach { _ ->
-//                    Log.d("data로 테스트", "DocumentSnapshot data: ${document.data}")
-//                }
-//            }
-//        //6차
-//        val plusTime: LocalDateTime? = LocalDateTime.now()
-//        val formatterTime = DateTimeFormatter.ISO_LOCAL_TIME
-//        val formattedTime = plusTime?.format(formatterTime)
-//        db.collection("post").document(documentDelete!!).collection("comment")
-//            .whereEqualTo("time", formattedTime)
-//            .get()
-//            .addOnSuccessListener {
-//                Log.d("6차 테스트", "")
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.w("CommunityDetail댓글", "Error getting documents.", exception)
-//            }
-
-        //테스트구역 끝
-
-        //다이얼로그 생성
-        val items = arrayOf("수정", "삭제")
-        var checked = 0
-        MaterialAlertDialogBuilder(this)
-            .setNeutralButton("취소") { dialog, which ->
-            }
-            .setPositiveButton("확인") { dialog, which ->
-                if (checked == 0) {
-                    //수정하기
-                    Toast.makeText(this, documentDelete, Toast.LENGTH_SHORT).show()
-                } else if (checked == 1) {
-                    //삭제하기
-                    db.collection("post").document(documentDelete!!)
-                        .collection("comment")
-                        .document("333")
-                        .delete()
-                }
-
-                //처리하고 나서 새로고침하기
-                db.collection("post").document(documentDelete!!).collection("comment")
-                    .get()
-                    .addOnSuccessListener { result ->
-                        for (document in result) {
-                            val item = CommunityDetailDataClass(
-                                document["text"] as String,
-                                document["date"] as String
-                            )
-                            itemList.add(item)
-                        }
-                        adapter.notifyDataSetChanged()
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.w(
-                            "CommunityDetail댓글",
-                            "Error getting documents.",
-                            exception
-                        )
-                    }
-                itemList.clear()
-
-            }
-            .setSingleChoiceItems(items, checked) { dialog, which ->
-                checked = which
-            }
-            .show()
     }
 }

@@ -1,7 +1,8 @@
 package com.classic.museo.itemPage.Community
 
-import android.app.Activity
-import android.content.Intent
+import android.app.AlertDialog
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,26 +12,25 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.classic.museo.R
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.firestore.FirebaseFirestore
+import com.classic.museo.data.CommentDTO
+import com.classic.museo.databinding.ActivityCommunityDetailItemBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.kakao.sdk.user.UserApi
+import com.kakao.sdk.user.UserApiClient
 
-interface ClickListener {
-   fun clickDropDown(){}
-}
-
-class CommunityDetailListAdapter(val itemList: ArrayList<CommunityDetailDataClass>, val clickListener: ClickListener): RecyclerView.Adapter<CommunityDetailListAdapter.ViewHolder>() {
-    var firestore: FirebaseFirestore? = null
-    val db = Firebase.firestore
-
-    private var intent = Intent()
-
-    val documentDelete = intent.getStringExtra("documentUID")
-    val documentID = documentDelete?.substring(1 until documentDelete?.lastIndex!!)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityDetailListAdapter.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_community_detail_item, parent, false)
+class CommunityDetailListAdapter(
+    private var itemList: MutableMap<String, CommentDTO>, private val context: Context, private var postId:String
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val db= Firebase.firestore
+    private var auth=Firebase.auth
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val view = ActivityCommunityDetailItemBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        Log.e("검사!","${itemList}")
         return ViewHolder(view)
     }
 
@@ -38,22 +38,71 @@ class CommunityDetailListAdapter(val itemList: ArrayList<CommunityDetailDataClas
         return itemList.size
     }
 
-    override fun onBindViewHolder(holder: CommunityDetailListAdapter.ViewHolder, position: Int) {
-        val thiscontext = holder.itemView.context
-        firestore = FirebaseFirestore.getInstance()
+    fun clearItem() {
+        itemList.clear()
+        notifyDataSetChanged()
+    }
 
-        holder.text.text = itemList[position].text
-        holder.date.text = itemList[position].date
-        //holder.time.text = itemList[position].time
-        holder.dropdown.setOnClickListener {
-            clickListener.clickDropDown()
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as ViewHolder).bind(position)
+        holder.select.setOnClickListener {
+            showDialog(itemList.keys.elementAt(position))
         }
     }
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val text: TextView = itemView.findViewById(R.id.CommunityDetailSub)
-        val date: TextView = itemView.findViewById(R.id.CommunityDetailDate)
-        //val time: TextView = itemView.findViewById(R.id.CommunityDetailTime)
-        val dropdown: ImageView = itemView.findViewById(R.id.CommunityDetailDropmenu)
+    inner class ViewHolder(private var binding: ActivityCommunityDetailItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+            val select=binding.CommunityDetailDropmenu
+
+            fun bind(pos:Int) {
+                binding.CommunityDetailDate.text=itemList.values.elementAt(pos).date
+                binding.CommunityDetailID.text=itemList.values.elementAt(pos).id
+                binding.CommunityDetailName.text=itemList.values.elementAt(pos).nickname
+                binding.CommunityDetailSub.text=itemList.values.elementAt(pos).text
+
+                if(auth!!.uid==itemList.values.elementAt(pos).uid){
+                    select.visibility=View.VISIBLE
+                }else {
+                    select.visibility=View.GONE
+                }
+
+                UserApiClient.instance.me { user, error ->
+                    if(error!=null){
+                        Log.e("에러","사용자 정보 요청 실패")
+                    }else if(user!=null){
+                        if(user.id.toString()==itemList.values.elementAt(pos).uid){
+                            select.visibility=View.VISIBLE
+                        }else {
+                            select.visibility=View.GONE
+                        }
+                    }
+                }
+            }
+    }
+
+    private fun showDialog(documentId:String) {
+        Log.e("테스트1","${postId}")
+        val alertDialog=AlertDialog.Builder(context)
+        alertDialog.setTitle("댓글 삭제")
+        alertDialog.setMessage("댓글을 삭제하시겠습니까?")
+
+        alertDialog.setPositiveButton("삭제") {_,_ ->
+            itemList.remove(documentId)
+            notifyDataSetChanged()
+            db.collection("post")
+                .document(postId)
+                .collection("comment")
+                .document(documentId)
+                .delete()
+                .addOnSuccessListener {
+                    Toast.makeText(context,"댓글이 삭제되었습니다.",Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener { error ->
+                    Log.w(TAG,"에러",error)
+                }
+        }
+
+        alertDialog.setNegativeButton("취소") {_,_ ->}
+
+        alertDialog.show()
     }
 }

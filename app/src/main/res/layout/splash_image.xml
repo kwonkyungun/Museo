@@ -21,7 +21,7 @@
             android:id="@+id/museo_logo"
             android:layout_width="168dp"
             android:layout_height="75dp"
-            android:src="@drawable/museo"
+            android:src="@drawable/start_museo"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
