@@ -43,7 +43,7 @@ class MypageLogoutDialog : DialogFragment() {
                 FirebaseAuth.getInstance().signOut()
                 Toast.makeText(activity,"회원 로그아웃 성공!",Toast.LENGTH_SHORT).show()
                 val backtomain = Intent(activity, LoginActivity::class.java)
-                backtomain.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                backtomain.putExtra("ManualLogout","Yes")
                 startActivity(backtomain)
             }else {
                 // 로그아웃
@@ -54,7 +54,7 @@ class MypageLogoutDialog : DialogFragment() {
                     else {
                         Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
                         val backtomain = Intent(activity, LoginActivity::class.java)
-                        backtomain.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        backtomain.putExtra("ManualLogout","Yes")
                         startActivity(backtomain)
                         Toast.makeText(context,"회원(카카오)로그아웃 성공!",Toast.LENGTH_SHORT).show()
                     }

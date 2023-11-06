@@ -5,6 +5,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.widget.CheckBox
 import android.widget.Toast
@@ -38,12 +39,18 @@ class LoginActivity : AppCompatActivity() {
     private var db = Firebase.firestore
     private lateinit var auth: FirebaseAuth //전역으로 사용할 FirebaseAuth 생성
 
-    override fun onResume() {
-        super.onResume()
-    }
+    init {
+        //로그인화면으로 돌아올경우 모두로그아웃으로 초기화
+        FirebaseAuth.getInstance().signOut()
+        UserApiClient.instance.logout { error ->
+            if (error != null) {
+                Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+            }
+            else {
+                Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+            }
+        }
 
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,20 +84,36 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             //SharedPreferences를 활용한 로그인정보 저장하기
-            var checkbox = 0
-            val pref = getSharedPreferences("pref", 0)
+            var inforemember = 0
+            var autologin = 0
+            val pref = getSharedPreferences("pref",0)
             val edit = pref.edit()
-            if (binding.LoginRemember.isChecked) {
-                //로그인정보 저장 체크
-                checkbox = 1
-                edit.putInt("CheckBox", checkbox)
-                edit.putString("ID", binding.editId.text.toString())
-                edit.putString("PW", binding.editPw.text.toString())
-                edit.apply()
+            if(binding.LoginRemember.isChecked){
+                if(binding.LoginAuto.isChecked){
+                    //로그인정보 저장 체크 + 자동로그인 체크
+                    inforemember = 1
+                    autologin = 1
+                    edit.putInt("Auto",autologin)
+                    edit.putInt("Remember",inforemember)
+                    edit.putString("ID", binding.editId.text.toString())
+                    edit.putString("PW", binding.editPw.text.toString())
+                    edit.apply()
+                } else{
+                    //로그인정보 저장 체크 + 자동로그인 해제
+                    autologin = 0
+                    inforemember = 1
+                    edit.putInt("Auto",autologin)
+                    edit.putInt("Remember",inforemember)
+                    edit.putString("ID", binding.editId.text.toString())
+                    edit.putString("PW", binding.editPw.text.toString())
+                    edit.apply()
+                }
             } else {
                 //로그인정보 저장 해제
-                checkbox = 0
-                edit.putInt("CheckBox", checkbox)
+                autologin = 0
+                inforemember = 0
+                edit.putInt("Auto",autologin)
+                edit.putInt("Remember",inforemember)
                 edit.putString("ID", "")
                 edit.putString("PW", "")
                 edit.apply()
@@ -130,15 +153,56 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         //로그인정보 기억하기 체크했을때 값 받아오기
-        val pref = getSharedPreferences("pref", 0)
-        binding.editId.setText(pref.getString("ID", ""))
-        binding.editPw.setText(pref.getString("PW", ""))
-        if (pref.getInt("CheckBox", 0) == 1) {
+        val pref = getSharedPreferences("pref",0)
+        val ManualLogout = intent.getStringExtra("ManualLogout")
+        val signin = intent.getStringExtra("SignIn")
+        binding.editId.setText(pref.getString("ID",""))
+        binding.editPw.setText(pref.getString("PW",""))
+
+        if(pref.getInt("Remember",0) == 1){
+            if(pref.getInt("Auto",0) == 1){
+                if(ManualLogout == "Yes"){
+                        //수동 로그아웃
+                    binding.LoginAuto.isChecked = true
+                }else {
+                        //자동로그인 체크 + 로그인정보 체크
+                        binding.LoginAuto.isChecked = true
+
+                        //로그인 코드
+                        val id = binding.editId.text.toString()
+                        val pw = binding.editPw.text.toString()
+                        auth.signInWithEmailAndPassword(id, pw)
+                            .addOnCompleteListener(this) { task ->
+                                Log.d("sss", task.toString())
+                                if (task.isSuccessful) {
+                                    //로그인 성공시 메인화면으로 이동
+                                    Toast.makeText(this, "로그인 성공하였습니다!", Toast.LENGTH_SHORT).show()
+                                    moveMainPage(task.result.user)
+
+                                } else {
+                                    //로그인 실패시 Toast 메세지 출력
+                                    Toast.makeText(this, "아이디와 비밀번호를 확인해주세요.", Toast.LENGTH_LONG)
+                                        .show()
+                                }
+                            }
+                }
+            } else{
+                binding.LoginAuto.isChecked = false
+            }
+            //자동로그인 해제 + 로그인정보 해제
             binding.LoginRemember.isChecked = true
-        } else {
+        } else{
+            //로그인정보 해제
             binding.LoginRemember.isChecked = false
         }
 
+        if(signin == "True"){
+            //새로 회원가입한 경우
+            binding.editId.text = null
+            binding.editPw.text = null
+            binding.LoginAuto.isChecked = false
+            binding.LoginRemember.isChecked = false
+        }
     }
 
     //로그인 성공하면 다음 페이지로 넘어가는 함수
@@ -146,7 +210,6 @@ class LoginActivity : AppCompatActivity() {
         //파이어베이스에 유저 상태가 있어야 다음 페이지로 넘어갈 수 있음
         if (user != null) {
             val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
     }
@@ -154,7 +217,6 @@ class LoginActivity : AppCompatActivity() {
     //카카오 로그인
     fun kakaoSingUp() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         binding.kakaoLogin.setOnClickListener {
             val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                 if (error != null) {
