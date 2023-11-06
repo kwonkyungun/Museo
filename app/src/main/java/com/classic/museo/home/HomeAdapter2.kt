@@ -83,7 +83,9 @@ class HomeAdapter2(var subject: String, val hContext: Context) :
             intent = Intent(hContext, DetailActivity::class.java)
             intent.apply {
                 putExtra("museumData", museoData[position])
+                putExtra("museoId", museoData[position].museoId)
             }
+
             hContext.startActivity(intent)
         }
 
@@ -152,6 +154,7 @@ class HomeAdapter2(var subject: String, val hContext: Context) :
             intent = Intent(hContext, DetailActivity::class.java)
             intent.apply {
                 putExtra("museumData", museoData[position])
+                putExtra("museoId", museoData[position].museoId)
             }
             hContext.startActivity(intent)
         }

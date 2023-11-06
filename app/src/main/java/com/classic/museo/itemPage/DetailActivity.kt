@@ -1,6 +1,8 @@
 package com.classic.museo.itemPage
 
 //import com.kakao.vectormap.MapView
+
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.text.util.Linkify
@@ -9,14 +11,17 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.classic.museo.R
+import com.classic.museo.data.LikeDTO
 import com.classic.museo.data.Record
 import com.classic.museo.databinding.ActivityDetailBinding
+import com.classic.museo.itemPage.MypageInnerActivity.LikeAdapter
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.GsonBuilder
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -29,11 +34,45 @@ class DetailActivity : AppCompatActivity() {
     private var db = Firebase.firestore
     private var auth: FirebaseAuth? = null
     private var subId = ""
+    private var like = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        val auth = FirebaseAuth.getInstance()
+
+        // 현재 로그인한 사용자의 UID 가져오기
+        val currentUser = auth.currentUser
+        val uid = currentUser?.uid
+
+        val museumData = intent.getParcelableExtra<Record>("museumData")!!
+        val museoId = intent.getStringExtra("museoId")!!
+
+
+        Log.d("dd","${museumData.museoId}")
+
+
+        db.collection("users")
+            .document("$uid")
+            .collection("myLike")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    if (museoId == document.id) {
+                        like = true
+                        return@addOnSuccessListener
+                    } else {
+                        like = false
+                    }
+                }
+
+            }
+            .addOnFailureListener { exception ->
+                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
+            }
 
 
         //뒤로가기 버튼
@@ -142,16 +181,19 @@ class DetailActivity : AppCompatActivity() {
     fun likeBtn() {
         binding.dtLike.setOnClickListener {
 
-            val a = intent.getParcelableExtra<Record>("museumData")!!   //박물관 정보
+            val museumData = intent.getParcelableExtra<Record>("museumData")!!   //박물관 정보
             val title = binding.dtTitle.text.toString()
             val address = binding.dtAddress.text.toString()
-            val category = a.fcltyType
+            val category = museumData.fcltyType
             var museum = ""
             if (binding.dtTitle.text.endsWith("미술관")) {
                 museum = "미술관"
             } else {
                 museum = "박물관"
             }
+
+
+            val museoId = intent.getStringExtra("museoId")!!
 
             val db = FirebaseFirestore.getInstance()
             val auth = FirebaseAuth.getInstance()
@@ -160,116 +202,58 @@ class DetailActivity : AppCompatActivity() {
             val currentUser = auth.currentUser
             val uid = currentUser?.uid
 
-            db.collection("museoInfo")
-                .whereEqualTo("fcltyNm", a.fcltyNm)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
+            if (like) {
+                db.collection("users")
+                    .document("${uid}")
+                    .collection("myLike")
+                    .document(museoId)
+                    .delete()
+                    .addOnSuccessListener {
+                        Log.d(
+                            "성공",
+                            "DocumentSnapshot successfully deleted!"
 
-                        //firestor 박물관별 문서id 가져오기
-                        subId = document.id
-                        Log.e("asd", subId)
-
-
-                        db.collection("users")
-                            .document("$uid")
-                            .collection("myLike")
-                            .get()
-                            .addOnSuccessListener { documents ->
-                                for (document in documents) {
-                                    val subcollectionId = document.id
-                                    Log.e("dd", subcollectionId)
-
-                                    val subcollectionRef = db.collection("users")
-                                        .document("$uid")
-                                        .collection("myLike")
-                                    Log.e("asd", subId)
-
-                                    // 중복을 확인할 문서 ID가 이미 존재하는지 검사
-                                    subcollectionRef.whereEqualTo(FieldPath.documentId(), subId)
-                                        .get()
-                                        .addOnCompleteListener { task ->
-                                            if (task.isSuccessful) {
-                                                val querySnapshot = task.result
-
-                                                if (querySnapshot != null) {
-                                                    if (!querySnapshot.isEmpty) {
-                                                        // 중복되는 문서 ID가 존재할 때
-                                                        Log.e("성공맞냐", "${subId}")
-
-                                                        //데이터 삭제
-                                                        val collectionPath =
-                                                            "users/$uid/myLike"
-                                                        subcollectionRef.whereEqualTo(
-                                                            FieldPath.documentId(),
-                                                            subId
-                                                        )
-                                                        db.collection(collectionPath)
-                                                            .document(subId)
-                                                            .delete()
-                                                            .addOnSuccessListener {
-                                                                Log.d(
-                                                                    "성공",
-                                                                    "DocumentSnapshot successfully deleted!"
-                                                                )
-                                                            }
-                                                            .addOnFailureListener { e ->
-                                                                Log.w(
-                                                                    "실패",
-                                                                    "Error deleting document",
-                                                                    e
-                                                                )
-                                                            }
-
-                                                    } else {
-                                                        // 중복되는 문서 ID가 존재하지 않을 때
-                                                        Log.e("실패맞냐", "${subId}")
-
-                                                        //데이터 생성
-                                                        if (uid != null) {
-                                                            val collectionPath =
-                                                                "users/$uid/myLike"
-                                                            // 서브컬렉션에 새 문서 추가
-                                                            val data = hashMapOf(
-                                                                "title" to title,
-                                                                "address" to address,
-                                                                "category" to category,
-                                                                "museum" to museum,
-                                                            )
-                                                            db.collection(collectionPath)
-                                                                .document(subId)
-                                                                .set(data)
-                                                                .addOnSuccessListener { documentReference ->
-                                                                    Log.e(
-                                                                        "성공zzz",
-                                                                        "${documentReference}"
-                                                                    )
-                                                                }
-                                                                .addOnFailureListener { e ->
-                                                                    Log.e("실패eee", "$e")
-                                                                }
-                                                        } else {
-                                                            Toast.makeText(
-                                                                this,
-                                                                "사용자가 로그인하지 않았습니다..",
-                                                                Toast.LENGTH_SHORT
-                                                            ).show()
-                                                        }
-                                                    }
-                                                }
-                                            } else {
-                                                // 쿼리를 실행하는 동안 오류가 발생했을 때
-                                                println("쿼리를 실행하는 동안 오류가 발생했습니다: ${task.exception}")
-                                            }
-                                        }
-                                }
-                            }
-                            .addOnFailureListener { exception ->
-                                Log.e("qwe", "Error getting documents: ", exception)
-                            }
-
+                        )
+                        like = !like
                     }
+                    .addOnFailureListener { e ->
+                        Log.w(
+                            "실패",
+                            "Error deleting document",
+                            e
+                        )
+                    }
+            } else {
+                //데이터 생성
+                if (uid != null) {
+                    val collectionPath =
+                        "users/$uid/myLike"
+                    // 서브컬렉션에 새 문서 추가
+                    val data = hashMapOf(
+                        "title" to title,
+                        "address" to address,
+                        "category" to category,
+                        "museum" to museum,
+                        "like" to like
+                    )
+                    db.collection(collectionPath)
+                        .document(museoId)
+                        .set(data)
+                        .addOnSuccessListener { documentReference ->
+                            like = !like
+                            Toast.makeText(this, "즐겨찾기 추가되었습니다", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("실패eee", "$e")
+                        }
+                } else {
+                    Toast.makeText(
+                        this,
+                        "사용자가 로그인하지 않았습니다..",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+            }
         }
     }
 }

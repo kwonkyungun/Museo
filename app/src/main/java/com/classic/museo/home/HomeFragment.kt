@@ -165,6 +165,8 @@ class HomeFragment : Fragment() {
             for (document in result) {
                 val value = gson.toJson(document.data)
                 val result = gson.fromJson(value, Record::class.java)
+                Log.d("asd",document.id)
+                result.museoId  = document.id
                 items.add(result)
             }
             hAdapter.data.put("인기", items)
