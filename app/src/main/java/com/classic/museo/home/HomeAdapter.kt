@@ -121,7 +121,6 @@ class HomeAdapter(
             adapter = HomeAdapter2(binding.subject.text.toString(), hContext)
             fAdapter = FreeAdapter(hContext)
             if (pos == 4) {
-                Log.e("테스트용", "${item2}")
                 fAdapter.freeData = data.values.elementAt(pos)
                 binding.recyclerHome2.adapter = fAdapter
             } else {

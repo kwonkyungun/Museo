@@ -81,6 +81,7 @@ class HomeFragment : Fragment() {
             for (document in result) {
                 val value = gson.toJson(document.data)
                 val result = gson.fromJson(value, Record::class.java)
+                result.museoId  = document.id
                 items2.add(result)
             }
             hAdapter.data.put("무료 박물관/미술관", items2)
@@ -109,6 +110,7 @@ class HomeFragment : Fragment() {
             for (document in result) {
                 val value = gson.toJson(document.data)
                 val result = gson.fromJson(value, Record::class.java)
+                result.museoId  = document.id
                 items4.add(result)
             }
             hAdapter.data.put("생물 박물관", items4)
@@ -136,6 +138,7 @@ class HomeFragment : Fragment() {
             for (document in result) {
                 val value = gson.toJson(document.data)
                 val result = gson.fromJson(value, Record::class.java)
+                result.museoId  = document.id
                 items5.add(result)
             }
             hAdapter.data.put("과학 박물관", items5)
@@ -195,6 +198,7 @@ class HomeFragment : Fragment() {
             for (document in result) {
                 val value = gson.toJson(document.data)
                 val result = gson.fromJson(value, Record::class.java)
+                result.museoId  = document.id
                 items3.add(result)
             }
             hAdapter.data.put("이색 박물관", items3)
