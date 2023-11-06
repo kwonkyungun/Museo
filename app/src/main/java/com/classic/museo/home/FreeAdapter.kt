@@ -57,6 +57,7 @@ class FreeAdapter(val hContext: Context) : RecyclerView.Adapter<RecyclerView.Vie
             val intent = Intent(hContext, DetailActivity::class.java)
             intent.apply {
                 putExtra("museumData", freeData[position])
+                putExtra("museoId", freeData[position].museoId)
             }
             hContext.startActivity(intent)
         }

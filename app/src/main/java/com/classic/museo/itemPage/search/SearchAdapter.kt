@@ -16,6 +16,7 @@ class SearchAdapter(val sContext: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var searchItems = mutableListOf<Record>()
+    var museoData = mutableListOf<Record>()
     private var intent= Intent()
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -58,6 +59,7 @@ class SearchAdapter(val sContext: Context) :
             intent=Intent(sContext,DetailActivity::class.java)
             intent.apply {
                 putExtra("museumData",searchItems[position])
+                putExtra("museoId", searchItems[position].museoId)
             }
             sContext.startActivity(intent)
         }

@@ -74,6 +74,7 @@ class RegionFragment : Fragment() {
                 for (document in result) {
                     val value = gson.toJson(document.data)
                     val result = gson.fromJson(value, Record::class.java)
+                    result.museoId  = document.id
                     items.add(result)
                 }
                 searchAdapter.searchItems = items
