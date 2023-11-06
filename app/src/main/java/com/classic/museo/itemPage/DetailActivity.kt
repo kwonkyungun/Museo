@@ -234,7 +234,6 @@ class DetailActivity : AppCompatActivity() {
                         "address" to address,
                         "category" to category,
                         "museum" to museum,
-                        "like" to like
                     )
                     db.collection(collectionPath)
                         .document(museoId)
