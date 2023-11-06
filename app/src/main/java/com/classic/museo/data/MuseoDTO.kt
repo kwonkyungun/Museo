@@ -57,4 +57,7 @@ data class Record(
     val instt_code : String?,    //제공기관코드
 
     var viewType : Int = 1
-) : Parcelable
+
+) : Parcelable {
+    var museoId : String? = null //박물관 아이디
+}
