@@ -16,6 +16,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -210,9 +211,9 @@ class CommunityDetailActivity() : AppCompatActivity() {
             alertDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
             alertDialog.window?.setBackgroundDrawableResource(R.drawable.community_dialog_shape)
 
-            val btnEdit = dialogView.findViewById<Button>(R.id.dialog_edit)
-            val btnDelete = dialogView.findViewById<Button>(R.id.dialog_delete)
-            val btnCancel = dialogView.findViewById<Button>(R.id.dialog_cancel)
+            val btnEdit = dialogView.findViewById<ConstraintLayout>(R.id.dialog_edit)
+            val btnDelete = dialogView.findViewById<ConstraintLayout>(R.id.dialog_delete)
+            val btnCancel = dialogView.findViewById<ConstraintLayout>(R.id.dialog_cancel)
 
             //다이얼로그 수정버튼 클릭
             btnEdit.setOnClickListener {

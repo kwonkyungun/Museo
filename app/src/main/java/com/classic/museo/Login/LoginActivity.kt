@@ -5,7 +5,6 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
 import android.widget.CheckBox
 import android.widget.Toast
@@ -45,12 +44,18 @@ class LoginActivity : AppCompatActivity() {
         UserApiClient.instance.logout { error ->
             if (error != null) {
                 Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
-            }
-            else {
+            } else {
                 Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
             }
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        login()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +73,12 @@ class LoginActivity : AppCompatActivity() {
 
         //로그인 버튼
         login()
+
+        //비회원 로그인
+        binding.nonLogin.setOnClickListener {
+            val non_login = Intent(this, MainActivity::class.java)
+            startActivity(non_login)
+        }
 
         //카카오 로그인
         kakaoSingUp()
@@ -210,6 +221,7 @@ class LoginActivity : AppCompatActivity() {
         //파이어베이스에 유저 상태가 있어야 다음 페이지로 넘어갈 수 있음
         if (user != null) {
             val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
     }
@@ -217,6 +229,7 @@ class LoginActivity : AppCompatActivity() {
     //카카오 로그인
     fun kakaoSingUp() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         binding.kakaoLogin.setOnClickListener {
             val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                 if (error != null) {
