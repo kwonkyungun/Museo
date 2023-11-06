@@ -40,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        login()
     }
 
     override fun onDestroy() {
@@ -61,6 +62,12 @@ class LoginActivity : AppCompatActivity() {
 
         //로그인 버튼
         login()
+
+        //비회원 로그인
+        binding.nonLogin.setOnClickListener {
+            val non_login = Intent(this, MainActivity::class.java)
+            startActivity(non_login)
+        }
 
         //카카오 로그인
         kakaoSingUp()

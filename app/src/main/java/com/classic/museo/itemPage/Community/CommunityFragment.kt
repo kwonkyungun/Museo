@@ -10,12 +10,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.classic.museo.Login.LoginActivity
+import com.classic.museo.Login.SignupActivity
+import com.classic.museo.MainActivity
 import com.classic.museo.itemPage.Community.CommunityPlusActivity
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.databinding.FragmentCommunityBinding
 import com.classic.museo.itemPage.Community.CommunityAdapter
 import com.classic.museo.itemPage.Community.CommunityDetailActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -35,6 +41,7 @@ class CommunityFragment : Fragment() {
     private var idItems=mutableListOf<String>()
     private var gson= GsonBuilder().create()
     private var loadItems= mutableListOf<CommunityDTO>()
+    private var auth: FirebaseAuth? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -145,6 +152,8 @@ class CommunityFragment : Fragment() {
         //새글추가 버튼 맨 앞으로 보내기
         binding.communityBtnPlus.bringToFront()
 
+        nonLogin()
+
         return binding.root
     }
 
@@ -154,6 +163,29 @@ class CommunityFragment : Fragment() {
         adapter = CommunityAdapter(communityContext)
         binding.recyclerView2.adapter = adapter
         binding.recyclerView2.itemAnimator = null
+    }
+
+    private fun nonLogin(){
+        auth = Firebase.auth
+        val currentUser = auth?.currentUser
+
+        if(currentUser == null){
+            val loginBuilder = AlertDialog.Builder(communityContext)
+            loginBuilder.setTitle("로그인이 필요한 서비스입니다.")
+            loginBuilder.setMessage("로그인 하시겠습니까?")
+
+            loginBuilder.setPositiveButton("확인"){dialog, _ ->
+                val loginIntent = Intent(communityContext, LoginActivity::class.java)
+                loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(loginIntent)
+            }
+            loginBuilder.setNegativeButton("취소"){dialog,_ ->
+                val cancelIntent = Intent(communityContext, MainActivity::class.java)
+                startActivity(cancelIntent)
+            }
+            loginBuilder.setCancelable(false)
+            loginBuilder.show()
+        }
     }
 
 
