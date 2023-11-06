@@ -29,7 +29,7 @@ class CommunityAdapter(private val context: Context) :
     var review = mutableListOf<CommunityDTO>()
     var documentID = mutableListOf<String>()
     val db = Firebase.firestore
-    private var intent = Intent()
+    var intent = Intent()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -59,10 +59,13 @@ class CommunityAdapter(private val context: Context) :
         }
 
         fun bind(pos: Int) {
-            Log.e("checkone","${review[pos].title}-${pos}")
+            val fullid = review[pos].UserId
+            val blind = "*****"
             binding.textCommunityTitle.text = review[pos].title
             binding.communityNickname.text = review[pos].NickName
-            binding.communityId.text = review[pos].UserId
+            if (fullid != null) {
+                binding.communityId.text = fullid.substring(0,fullid.indexOf("@"))+"@"+blind
+            }
             binding.dateCommunityImage.text = review[pos].date
             binding.communityMuseumName.text = review[pos].museum
         }

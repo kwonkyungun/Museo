@@ -58,8 +58,6 @@ class CommunityFragment : Fragment() {
     }
 
     private fun postingLoad(){
-        loadItems.clear()
-        idItems.clear()
         adapter.clearItem()
         val query=db.collection("post")
         query.orderBy("date", Query.Direction.DESCENDING)

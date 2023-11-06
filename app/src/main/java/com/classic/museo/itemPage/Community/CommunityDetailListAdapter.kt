@@ -55,8 +55,12 @@ class CommunityDetailListAdapter(
             val select=binding.CommunityDetailDropmenu
 
             fun bind(pos:Int) {
+                val fullid = itemList.values.elementAt(pos).id
+                val blind = "*****"
                 binding.CommunityDetailDate.text=itemList.values.elementAt(pos).date
-                binding.CommunityDetailID.text=itemList.values.elementAt(pos).id
+                if (fullid != null) {
+                    binding.CommunityDetailID.text=fullid.substring(0,fullid.indexOf("@"))+"@"+blind
+                }
                 binding.CommunityDetailName.text=itemList.values.elementAt(pos).nickname
                 binding.CommunityDetailSub.text=itemList.values.elementAt(pos).text
 
