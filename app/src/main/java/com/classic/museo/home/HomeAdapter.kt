@@ -78,6 +78,7 @@ class HomeAdapter(
                 for (document in result) {
                     val value = gson.toJson(document.data)
                     val result = gson.fromJson(value, Record::class.java)
+                    result.museoId  = document.id
                     if(result.etcChrgeInfo=="무료" || result.adultChrge=="0"){
                         if(result.etcChrgeInfo==""){
                             item2.add(result)
