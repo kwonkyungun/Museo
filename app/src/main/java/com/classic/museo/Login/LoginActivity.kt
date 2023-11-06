@@ -185,7 +185,6 @@ class LoginActivity : AppCompatActivity() {
                                         .show()
                                 }
                             }
-
                 }
             } else{
                 binding.LoginAuto.isChecked = false
