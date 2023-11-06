@@ -1,6 +1,7 @@
 package com.classic.museo.itemPage
 
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.classic.museo.Login.LoginActivity
 import com.classic.museo.R
 import com.classic.museo.itemPage.MypageInnerActivity.MypageLike
 import com.classic.museo.itemPage.MypageInnerActivity.MypageLogoutDialog
@@ -19,6 +21,7 @@ import com.classic.museo.databinding.FragmentMypageBinding
 import com.classic.museo.itemPage.Community.CommunityDetailActivity
 import com.classic.museo.itemPage.announcement.AnnouncementActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
@@ -27,10 +30,17 @@ import com.kakao.sdk.user.UserApiClient
 class MypageFragment : Fragment() {
 
     lateinit var binding: FragmentMypageBinding
+    private lateinit var mypageContext: Context
     private var db = Firebase.firestore
     private val UserList = mutableListOf<Users>()
     private var uid : String? = null
+    private var auth: FirebaseAuth? = null
 
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mypageContext = context
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,6 +61,9 @@ class MypageFragment : Fragment() {
 
         //firestore에서 로그인한 회원 닉네임 보여주기
         NickName()
+
+        //비회원 로그인시 로그인 페이지 보여주기
+        nonLogin()
 
 //        //커뮤니티 디테일 액티비티로 넘어가는 임시 코드
 //        binding.tempbtn.setOnClickListener {
@@ -136,6 +149,23 @@ class MypageFragment : Fragment() {
             //공지사항 페이지는 아직 없으므로 기능은 미구현
             val announcement = Intent(activity,AnnouncementActivity::class.java)
             startActivity(announcement)
+        }
+    }
+
+    //비회원 로그인시
+    fun nonLogin(){
+        auth = Firebase.auth
+        val currentUser = auth?.currentUser
+
+        if(currentUser == null){
+            binding.MypageSingup.visibility = View.VISIBLE
+            binding.MypageLogout.visibility = View.GONE
+
+            binding.MypageSingup.setOnClickListener{
+                val loginIntent = Intent(mypageContext, LoginActivity::class.java)
+                loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(loginIntent)
+            }
         }
     }
 }
