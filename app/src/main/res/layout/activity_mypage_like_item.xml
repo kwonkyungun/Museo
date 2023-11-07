@@ -8,12 +8,13 @@
 
     <TextView
         android:id="@+id/like_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="24dp"
-        android:text="온양민속박물관"
         android:layout_margin="20dp"
+        android:text="온양민속박물관"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/like_category"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,27 +33,28 @@
         android:id="@+id/like_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:background="@drawable/like_border"
+        android:padding="5dp"
+        android:layout_marginEnd="10dp"
         android:text="국립"
         android:textSize="14dp"
-        android:padding="5dp"
-        android:background="@drawable/like_border"
-        app:layout_constraintBottom_toBottomOf="@+id/like_title"
-        app:layout_constraintStart_toEndOf="@+id/like_title"
-        app:layout_constraintTop_toTopOf="@+id/like_title" />
+        app:layout_constraintBottom_toBottomOf="@+id/like_museum"
+        app:layout_constraintEnd_toStartOf="@+id/like_museum"
+        app:layout_constraintTop_toTopOf="@+id/like_museum"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/like_museum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="박물관"
-        android:textSize="14dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/like_border"
         android:padding="5dp"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/like_category"
-        app:layout_constraintStart_toEndOf="@+id/like_category"
-        app:layout_constraintTop_toTopOf="@+id/like_category" />
+        android:text="박물관"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/like_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/like_title" />
 
     <View
         android:layout_width="match_parent"
