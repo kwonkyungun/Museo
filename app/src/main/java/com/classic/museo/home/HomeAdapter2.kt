@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.classic.museo.itemPage.DetailActivity
 import com.classic.museo.R
 import com.classic.museo.data.Recording
@@ -19,6 +20,7 @@ class HomeAdapter2(var subject: String, val hContext: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var museoData = mutableListOf<Recording>()
     private var intent = Intent()
+    private val glide: RequestManager = Glide.with(hContext)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view =
             RecyclerviewItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -102,7 +104,7 @@ class HomeAdapter2(var subject: String, val hContext: Context) :
 
             storageReference.downloadUrl.addOnSuccessListener { uri ->
                 val imageURL = uri!!
-                Glide.with(hContext)
+                glide
                     .load(imageURL)
                     .into(binding.imageView2)
                 Log.e("이미지", "${imageURL}")
