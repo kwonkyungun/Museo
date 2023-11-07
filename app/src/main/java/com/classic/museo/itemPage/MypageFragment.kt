@@ -156,15 +156,16 @@ class MypageFragment : Fragment() {
     fun nonLogin(){
         auth = Firebase.auth
         val currentUser = auth?.currentUser
+        UserApiClient.instance.me { user, error ->
+            if(auth!!.uid == null && user==null){
+                binding.MypageSingup.visibility = View.VISIBLE
+                binding.MypageLogout.visibility = View.GONE
 
-        if(currentUser == null){
-            binding.MypageSingup.visibility = View.VISIBLE
-            binding.MypageLogout.visibility = View.GONE
-
-            binding.MypageSingup.setOnClickListener{
-                val loginIntent = Intent(mypageContext, LoginActivity::class.java)
-                loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(loginIntent)
+                binding.MypageSingup.setOnClickListener{
+                    val loginIntent = Intent(mypageContext, LoginActivity::class.java)
+                    loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(loginIntent)
+                }
             }
         }
     }
