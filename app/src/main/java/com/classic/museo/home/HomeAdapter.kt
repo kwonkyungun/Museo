@@ -1,34 +1,29 @@
 package com.classic.museo.home
 
-import android.content.ClipData.Item
 import android.content.ContentValues
 import android.content.Context
-import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.classic.museo.R
-import com.classic.museo.data.Record
+import com.classic.museo.data.Recording
 import com.classic.museo.databinding.RecyclerviewItem1Binding
-import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.GsonBuilder
-import okhttp3.internal.notify
 
 class HomeAdapter(
     private val hContext: Context,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var item = mutableListOf<Record>()
-    var item2 = mutableListOf<Record>()
-    var item3 = mutableListOf<Record>()
-    var item4 = mutableListOf<Record>()
-    var item5 = mutableListOf<Record>()
+    var item = mutableListOf<Recording>()
+    var item2 = mutableListOf<Recording>()
+    var item3 = mutableListOf<Recording>()
+    var item4 = mutableListOf<Recording>()
+    var item5 = mutableListOf<Recording>()
     private var db = Firebase.firestore
     private var gson = GsonBuilder().create()
     private lateinit var adapter: HomeAdapter2
@@ -77,7 +72,7 @@ class HomeAdapter(
             .addOnSuccessListener { result ->
                 for (document in result) {
                     val value = gson.toJson(document.data)
-                    val result = gson.fromJson(value, Record::class.java)
+                    val result = gson.fromJson(value, Recording::class.java)
                     result.museoId  = document.id
                     if(result.etcChrgeInfo=="무료" || result.adultChrge=="0"){
                         if(result.etcChrgeInfo==""){

@@ -17,6 +17,7 @@ import com.classic.museo.Login.SignupActivity
 import com.classic.museo.MainActivity
 import com.classic.museo.itemPage.Community.CommunityPlusActivity
 import com.classic.museo.data.CommunityDTO
+import com.classic.museo.data.KakaoUsers
 import com.classic.museo.databinding.FragmentCommunityBinding
 import com.classic.museo.itemPage.Community.CommunityAdapter
 import com.classic.museo.itemPage.Community.CommunityDetailActivity
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.kakao.sdk.user.UserApi
 import com.kakao.sdk.user.UserApiClient
 
 
@@ -36,12 +38,13 @@ class CommunityFragment : Fragment() {
     private lateinit var communityContext: Context
     private lateinit var adapter: CommunityAdapter
     private lateinit var gridLayoutManager: StaggeredGridLayoutManager
-    private val db=Firebase.firestore
-    private var items= mutableListOf<CommunityDTO>()
-    private var idItems=mutableListOf<String>()
-    private var gson= GsonBuilder().create()
-    private var loadItems= mutableListOf<CommunityDTO>()
+    private val db = Firebase.firestore
+    private var items = mutableListOf<CommunityDTO>()
+    private var idItems = mutableListOf<String>()
+    private var gson = GsonBuilder().create()
+    private var loadItems = mutableListOf<CommunityDTO>()
     private var auth: FirebaseAuth? = null
+    private var kUsers = KakaoUsers()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -57,22 +60,22 @@ class CommunityFragment : Fragment() {
         postingLoad()
     }
 
-    private fun postingLoad(){
+    private fun postingLoad() {
         adapter.clearItem()
-        val query=db.collection("post")
+        val query = db.collection("post")
         query.orderBy("date", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
-                for(document in result){
-                    val value=gson.toJson(document.data)
-                    val result=gson.fromJson(value, CommunityDTO::class.java)
-                    val documentId=document.id
-                    Log.d("Community",documentId)
+                for (document in result) {
+                    val value = gson.toJson(document.data)
+                    val result = gson.fromJson(value, CommunityDTO::class.java)
+                    val documentId = document.id
+                    Log.d("Community", documentId)
                     loadItems.add(result)
                     idItems.add(documentId)
                 }
-                adapter.review=loadItems
-                adapter.documentID=idItems
+                adapter.review = loadItems
+                adapter.documentID = idItems
                 adapter.notifyDataSetChanged()
             }
     }
@@ -81,57 +84,62 @@ class CommunityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         searchCategory()
     }
-   private fun searchCategory() {
 
-       binding.communitySpinner1.setOnSpinnerItemSelectedListener<String> { _, _, _, category ->
-           val gson=GsonBuilder().create()
-           if(category=="title"){
-               binding.communitySearch.setOnClickListener {
-                   adapter.clearItem()
-                   var searchText=binding.editText.text.toString()
-                   db.collection("post")
-                       .whereEqualTo("title","$searchText")
-                       .get()
-                       .addOnSuccessListener { result ->
-                           for(document in result){
-                               val value=gson.toJson(document.data)
-                               val result=gson.fromJson(value,CommunityDTO::class.java)!!
-                               items.add(result)
-                           }
-                           if(items.isEmpty()){
-                               Toast.makeText(communityContext,"찾는 게시글이 없습니다.",Toast.LENGTH_SHORT).show()
-                           }
-                           adapter.review=items
-                           adapter.notifyDataSetChanged()
-                       }.addOnFailureListener { exception ->
-                           Log.w(TAG, "Error getting documents: ", exception)
-                       }
-               }
-           }else if(category=="museum"){
-               binding.communitySearch.setOnClickListener {
-                   adapter.clearItem()
-                   var searchText=binding.editText.text.toString()
-                   db.collection("post")
-                       .whereEqualTo("museum","$searchText")
-                       .get()
-                       .addOnSuccessListener { result ->
-                           for(document in result){
-                               val value=gson.toJson(document.data)
-                               val result=gson.fromJson(value,CommunityDTO::class.java)!!
-                               items.add(result)
-                           }
-                           if(items.isEmpty()){
-                               Toast.makeText(context,"찾는 게시글이 없습니다.",Toast.LENGTH_SHORT).show()
-                           }
-                           adapter.review=items
-                           adapter.notifyDataSetChanged()
-                       }.addOnFailureListener { exception ->
-                           Log.w(TAG, "Error getting documents: ", exception)
-                       }
-               }
-           }
-       }
-   }
+    private fun searchCategory() {
+
+        binding.communitySpinner1.setOnSpinnerItemSelectedListener<String> { _, _, _, category ->
+            val gson = GsonBuilder().create()
+            if (category == "title") {
+                binding.communitySearch.setOnClickListener {
+                    adapter.clearItem()
+                    var searchText = binding.editText.text.toString()
+                    db.collection("post")
+                        .whereEqualTo("title", "$searchText")
+                        .get()
+                        .addOnSuccessListener { result ->
+                            for (document in result) {
+                                val value = gson.toJson(document.data)
+                                val result = gson.fromJson(value, CommunityDTO::class.java)!!
+                                items.add(result)
+                            }
+                            if (items.isEmpty()) {
+                                Toast.makeText(
+                                    communityContext,
+                                    "찾는 게시글이 없습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            adapter.review = items
+                            adapter.notifyDataSetChanged()
+                        }.addOnFailureListener { exception ->
+                            Log.w(TAG, "Error getting documents: ", exception)
+                        }
+                }
+            } else if (category == "museum") {
+                binding.communitySearch.setOnClickListener {
+                    adapter.clearItem()
+                    var searchText = binding.editText.text.toString()
+                    db.collection("post")
+                        .whereEqualTo("museum", "$searchText")
+                        .get()
+                        .addOnSuccessListener { result ->
+                            for (document in result) {
+                                val value = gson.toJson(document.data)
+                                val result = gson.fromJson(value, CommunityDTO::class.java)!!
+                                items.add(result)
+                            }
+                            if (items.isEmpty()) {
+                                Toast.makeText(context, "찾는 게시글이 없습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                            adapter.review = items
+                            adapter.notifyDataSetChanged()
+                        }.addOnFailureListener { exception ->
+                            Log.w(TAG, "Error getting documents: ", exception)
+                        }
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -163,28 +171,31 @@ class CommunityFragment : Fragment() {
         binding.recyclerView2.itemAnimator = null
     }
 
-    private fun nonLogin(){
+    private fun nonLogin() {
         auth = Firebase.auth
         val currentUser = auth?.currentUser
 
-        if(currentUser == null){
-            val loginBuilder = AlertDialog.Builder(communityContext)
-            loginBuilder.setTitle("로그인이 필요한 서비스입니다.")
-            loginBuilder.setMessage("로그인 하시겠습니까?")
+        UserApiClient.instance.me { user, error ->
 
-            loginBuilder.setPositiveButton("확인"){dialog, _ ->
-                val loginIntent = Intent(communityContext, LoginActivity::class.java)
-                loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(loginIntent)
+            if (currentUser == null && user==null) {
+                val loginBuilder = AlertDialog.Builder(communityContext)
+                loginBuilder.setTitle("로그인이 필요한 서비스입니다.")
+                loginBuilder.setMessage("로그인 하시겠습니까?")
+
+                loginBuilder.setPositiveButton("확인") { dialog, _ ->
+                    val loginIntent = Intent(communityContext, LoginActivity::class.java)
+                    loginIntent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(loginIntent)
+                }
+                loginBuilder.setNegativeButton("취소") { dialog, _ ->
+                    val cancelIntent = Intent(communityContext, MainActivity::class.java)
+                    startActivity(cancelIntent)
+                }
+                loginBuilder.setCancelable(false)
+                loginBuilder.show()
             }
-            loginBuilder.setNegativeButton("취소"){dialog,_ ->
-                val cancelIntent = Intent(communityContext, MainActivity::class.java)
-                startActivity(cancelIntent)
-            }
-            loginBuilder.setCancelable(false)
-            loginBuilder.show()
         }
     }
-
 
 }

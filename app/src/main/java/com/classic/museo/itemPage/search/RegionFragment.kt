@@ -9,9 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.classic.museo.R
-import com.classic.museo.data.Record
-import com.classic.museo.databinding.FragmentSearchBinding
+import com.classic.museo.data.Recording
 import com.classic.museo.databinding.FragmentSearchRegionBinding
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -24,7 +22,7 @@ class RegionFragment : Fragment() {
     private lateinit var searchAdapter : SearchAdapter
     private var db = Firebase.firestore
     private var gson = GsonBuilder().create()
-    private var items = mutableListOf<Record>()
+    private var items = mutableListOf<Recording>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +71,7 @@ class RegionFragment : Fragment() {
             .addOnSuccessListener { result ->
                 for (document in result) {
                     val value = gson.toJson(document.data)
-                    val result = gson.fromJson(value, Record::class.java)
+                    val result = gson.fromJson(value, Recording::class.java)
                     result.museoId  = document.id
                     items.add(result)
                 }

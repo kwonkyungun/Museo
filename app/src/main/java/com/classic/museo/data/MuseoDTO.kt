@@ -4,7 +4,6 @@ package com.classic.museo.data
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import java.io.Serializable
 
 data class Museo(val response: MuseoResponse)
 
@@ -18,7 +17,7 @@ data class MuseoResponse(
 data class MuseoBody(
     val totalCount:Int,
     @SerializedName("items")
-    val museoItem: MutableList<Record>?,
+    val museoItem: MutableList<Recording>?,
     val pageNo: Int,    //페이지번호
     val numOfRows: Int  //한 페이지 결과 수
 )
@@ -29,7 +28,7 @@ data class MuseoHeader(
 )
 
 @Parcelize
-data class Record(
+data class Recording(
     val fcltyNm : String,   //시설명
     val fcltyType : String, //공립/사립구분
     val rdnmadr : String,   //소재지도로명주소

@@ -2,21 +2,20 @@ package com.classic.museo.itemPage.search
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.classic.museo.R
-import com.classic.museo.data.Record
+import com.classic.museo.data.Recording
 import com.classic.museo.databinding.SearchImageBinding
 import com.classic.museo.itemPage.DetailActivity
 
 class SearchAdapter(val sContext: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var searchItems = mutableListOf<Record>()
-    var museoData = mutableListOf<Record>()
+    var searchItems = mutableListOf<Recording>()
+    var museoData = mutableListOf<Recording>()
     private var intent= Intent()
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

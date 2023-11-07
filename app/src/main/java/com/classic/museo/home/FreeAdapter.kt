@@ -2,19 +2,17 @@ package com.classic.museo.home
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.classic.museo.R
-import com.classic.museo.data.Record
+import com.classic.museo.data.Recording
 import com.classic.museo.databinding.RecyclerviewFreeBinding
-import com.classic.museo.databinding.RecyclerviewItem2Binding
 import com.classic.museo.itemPage.DetailActivity
 
 class FreeAdapter(val hContext: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var freeData = mutableListOf<Record>()
+    var freeData = mutableListOf<Recording>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view =
             RecyclerviewFreeBinding.inflate(LayoutInflater.from(parent.context), parent, false)

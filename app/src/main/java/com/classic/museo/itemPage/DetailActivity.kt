@@ -11,17 +11,14 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.classic.museo.R
-import com.classic.museo.data.LikeDTO
-import com.classic.museo.data.Record
+import com.classic.museo.data.Recording
 import com.classic.museo.databinding.ActivityDetailBinding
-import com.classic.museo.itemPage.MypageInnerActivity.LikeAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.gson.GsonBuilder
+import com.kakao.sdk.user.UserApiClient
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -35,6 +32,7 @@ class DetailActivity : AppCompatActivity() {
     private var auth: FirebaseAuth? = null
     private var subId = ""
     private var like = false
+    private var museumId=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +46,8 @@ class DetailActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         val uid = currentUser?.uid
 
-        val museumData = intent.getParcelableExtra<Record>("museumData")!!
-        val museoId = intent.getStringExtra("museoId")!!
+        val museumData = intent.getParcelableExtra<Recording>("museumData")!!
+        museumId = intent.getStringExtra("museoId")!!
 
 
         Log.d("dd","${museumData.museoId}")
@@ -61,7 +59,7 @@ class DetailActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    if (museoId == document.id) {
+                    if (museumId == document.id) {
                         like = true
                         return@addOnSuccessListener
                     } else {
@@ -97,7 +95,7 @@ class DetailActivity : AppCompatActivity() {
     fun kakaoMap() {
         val mapView = MapView(this)
         binding.kakaoMap.addView(mapView)
-        val a = intent.getParcelableExtra<Record>("museumData")!!
+        val a = intent.getParcelableExtra<Recording>("museumData")!!
 
 
         //위도 데이터
@@ -124,7 +122,7 @@ class DetailActivity : AppCompatActivity() {
 
     //공유버튼 기능
     private fun share() {
-        val a = intent.getParcelableExtra<Record>("museumData")!!
+        val a = intent.getParcelableExtra<Recording>("museumData")!!
         binding.dtShare.setOnClickListener {
 
             val shareIntent = Intent().apply {
@@ -141,7 +139,7 @@ class DetailActivity : AppCompatActivity() {
 
     //공공api데이터 가져오기
     fun museoInfo() {
-        val a = intent.getParcelableExtra<Record>("museumData")!!
+        val a = intent.getParcelableExtra<Recording>("museumData")!!
         //시설명
         binding.dtTitle.text = a.fcltyNm
         //운영기관전화번호
@@ -181,7 +179,7 @@ class DetailActivity : AppCompatActivity() {
     fun likeBtn() {
         binding.dtLike.setOnClickListener {
 
-            val museumData = intent.getParcelableExtra<Record>("museumData")!!   //박물관 정보
+            val museumData = intent.getParcelableExtra<Recording>("museumData")!!   //박물관 정보
             val title = binding.dtTitle.text.toString()
             val address = binding.dtAddress.text.toString()
             val category = museumData.fcltyType
@@ -202,55 +200,58 @@ class DetailActivity : AppCompatActivity() {
             val currentUser = auth.currentUser
             val uid = currentUser?.uid
 
-            if (like) {
-                db.collection("users")
-                    .document("${uid}")
-                    .collection("myLike")
-                    .document(museoId)
-                    .delete()
-                    .addOnSuccessListener {
-                        Log.d(
-                            "성공",
-                            "DocumentSnapshot successfully deleted!"
-
-                        )
-                        like = !like
-                    }
-                    .addOnFailureListener { e ->
-                        Log.w(
-                            "실패",
-                            "Error deleting document",
-                            e
-                        )
-                    }
-            } else {
-                //데이터 생성
-                if (uid != null) {
-                    val collectionPath =
-                        "users/$uid/myLike"
-                    // 서브컬렉션에 새 문서 추가
-                    val data = hashMapOf(
-                        "title" to title,
-                        "address" to address,
-                        "category" to category,
-                        "museum" to museum,
-                    )
-                    db.collection(collectionPath)
+            UserApiClient.instance.me { user, error ->
+                if (like) {
+                    db.collection("users")
+                        .document("${uid}")
+                        .collection("myLike")
                         .document(museoId)
-                        .set(data)
-                        .addOnSuccessListener { documentReference ->
+                        .delete()
+                        .addOnSuccessListener {
+                            Log.d(
+                                "성공",
+                                "DocumentSnapshot successfully deleted!"
+
+                            )
                             like = !like
-                            Toast.makeText(this, "즐겨찾기 추가되었습니다", Toast.LENGTH_SHORT).show()
                         }
                         .addOnFailureListener { e ->
-                            Log.e("실패eee", "$e")
+                            Log.w(
+                                "실패",
+                                "Error deleting document",
+                                e
+                            )
                         }
                 } else {
-                    Toast.makeText(
-                        this,
-                        "사용자가 로그인하지 않았습니다..",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    //데이터 생성
+                    if (uid != null || user!=null) {
+                        val collectionPath =
+                            "users/$uid/myLike"
+                        // 서브컬렉션에 새 문서 추가
+                        val data = hashMapOf(
+                            "title" to title,
+                            "address" to address,
+                            "category" to category,
+                            "museum" to museum,
+                            "museumId" to museumId
+                        )
+                        db.collection(collectionPath)
+                            .document(museoId)
+                            .set(data)
+                            .addOnSuccessListener { documentReference ->
+                                like = !like
+                                Toast.makeText(this, "즐겨찾기 추가되었습니다", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e("실패eee", "$e")
+                            }
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "사용자가 로그인하지 않았습니다..",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }

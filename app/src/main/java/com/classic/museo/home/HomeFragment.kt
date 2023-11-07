@@ -2,35 +2,19 @@ package com.classic.museo.home
 
 import android.content.ContentValues
 import android.content.Context
-import android.net.Uri
-import android.os.Build.VERSION_CODES.P
 import android.os.Bundle
-import android.provider.Settings.Global
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.classic.museo.data.Record
+import com.classic.museo.data.Recording
 import com.classic.museo.databinding.FragmentHomeBinding
-import com.example.museoapitest.retrofit.NetWorkClient
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.GsonBuilder
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
 
 
 class HomeFragment : Fragment() {
@@ -40,11 +24,11 @@ class HomeFragment : Fragment() {
     private var gson = GsonBuilder().create()
 
 
-    private var items = mutableListOf<Record>()  //인기 박물관/미술관 목록
-    private var items2 = mutableListOf<Record>() //무료 박물관/미술관 목록
-    private var items3 = mutableListOf<Record>() //이색 박물관/미술관 목록
-    private var items4 = mutableListOf<Record>() //해양박물관 목록
-    private var items5 = mutableListOf<Record>() //과학박물관 목록
+    private var items = mutableListOf<Recording>()  //인기 박물관/미술관 목록
+    private var items2 = mutableListOf<Recording>() //무료 박물관/미술관 목록
+    private var items3 = mutableListOf<Recording>() //이색 박물관/미술관 목록
+    private var items4 = mutableListOf<Recording>() //해양박물관 목록
+    private var items5 = mutableListOf<Recording>() //과학박물관 목록
 
     private var returnData: Map<String, String> = HashMap<String, String>() //참고용
     private var db = Firebase.firestore
@@ -80,7 +64,7 @@ class HomeFragment : Fragment() {
         query.get().addOnSuccessListener { result ->
             for (document in result) {
                 val value = gson.toJson(document.data)
-                val result = gson.fromJson(value, Record::class.java)
+                val result = gson.fromJson(value, Recording::class.java)
                 result.museoId  = document.id
                 items2.add(result)
             }
@@ -109,7 +93,7 @@ class HomeFragment : Fragment() {
         query.get().addOnSuccessListener { result ->
             for (document in result) {
                 val value = gson.toJson(document.data)
-                val result = gson.fromJson(value, Record::class.java)
+                val result = gson.fromJson(value, Recording::class.java)
                 result.museoId  = document.id
                 items4.add(result)
             }
@@ -137,7 +121,7 @@ class HomeFragment : Fragment() {
         query.get().addOnSuccessListener { result ->
             for (document in result) {
                 val value = gson.toJson(document.data)
-                val result = gson.fromJson(value, Record::class.java)
+                val result = gson.fromJson(value, Recording::class.java)
                 result.museoId  = document.id
                 items5.add(result)
             }
@@ -167,7 +151,7 @@ class HomeFragment : Fragment() {
         query.get().addOnSuccessListener { result ->
             for (document in result) {
                 val value = gson.toJson(document.data)
-                val result = gson.fromJson(value, Record::class.java)
+                val result = gson.fromJson(value, Recording::class.java)
                 Log.d("asd",document.id)
                 result.museoId  = document.id
                 items.add(result)
@@ -197,7 +181,7 @@ class HomeFragment : Fragment() {
         query.get().addOnSuccessListener { result ->
             for (document in result) {
                 val value = gson.toJson(document.data)
-                val result = gson.fromJson(value, Record::class.java)
+                val result = gson.fromJson(value, Recording::class.java)
                 result.museoId  = document.id
                 items3.add(result)
             }
