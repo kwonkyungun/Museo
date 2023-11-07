@@ -8,12 +8,14 @@ import android.os.Bundle
 import android.text.util.Linkify
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.classic.museo.R
 import com.classic.museo.data.Recording
 import com.classic.museo.databinding.ActivityDetailBinding
+import com.classic.museo.itemPage.MypageInnerActivity.LikeAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -61,9 +63,11 @@ class DetailActivity : AppCompatActivity() {
                 for (document in documents) {
                     if (museumId == document.id) {
                         like = true
+                        binding.dtLike.setImageResource(R.drawable.bookmark_push)
                         return@addOnSuccessListener
                     } else {
                         like = false
+                        binding.dtLike.setImageResource(R.drawable.unbookmark)
                     }
                 }
 
@@ -208,12 +212,9 @@ class DetailActivity : AppCompatActivity() {
                         .document(museoId)
                         .delete()
                         .addOnSuccessListener {
-                            Log.d(
-                                "성공",
-                                "DocumentSnapshot successfully deleted!"
-
-                            )
                             like = !like
+                            Toast.makeText(this, "즐겨찾기 삭제되었습니다", Toast.LENGTH_SHORT).show()
+                            binding.dtLike.setImageResource(R.drawable.unbookmark)
                         }
                         .addOnFailureListener { e ->
                             Log.w(
@@ -240,6 +241,7 @@ class DetailActivity : AppCompatActivity() {
                             .set(data)
                             .addOnSuccessListener { documentReference ->
                                 like = !like
+                                binding.dtLike.setImageResource(R.drawable.bookmark_push)
                                 Toast.makeText(this, "즐겨찾기 추가되었습니다", Toast.LENGTH_SHORT).show()
                             }
                             .addOnFailureListener { e ->

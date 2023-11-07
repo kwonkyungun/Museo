@@ -51,7 +51,6 @@ class LoginActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
-        login()
     }
 
     override fun onDestroy() {
