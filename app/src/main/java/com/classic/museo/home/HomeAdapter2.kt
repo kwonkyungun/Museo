@@ -2,7 +2,6 @@ package com.classic.museo.home
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.classic.museo.itemPage.DetailActivity
 import com.classic.museo.R
-import com.classic.museo.data.Record
+import com.classic.museo.data.Recording
 import com.classic.museo.databinding.RecyclerviewItem2BigBinding
 import com.classic.museo.databinding.RecyclerviewItem2Binding
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 
 class HomeAdapter2(var subject: String, val hContext: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var museoData = mutableListOf<Record>()
+    var museoData = mutableListOf<Recording>()
     private var intent = Intent()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view =

@@ -303,6 +303,11 @@ class CommunityDetailActivity() : AppCompatActivity() {
             val value = gson.toJson(document.data)
             val result = gson.fromJson(value, CommunityDTO::class.java)
             val documentId = document.id
+            Log.e("아이템1","${result.title}")
+            Log.e("아이템2","${result.text}")
+            Log.e("아이템3","${result.museum}")
+            Log.e("아이템4","${result.NickName}")
+            Log.e("아이템5","${result.date}")
             binding.communityDetailTitle.text = result.title
             binding.communityDetailText.text = result.text
             binding.communityDetailMuseum.text = result.museum

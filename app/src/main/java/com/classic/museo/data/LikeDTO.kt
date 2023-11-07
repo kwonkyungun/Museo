@@ -9,8 +9,9 @@ data class LikeDTO(
     val address:String,
     val category:String,
     val museum: String,
+    val museumId : String,
 ) : Parcelable {
-    constructor() : this("","","","")
+    constructor() : this("","","","","")
 }
 
 
