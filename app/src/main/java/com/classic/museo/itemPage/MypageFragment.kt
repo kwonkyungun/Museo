@@ -10,8 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.classic.museo.Login.LoginActivity
+import com.classic.museo.MainActivity
 import com.classic.museo.R
 import com.classic.museo.itemPage.MypageInnerActivity.MypageLike
 import com.classic.museo.itemPage.MypageInnerActivity.MypageLogoutDialog
@@ -132,15 +134,65 @@ class MypageFragment : Fragment() {
     //내 게시물
     fun MyPost(){
         binding.MypageWrittenLayout.setOnClickListener {
-            val tosstoWritten = Intent(activity,MypageWritten::class.java)
-            startActivity(tosstoWritten)
+
+            auth = Firebase.auth
+            val currentUser = auth?.currentUser
+
+            UserApiClient.instance.me { user, error ->
+
+                if (currentUser == null && user == null) {
+                    val loginBuilder = AlertDialog.Builder(mypageContext)
+                    loginBuilder.setTitle("로그인이 필요한 서비스입니다.")
+                    loginBuilder.setMessage("로그인 하시겠습니까?")
+
+                    loginBuilder.setPositiveButton("확인") { dialog, _ ->
+                        val loginIntent = Intent(mypageContext, LoginActivity::class.java)
+                        loginIntent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(loginIntent)
+                    }
+                    loginBuilder.setNegativeButton("취소") { _,_ ->
+
+                    }
+                    loginBuilder.setCancelable(false)
+                    loginBuilder.show()
+                }else {
+                    val tosstoWritten = Intent(activity,MypageWritten::class.java)
+                    startActivity(tosstoWritten)
+                }
+            }
         }
     }
-    //좋아요
+    //즐겨찾기
     fun MyLike(){
         binding.MypageLikeLayout.setOnClickListener {
-            val tosstoLike = Intent(activity,MypageLike::class.java)
-            startActivity(tosstoLike)
+
+            auth = Firebase.auth
+            val currentUser = auth?.currentUser
+
+            UserApiClient.instance.me { user, error ->
+
+                if (currentUser == null && user == null) {
+                    val loginBuilder = AlertDialog.Builder(mypageContext)
+                    loginBuilder.setTitle("로그인이 필요한 서비스입니다.")
+                    loginBuilder.setMessage("로그인 하시겠습니까?")
+
+                    loginBuilder.setPositiveButton("확인") { dialog, _ ->
+                        val loginIntent = Intent(mypageContext, LoginActivity::class.java)
+                        loginIntent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(loginIntent)
+                    }
+                    loginBuilder.setNegativeButton("취소") { _,_ ->
+
+                    }
+                    loginBuilder.setCancelable(false)
+                    loginBuilder.show()
+                }else {
+                    val tosstoLike = Intent(activity,MypageLike::class.java)
+                    startActivity(tosstoLike)
+                }
+            }
         }
     }
     //공지사항

@@ -15,6 +15,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.GsonBuilder
 import com.classic.museo.data.Recording
+import com.kakao.sdk.user.UserApiClient
 
 class MypageLike : AppCompatActivity() {
 
@@ -36,7 +37,7 @@ class MypageLike : AppCompatActivity() {
         binding = ActivityMypageLikeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        auth = FirebaseAuth.getInstance().currentUser?.uid
+        auth = FirebaseAuth.getInstance().uid
         Log.e("qq", "$auth")
 
         //파이어스토어 인스턴스 초기화
@@ -47,46 +48,61 @@ class MypageLike : AppCompatActivity() {
             finish()
         }
 
+    }
 
-        db.collection("users")
-            .document("$auth")
-            .collection("myLike")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    var gson = GsonBuilder().create()
-                    val value = gson.toJson(document.data)
-                    val documentId = document.id
-                    val result = gson.fromJson(value, LikeDTO::class.java)
+    override fun onResume() {
+        super.onResume()
 
-                    val museoRef = db.collection("museoInfo").document(result.museumId)
+        museoItems.clear()
+        loadItem.clear()
+        UserApiClient.instance.me { user, error ->
 
-                    museoRef.get()
-                        .addOnSuccessListener { document ->
-                            if (document != null) {
-                                val gson = GsonBuilder().create()
-                                val value = gson.toJson(document.data)
-                                val result2 = gson.fromJson(value, Recording::class.java)
-                                result2.museoId=document.id
-                                museoItems.add(result2)
+            db.collection("users")
+                .document(
+                    if (auth != null) {
+                        "${auth}"
+                    } else {
+                        user!!.id.toString()
+                    }
+                )
+                .collection("myLike")
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        var gson = GsonBuilder().create()
+                        val value = gson.toJson(document.data)
+                        val documentId = document.id
+                        val result = gson.fromJson(value, LikeDTO::class.java)
 
+                        val museoRef = db.collection("museoInfo").document(result.museumId)
 
-                                IdItems.add(documentId)
-                                loadItem.add(result)
+                        museoRef.get()
+                            .addOnSuccessListener { document ->
+                                if (document != null) {
+                                    val gson = GsonBuilder().create()
+                                    val value = gson.toJson(document.data)
+                                    val result2 = gson.fromJson(value, Recording::class.java)
+                                    result2.museoId = document.id
+                                    museoItems.add(result2)
+
+                                    loadItem.add(result)
+                                }
+                                Log.e("테스트원","${loadItem}")
+                                if (loadItem.isEmpty()) {
+                                    Toast.makeText(this, "즐겨찾기가 없습니다.", Toast.LENGTH_SHORT).show()
+                                }
+                                val adapterTo=LikeAdapter(loadItem, this, museoItems)
+                                binding.favoritesRv.adapter =adapterTo
+                                binding.favoritesRv.layoutManager = LinearLayoutManager(this)
                             }
-                            if (loadItem.isEmpty()) {
-                                Toast.makeText(this, "즐겨찾기가 없습니다.", Toast.LENGTH_SHORT).show()
-                            }
-                            binding.favoritesRv.adapter = LikeAdapter(loadItem, this, museoItems)
-                            binding.favoritesRv.layoutManager = LinearLayoutManager(this)
-                        }
+                    }
+
+                }
+                .addOnFailureListener { exception ->
+                    Log.w(ContentValues.TAG, "Error getting documents: ", exception)
                 }
 
-            }
-            .addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
-            }
-
+        }
 
     }
 

@@ -54,7 +54,6 @@ class HomeFragment : Fragment() {
         hAdapter = HomeAdapter(hContext)
         binding.recyclerHome1.adapter = hAdapter
         binding.recyclerHome1.layoutManager = LinearLayoutManager(hContext)
-        binding.recyclerHome1.setHasFixedSize(true)
     }
 
     private fun freeItem() {

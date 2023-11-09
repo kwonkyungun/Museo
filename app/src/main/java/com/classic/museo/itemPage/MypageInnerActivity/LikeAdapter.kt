@@ -35,7 +35,7 @@ class LikeAdapter(
                 parent,
                 false
             )
-        return likeViewHolder(binding)
+        return LikeViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -43,11 +43,11 @@ class LikeAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as likeViewHolder).bind(position)
+        (holder as LikeViewHolder).bind(position)
     }
 
 
-    inner class likeViewHolder(private val binding: ActivityMypageLikeItemBinding) :
+    inner class LikeViewHolder(private val binding: ActivityMypageLikeItemBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         var detailPage = binding.root

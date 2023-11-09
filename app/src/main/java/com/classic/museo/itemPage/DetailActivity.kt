@@ -34,7 +34,7 @@ class DetailActivity : AppCompatActivity() {
     private var auth: FirebaseAuth? = null
     private var subId = ""
     private var like = false
-    private var museumId=""
+    private var museumId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,30 +52,38 @@ class DetailActivity : AppCompatActivity() {
         museumId = intent.getStringExtra("museoId")!!
 
 
-        Log.d("dd","${museumData.museoId}")
+        Log.d("dd", "${museumData.museoId}")
+
+        UserApiClient.instance.me { user, error ->
 
 
-        db.collection("users")
-            .document("$uid")
-            .collection("myLike")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    if (museumId == document.id) {
-                        like = true
-                        binding.dtLike.setImageResource(R.drawable.bookmark_push)
-                        return@addOnSuccessListener
+            db.collection("users")
+                .document(
+                    if (uid != null) {
+                        "${uid!!}"
                     } else {
-                        like = false
-                        binding.dtLike.setImageResource(R.drawable.unbookmark)
+                        "${user!!.id.toString()}"
                     }
+                )
+                .collection("myLike")
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        if (museumId == document.id) {
+                            like = true
+                            binding.dtLike.setImageResource(R.drawable.bookmark_push)
+                            return@addOnSuccessListener
+                        } else {
+                            like = false
+                            binding.dtLike.setImageResource(R.drawable.unbookmark)
+                        }
+                    }
+
                 }
-
-            }
-            .addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
-            }
-
+                .addOnFailureListener { exception ->
+                    Log.w(ContentValues.TAG, "Error getting documents: ", exception)
+                }
+        }
 
         //뒤로가기 버튼
         binding.dtBack.setOnClickListener {
@@ -207,7 +215,13 @@ class DetailActivity : AppCompatActivity() {
             UserApiClient.instance.me { user, error ->
                 if (like) {
                     db.collection("users")
-                        .document("${uid}")
+                        .document(
+                            if (uid != null) {
+                                "${uid!!}"
+                            } else {
+                                "${user!!.id.toString()}"
+                            }
+                        )
                         .collection("myLike")
                         .document(museoId)
                         .delete()
@@ -225,9 +239,7 @@ class DetailActivity : AppCompatActivity() {
                         }
                 } else {
                     //데이터 생성
-                    if (uid != null || user!=null) {
-                        val collectionPath =
-                            "users/$uid/myLike"
+                    if (uid != null || user != null) {
                         // 서브컬렉션에 새 문서 추가
                         val data = hashMapOf(
                             "title" to title,
@@ -236,7 +248,14 @@ class DetailActivity : AppCompatActivity() {
                             "museum" to museum,
                             "museumId" to museumId
                         )
-                        db.collection(collectionPath)
+                        db.collection("users")
+                            .document(
+                                if (uid != null) {
+                                    "${uid!!}"
+                                } else {
+                                    "${user!!.id.toString()}"
+                                }
+                            ).collection("myLike")
                             .document(museoId)
                             .set(data)
                             .addOnSuccessListener { documentReference ->
