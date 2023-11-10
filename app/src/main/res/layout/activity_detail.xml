@@ -33,10 +33,9 @@
 
             <ImageView
                 android:id="@+id/dt_back"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="20dp"
                 android:src="@drawable/back"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +84,7 @@
                         android:id="@+id/dt_title"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_marginTop="22dp"
                         android:layout_marginEnd="10dp"
                         android:text="국립춘천박물관"
@@ -101,13 +100,12 @@
                         android:id="@+id/dt_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
                         android:text="033-260-1500"
                         android:textSize="16dp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@+id/im_number"
-                        app:layout_constraintTop_toBottomOf="@+id/dt_title">
+                        app:layout_constraintTop_toTopOf="@+id/im_number">
 
                     </TextView>
 
@@ -115,13 +113,12 @@
                         android:id="@+id/dt_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="5dp"
                         android:text="강원특별자치도 춘천시 우석로 70"
                         android:textSize="15dp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@+id/im_address"
-                        app:layout_constraintTop_toBottomOf="@+id/dt_number">
+                        app:layout_constraintTop_toTopOf="@+id/im_address">
 
                     </TextView>
 
@@ -129,20 +126,19 @@
                         android:id="@+id/im_number"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
                         android:src="@drawable/number"
-                        app:layout_constraintBottom_toTopOf="@+id/im_address"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="@+id/dt_title"
+                        app:layout_constraintTop_toBottomOf="@+id/dt_title" />
 
                     <ImageView
                         android:id="@+id/im_address"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
                         android:src="@drawable/address"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/dt_number" />
+                        app:layout_constraintStart_toStartOf="@+id/im_number"
+                        app:layout_constraintTop_toBottomOf="@+id/im_number" />
 
                     <ImageView
                         android:id="@+id/dt_share"
