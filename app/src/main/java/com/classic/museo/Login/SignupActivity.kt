@@ -50,7 +50,8 @@ class SignupActivity : AppCompatActivity() {
             finish()
         }
 
-        certificationCall()
+        // SMS 인증번호
+//        certificationCall()
 
     }
     //유효성 검사
@@ -249,7 +250,7 @@ class SignupActivity : AppCompatActivity() {
                             .set(User)
                             .addOnSuccessListener {
                                 Log.d(
-                                    TAG,
+                                    "qweqe",
                                     "DocumentSnapshot successfully written!"
                                 )
                             }
@@ -269,88 +270,88 @@ class SignupActivity : AppCompatActivity() {
     }
 
     //인증번호 요청
-    fun certificationCall(){
-        binding.edPhonCall.setOnClickListener {
-            val number = binding.edPhon.text.toString()
-
-            if (number.isEmpty()) {
-                Toast.makeText(this,"전화번호를 입력해주세요",Toast.LENGTH_SHORT).show()
-
-            }else{
-
-                //휴대폰 인증 SMS 메시지 언어 설정
-                auth.setLanguageCode("Kr")
-
-                val firstNumber : String = number.substring(0,3)
-                var phoneEdit = number.substring(3)
-
-                when(firstNumber){
-                    "010" -> phoneEdit = "+8210$phoneEdit"
-                    "011" -> phoneEdit = "+8211$phoneEdit"
-                    "016" -> phoneEdit = "+8216$phoneEdit"
-                    "017" -> phoneEdit = "+8217$phoneEdit"
-                    "018" -> phoneEdit = "+8218$phoneEdit"
-                    "019" -> phoneEdit = "+8219$phoneEdit"
-                    "106" -> phoneEdit = "+82106$phoneEdit"
-                }
-                Log.d("국가코드로 변경된 번호 ",phoneEdit)
-
-
-                val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                    override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-
-                    }
-                    override fun onVerificationFailed(e: FirebaseException) {
-
-                    }
-                    override fun onCodeSent(verificationId: String,
-                                            token: PhoneAuthProvider.ForceResendingToken) {
-                        this@SignupActivity.verificationId = verificationId
-                    }
-                }
-                // 사용자 인증코드 전송 설정
-                val options = PhoneAuthOptions.newBuilder(auth)
-                    .setPhoneNumber(phoneEdit)
-                    .setTimeout(60L, TimeUnit.SECONDS)
-                    .setActivity(this)
-                    .setCallbacks(callbacks)
-                    .build()
-                PhoneAuthProvider.verifyPhoneNumber(options)
-
-            }
-        }
-
-
-        //인증확인버튼
-        binding.btPhonCheck.setOnClickListener {
-
-            val checkNumber = binding.edPhonCheck.text.toString()
-            if(checkNumber.isEmpty()){
-                Toast.makeText(this,"인증번호를 입력해 주세요",Toast.LENGTH_SHORT).show()
-            }else{
-                //인증확인
-                val credential = PhoneAuthProvider.getCredential(verificationId, checkNumber)
-                signInWithPhoneAuthCredential(credential)
-            }
-        }
-
-
-    }
+//    fun certificationCall(){
+//        binding.edPhonCall.setOnClickListener {
+//            val number = binding.edPhon.text.toString()
+//
+//            if (number.isEmpty()) {
+//                Toast.makeText(this,"전화번호를 입력해주세요",Toast.LENGTH_SHORT).show()
+//
+//            }else{
+//
+//                //휴대폰 인증 SMS 메시지 언어 설정
+//                auth.setLanguageCode("Kr")
+//
+//                val firstNumber : String = number.substring(0,3)
+//                var phoneEdit = number.substring(3)
+//
+//                when(firstNumber){
+//                    "010" -> phoneEdit = "+8210$phoneEdit"
+//                    "011" -> phoneEdit = "+8211$phoneEdit"
+//                    "016" -> phoneEdit = "+8216$phoneEdit"
+//                    "017" -> phoneEdit = "+8217$phoneEdit"
+//                    "018" -> phoneEdit = "+8218$phoneEdit"
+//                    "019" -> phoneEdit = "+8219$phoneEdit"
+//                    "106" -> phoneEdit = "+82106$phoneEdit"
+//                }
+//                Log.d("국가코드로 변경된 번호 ",phoneEdit)
+//
+//
+//                val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+//                    override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+//
+//                    }
+//                    override fun onVerificationFailed(e: FirebaseException) {
+//
+//                    }
+//                    override fun onCodeSent(verificationId: String,
+//                                            token: PhoneAuthProvider.ForceResendingToken) {
+//                        this@SignupActivity.verificationId = verificationId
+//                    }
+//                }
+//                // 사용자 인증코드 전송 설정
+//                val options = PhoneAuthOptions.newBuilder(auth)
+//                    .setPhoneNumber(phoneEdit)
+//                    .setTimeout(60L, TimeUnit.SECONDS)
+//                    .setActivity(this)
+//                    .setCallbacks(callbacks)
+//                    .build()
+//                PhoneAuthProvider.verifyPhoneNumber(options)
+//
+//            }
+//        }
+//
+//
+//        //인증확인버튼
+//        binding.btPhonCheck.setOnClickListener {
+//
+//            val checkNumber = binding.edPhonCheck.text.toString()
+//            if(checkNumber.isEmpty()){
+//                Toast.makeText(this,"인증번호를 입력해 주세요",Toast.LENGTH_SHORT).show()
+//            }else{
+//                //인증확인
+//                val credential = PhoneAuthProvider.getCredential(verificationId, checkNumber)
+//                signInWithPhoneAuthCredential(credential)
+//            }
+//        }
+//
+//
+//    }
     //인증번호 확인
-    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    //인증성공
-                    Toast.makeText(this,"인증성공하였습니다.",Toast.LENGTH_SHORT).show()
-                    Log.d("인증 ","인증성공")
-                }
-                else {
-                    //인증실패
-                    Toast.makeText(this,"인증실패하였습니다.",Toast.LENGTH_SHORT).show()
-                    Log.d("인증 ","인증실패")
-                }
-            }
-    }
+//    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+//        auth.signInWithCredential(credential)
+//            .addOnCompleteListener(this) { task ->
+//                if (task.isSuccessful) {
+//                    //인증성공
+//                    Toast.makeText(this,"인증성공하였습니다.",Toast.LENGTH_SHORT).show()
+//                    Log.d("인증 ","인증성공")
+//                }
+//                else {
+//                    //인증실패
+//                    Toast.makeText(this,"인증실패하였습니다.",Toast.LENGTH_SHORT).show()
+//                    Log.d("인증 ","인증실패")
+//                }
+//            }
+//    }
 
 }

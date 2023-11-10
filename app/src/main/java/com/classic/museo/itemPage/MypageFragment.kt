@@ -67,6 +67,24 @@ class MypageFragment : Fragment() {
         //비회원 로그인시 로그인 페이지 보여주기
         nonLogin()
 
+        //회원탈퇴
+        binding.btnWithdrawal.setOnClickListener{
+            val builder = AlertDialog.Builder(mypageContext)
+            builder.setTitle("회원탈퇴")
+            builder.setMessage("정말로 탈퇴 하시겠습니까? \n확인을 누르면 계정이 삭제됩니다.")
+
+            builder.setPositiveButton("확인"){ dialog, _ ->
+                authWithdrawal()
+                usersWithdrawal()
+                val withdrawalIntent = Intent(mypageContext, LoginActivity::class.java)
+                startActivity(withdrawalIntent)
+            }
+            builder.setNegativeButton("취소"){ dialog, _ ->
+                dialog.dismiss()
+            }
+            builder.show()
+        }
+
 //        //커뮤니티 디테일 액티비티로 넘어가는 임시 코드
 //        binding.tempbtn.setOnClickListener {
 //            val TossToCommunityDetail = Intent(activity,CommunityDetailActivity::class.java)
@@ -220,5 +238,33 @@ class MypageFragment : Fragment() {
                 }
             }
         }
+    }
+
+    fun authWithdrawal(){
+        //auth 계정 삭제
+        val user = Firebase.auth.currentUser!!
+
+        user.delete()
+            .addOnCompleteListener{ task ->
+                if (task.isSuccessful){
+                    Toast.makeText(mypageContext, "회원탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                    Log.d("mypage", "User account deleted.")
+                }
+            }
+    }
+
+    fun usersWithdrawal(){
+        //firestore user 삭제
+        uid = FirebaseAuth.getInstance().currentUser?.uid
+        db.collection("users").document("$uid")
+            .delete()
+            .addOnSuccessListener {
+                Log.d("mypage", "DocumentSnapshot successfully deleted!")
+            }
+            .addOnFailureListener { e ->
+                Log.w(
+                    "mypage", "Error deleting document", e
+                )
+            }
     }
 }

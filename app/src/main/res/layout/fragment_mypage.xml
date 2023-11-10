@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="닉네임"
+                android:text="비회원"
                 android:textSize="26dp"
                 app:layout_constraintEnd_toEndOf="@+id/imageView2"
                 app:layout_constraintStart_toStartOf="@+id/imageView2"
@@ -256,6 +256,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/MypageInfoLayout"
                 tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/btn_withdrawal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:text="회원탈퇴"
+                android:textColor="#AEADAD"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
