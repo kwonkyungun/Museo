@@ -28,8 +28,15 @@ class MypageWritten : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         auth = FirebaseAuth.getInstance().currentUser?.uid
 
+        myPost.clear()
+        myPostId.clear()
         //카카오 로그인 유저 게시물
         UserApiClient.instance.me { user, error ->
             if (error != null) {

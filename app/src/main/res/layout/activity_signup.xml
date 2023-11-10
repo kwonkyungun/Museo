@@ -7,49 +7,47 @@
     android:background="@drawable/dodo3"
     tools:context=".Login.SignupActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:background="#D8B674"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#D8B674"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/signup_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:textColor="#FFFFFF"
+            android:textSize="28dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/signup_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="회원가입"
-                android:textSize="28dp"
-                android:textColor="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-
-            <ImageView
-                android:id="@+id/signup_back"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="20dp"
-                android:src="@drawable/back"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+        <ImageView
+            android:id="@+id/signup_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -194,95 +192,86 @@
                 app:layout_constraintStart_toStartOf="@+id/signup_edit_pw2"
                 app:layout_constraintTop_toBottomOf="@+id/signup_edit_pw2" />
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="25dp"
-                android:text="휴대폰 인증"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/signup_edit_pw2" />
+            <!--            <TextView-->
+            <!--                android:id="@+id/textView6"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="30dp"-->
+            <!--                android:layout_marginTop="25dp"-->
+            <!--                android:text="휴대폰 인증"-->
+            <!--                android:textSize="20sp"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/signup_edit_pw2" />-->
 
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="예시) 01012345678"
-                android:textColor="#9C9C9C"
-                app:layout_constraintBottom_toBottomOf="@+id/textView6"
-                app:layout_constraintStart_toEndOf="@+id/textView6"
-                app:layout_constraintTop_toTopOf="@+id/textView6" />
+            <!--            <TextView-->
+            <!--                android:id="@+id/textView7"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginLeft="20dp"-->
+            <!--                android:text="예시) 01012345678"-->
+            <!--                android:textColor="#9C9C9C"-->
+            <!--                app:layout_constraintBottom_toBottomOf="@+id/textView6"-->
+            <!--                app:layout_constraintStart_toEndOf="@+id/textView6"-->
+            <!--                app:layout_constraintTop_toTopOf="@+id/textView6" />-->
 
-            <EditText
-                android:id="@+id/ed_phon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="130dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/login_edit"
-                android:hint="전화번호 입력"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            <!--            <EditText-->
+            <!--                android:id="@+id/ed_phon"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginLeft="30dp"-->
+            <!--                android:layout_marginRight="130dp"-->
+            <!--                android:layout_marginTop="10dp"-->
+            <!--                android:background="@drawable/login_edit"-->
+            <!--                android:hint="전화번호 입력"-->
+            <!--                android:paddingHorizontal="15dp"-->
+            <!--                android:paddingVertical="10dp"-->
+            <!--                android:textSize="20sp"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/textView6" />-->
 
-            <TextView
-                android:id="@+id/ed_phon_call"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="인증번호 전송"
-                android:textSize="15sp"
-                android:layout_marginLeft="10dp"
-                android:paddingVertical="11dp"
-                android:paddingHorizontal="5dp"
-                android:background="@drawable/login_edit"
-                app:layout_constraintBottom_toBottomOf="@+id/ed_phon"
-                app:layout_constraintStart_toEndOf="@+id/ed_phon"
-                app:layout_constraintTop_toTopOf="@+id/ed_phon" />
+            <!--            <TextView-->
+            <!--                android:id="@+id/ed_phon_call"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="인증번호 전송"-->
+            <!--                android:textSize="15sp"-->
+            <!--                android:layout_marginLeft="10dp"-->
+            <!--                android:paddingVertical="11dp"-->
+            <!--                android:paddingHorizontal="5dp"-->
+            <!--                android:background="@drawable/login_edit"-->
+            <!--                app:layout_constraintBottom_toBottomOf="@+id/ed_phon"-->
+            <!--                app:layout_constraintStart_toEndOf="@+id/ed_phon"-->
+            <!--                app:layout_constraintTop_toTopOf="@+id/ed_phon" />-->
 
 
-            <EditText
-                android:id="@+id/ed_phon_check"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="130dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/login_edit"
-                android:hint="인증번호 입력"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp"
-                android:textSize="20sp"
+            <!--            <EditText-->
+            <!--                android:id="@+id/ed_phon_check"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginLeft="30dp"-->
+            <!--                android:layout_marginRight="130dp"-->
+            <!--                android:layout_marginTop="20dp"-->
+            <!--                android:background="@drawable/login_edit"-->
+            <!--                android:hint="인증번호 입력"-->
+            <!--                android:paddingHorizontal="15dp"-->
+            <!--                android:paddingVertical="10dp"-->
+            <!--                android:textSize="20sp"-->
 
-                app:layout_constraintTop_toBottomOf="@+id/ed_phon" />
+            <!--                app:layout_constraintTop_toBottomOf="@+id/ed_phon" />-->
 
-            <TextView
-                android:id="@+id/bt_phon_check"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="    인증확인    "
-                android:layout_marginLeft="10dp"
-                android:paddingVertical="11dp"
-                android:paddingHorizontal="5dp"
-                android:textSize="15sp"
-                android:background="@drawable/login_edit"
-                app:layout_constraintBottom_toBottomOf="@+id/ed_phon_check"
-                app:layout_constraintStart_toEndOf="@+id/ed_phon_check"
-                app:layout_constraintTop_toTopOf="@+id/ed_phon_check" />
-
-            <TextView
-                android:id="@+id/phon_certification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text=""
-                app:layout_constraintStart_toStartOf="@+id/ed_phon_check"
-                app:layout_constraintTop_toBottomOf="@+id/ed_phon_check"/>
+            <!--            <TextView-->
+            <!--                android:id="@+id/bt_phon_check"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="    인증확인    "-->
+            <!--                android:layout_marginLeft="10dp"-->
+            <!--                android:paddingVertical="11dp"-->
+            <!--                android:paddingHorizontal="5dp"-->
+            <!--                android:textSize="15sp"-->
+            <!--                android:background="@drawable/login_edit"-->
+            <!--                app:layout_constraintBottom_toBottomOf="@+id/ed_phon_check"-->
+            <!--                app:layout_constraintStart_toEndOf="@+id/ed_phon_check"-->
+            <!--                app:layout_constraintTop_toTopOf="@+id/ed_phon_check" />-->
 
 
             <android.widget.Button
@@ -300,7 +289,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phon_certification" />
+                app:layout_constraintTop_toBottomOf="@+id/signup_edit_pw2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

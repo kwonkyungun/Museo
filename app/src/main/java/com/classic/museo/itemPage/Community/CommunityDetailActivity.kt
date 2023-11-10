@@ -20,12 +20,15 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.classic.museo.Login.LoginActivity
+import com.classic.museo.MainActivity
 import com.classic.museo.R
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.data.CommentDTO
 import com.classic.museo.data.KakaoUsers
 import com.classic.museo.data.Users
 import com.classic.museo.databinding.ActivityCommunityDetailBinding
+import com.classic.museo.itemPage.MypageInnerActivity.MypageLike
 import com.classic.museo.itemPage.MypageInnerActivity.WrittenAdapter
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
@@ -96,6 +99,36 @@ class CommunityDetailActivity() : AppCompatActivity() {
                 }
             }
         }
+
+        binding.communityDetailComment.setOnFocusChangeListener{_,hasFocus ->
+            if(hasFocus){
+                auth = Firebase.auth
+                val currentUser = auth?.currentUser
+
+                UserApiClient.instance.me { user, error ->
+
+                    if (currentUser == null && user == null) {
+                        val loginBuilder = AlertDialog.Builder(this)
+                        loginBuilder.setTitle("로그인이 필요한 서비스입니다.")
+                        loginBuilder.setMessage("로그인 하시겠습니까?")
+
+                        loginBuilder.setPositiveButton("확인") { dialog, _ ->
+                            val loginIntent = Intent(this, LoginActivity::class.java)
+                            loginIntent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(loginIntent)
+                        }
+                        loginBuilder.setNegativeButton("취소") { _,_ ->
+                            val mainTo = Intent(this, MainActivity::class.java)
+                            startActivity(mainTo)
+                        }
+                        loginBuilder.setCancelable(false)
+                        loginBuilder.show()
+                    }
+                }
+            }
+        }
+
         //등록버튼 클릭리스너
         binding.communityDetailSave.setOnClickListener {
 
@@ -302,12 +335,6 @@ class CommunityDetailActivity() : AppCompatActivity() {
         db.collection("post").document("$documentID").get().addOnSuccessListener { document ->
             val value = gson.toJson(document.data)
             val result = gson.fromJson(value, CommunityDTO::class.java)
-            val documentId = document.id
-            Log.e("아이템1","${result.title}")
-            Log.e("아이템2","${result.text}")
-            Log.e("아이템3","${result.museum}")
-            Log.e("아이템4","${result.NickName}")
-            Log.e("아이템5","${result.date}")
             binding.communityDetailTitle.text = result.title
             binding.communityDetailText.text = result.text
             binding.communityDetailMuseum.text = result.museum

@@ -27,7 +27,8 @@
     <string name="underline_2"><u>비회원 로그인</u></string>
 
     <string-array name="communitySearch">
-        <item>title</item>
-        <item>museum</item>
+        <item>전체</item>
+        <item>제목</item>
+        <item>장소</item>
     </string-array>
 </resources>

@@ -22,12 +22,10 @@ import com.classic.museo.itemPage.announcement.AnnouncementDetailActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class LikeAdapter(
-    val mItems: MutableList<LikeDTO>,
-    val context: Context, val museoItem: MutableList<Recording>
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class LikeAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    var mItems= mutableListOf<LikeDTO>()
+    var museoItem= mutableListOf<Recording>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
             ActivityMypageLikeItemBinding.inflate(
@@ -35,7 +33,13 @@ class LikeAdapter(
                 parent,
                 false
             )
-        return likeViewHolder(binding)
+        return LikeViewHolder(binding)
+    }
+
+    fun clearItem() {
+        mItems.clear()
+        museoItem.clear()
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
@@ -43,11 +47,11 @@ class LikeAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as likeViewHolder).bind(position)
+        (holder as LikeViewHolder).bind(position)
     }
 
 
-    inner class likeViewHolder(private val binding: ActivityMypageLikeItemBinding) :
+    inner class LikeViewHolder(private val binding: ActivityMypageLikeItemBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         var detailPage = binding.root

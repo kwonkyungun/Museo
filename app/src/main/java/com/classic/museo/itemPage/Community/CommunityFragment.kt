@@ -30,6 +30,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.kakao.sdk.user.UserApi
 import com.kakao.sdk.user.UserApiClient
+import org.checkerframework.checker.units.qual.C
 
 
 class CommunityFragment : Fragment() {
@@ -57,6 +58,7 @@ class CommunityFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        binding.editText.text.clear()
         postingLoad()
     }
 
@@ -88,11 +90,12 @@ class CommunityFragment : Fragment() {
     }
 
     private fun searchCategory() {
-
         binding.communitySpinner1.setOnSpinnerItemSelectedListener<String> { _, _, _, category ->
             val gson = GsonBuilder().create()
-            if (category == "title") {
+            if (category == "제목") {
                 binding.communitySearch.setOnClickListener {
+                    items.clear()
+                    idItems.clear()
                     adapter.clearItem()
                     var searchText = binding.editText.text.toString()
                     db.collection("post")
@@ -102,7 +105,9 @@ class CommunityFragment : Fragment() {
                             for (document in result) {
                                 val value = gson.toJson(document.data)
                                 val result = gson.fromJson(value, CommunityDTO::class.java)!!
+                                val documentId=document.id
                                 items.add(result)
+                                idItems.add(documentId)
                             }
                             if (items.isEmpty()) {
                                 Toast.makeText(
@@ -112,13 +117,16 @@ class CommunityFragment : Fragment() {
                                 ).show()
                             }
                             adapter.review = items
+                            adapter.documentID=idItems
                             adapter.notifyDataSetChanged()
                         }.addOnFailureListener { exception ->
                             Log.w(TAG, "Error getting documents: ", exception)
                         }
                 }
-            } else if (category == "museum") {
+            } else if (category == "장소") {
                 binding.communitySearch.setOnClickListener {
+                    items.clear()
+                    idItems.clear()
                     adapter.clearItem()
                     var searchText = binding.editText.text.toString()
                     db.collection("post")
@@ -128,17 +136,23 @@ class CommunityFragment : Fragment() {
                             for (document in result) {
                                 val value = gson.toJson(document.data)
                                 val result = gson.fromJson(value, CommunityDTO::class.java)!!
+                                val documentId=document.id
                                 items.add(result)
+                                idItems.add(documentId)
                             }
                             if (items.isEmpty()) {
                                 Toast.makeText(context, "찾는 게시글이 없습니다.", Toast.LENGTH_SHORT).show()
                             }
                             adapter.review = items
+                            adapter.documentID=idItems
                             adapter.notifyDataSetChanged()
                         }.addOnFailureListener { exception ->
                             Log.w(TAG, "Error getting documents: ", exception)
                         }
                 }
+            } else if (category == "전체") {
+
+                postingLoad()
             }
         }
     }
@@ -179,7 +193,7 @@ class CommunityFragment : Fragment() {
 
         UserApiClient.instance.me { user, error ->
 
-            if (currentUser == null && user==null) {
+            if (currentUser == null && user == null) {
                 val loginBuilder = AlertDialog.Builder(communityContext)
                 loginBuilder.setTitle("로그인이 필요한 서비스입니다.")
                 loginBuilder.setMessage("로그인 하시겠습니까?")
