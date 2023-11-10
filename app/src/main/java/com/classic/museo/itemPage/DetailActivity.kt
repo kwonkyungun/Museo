@@ -56,33 +56,35 @@ class DetailActivity : AppCompatActivity() {
 
         UserApiClient.instance.me { user, error ->
 
-
-            db.collection("users")
-                .document(
-                    if (uid != null) {
-                        "${uid!!}"
-                    } else {
-                        "${user!!.id.toString()}"
-                    }
-                )
-                .collection("myLike")
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        if (museumId == document.id) {
-                            like = true
-                            binding.dtLike.setImageResource(R.drawable.bookmark_push)
-                            return@addOnSuccessListener
+            if (user != null || uid != null) {
+                db.collection("users")
+                    .document(
+                        if (uid != null) {
+                            "${uid!!}"
                         } else {
-                            like = false
-                            binding.dtLike.setImageResource(R.drawable.unbookmark)
+                            "${user!!.id.toString()}"
                         }
-                    }
+                    )
+                    .collection("myLike")
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+                            if (museumId == document.id) {
+                                like = true
+                                binding.dtLike.setImageResource(R.drawable.bookmark_push)
+                                return@addOnSuccessListener
+                            } else {
+                                like = false
+                                binding.dtLike.setImageResource(R.drawable.unbookmark)
+                            }
+                        }
 
-                }
-                .addOnFailureListener { exception ->
-                    Log.w(ContentValues.TAG, "Error getting documents: ", exception)
-                }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.w(ContentValues.TAG, "Error getting documents: ", exception)
+                    }
+            }
+
         }
 
         //뒤로가기 버튼
