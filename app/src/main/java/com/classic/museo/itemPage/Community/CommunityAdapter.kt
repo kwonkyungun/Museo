@@ -3,6 +3,11 @@ package com.classic.museo.itemPage.Community
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +15,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.graphics.colorSpace
+import androidx.core.graphics.toColor
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.classic.museo.data.CommunityDTO
 import com.classic.museo.databinding.CommunityImageBinding
 import com.google.android.material.tabs.TabLayout.TabGravity
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -53,7 +62,6 @@ class CommunityAdapter(private val context: Context) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         var detailPage = binding.root
-
         init {
             detailPage.setOnClickListener(this)
         }
@@ -61,7 +69,23 @@ class CommunityAdapter(private val context: Context) :
         fun bind(pos: Int) {
             val fullid = review[pos].UserId
             val blind = "*****"
-            binding.textCommunityTitle.text = review[pos].title
+            val path =
+                bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return
+            val query = db.collection("post").document(documentID[path]).collection("comment")
+            val countQuery = query.count()
+            countQuery.get(AggregateSource.SERVER).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Count fetched successfully
+                    val snapshot = task.result
+                    Log.d("댓글수 테스트", "Count: ${snapshot.count}")
+                    val count = snapshot.count
+                    binding.textCommunityTitle.text = review[pos].title
+                    binding.textCommunitySubcount.text = count.toString()
+                } else {
+                    Log.d(TAG, "Count failed: ", task.getException())
+                }
+            }
+
             binding.communityNickname.text = review[pos].NickName
             if (fullid != null) {
                 binding.communityId.text = fullid.substring(0,fullid.indexOf("@"))+"@"+blind

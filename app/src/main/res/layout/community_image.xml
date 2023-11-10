@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/text_community_title"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -22,6 +22,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.245" />
+
+    <TextView
+        android:id="@+id/text_community_subcount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="댓글수"
+        android:textColor="#FF0000"
+        app:layout_constraintBottom_toBottomOf="@+id/date_community_image"
+        app:layout_constraintEnd_toStartOf="@+id/date_community_image"
+        app:layout_constraintTop_toTopOf="@+id/date_community_image" />
 
     <TextView
         android:id="@+id/community_museum_name"
@@ -65,13 +76,14 @@
         android:id="@+id/date_community_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:text="2023-10-10"
         android:textColor="#A19B9B"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/text_community_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <View
         android:id="@+id/view3"
@@ -81,5 +93,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="24dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_community_subcount"
+        app:layout_constraintEnd_toStartOf="@+id/text_community_subcount"
+        app:layout_constraintTop_toTopOf="@+id/text_community_subcount"
+        app:srcCompat="@drawable/comment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

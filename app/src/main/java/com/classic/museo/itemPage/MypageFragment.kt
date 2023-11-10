@@ -143,10 +143,41 @@ class MypageFragment : Fragment() {
     fun Logout() {
 
         binding.MypageLogout.setOnClickListener {
+            //            //테스트 시작
+//            val dialog = MypageLogoutDialog()
+//            dialog.show(requireActivity().supportFragmentManager, "DialogFragment")
+            val alertDialog= android.app.AlertDialog.Builder(context)
+            alertDialog.setMessage("로그아웃 확인")
+            alertDialog.setPositiveButton("확인") {_,_ ->
+                if(auth!!.uid!=null){
+                    //파이어베이스 로그아웃버튼
+                    FirebaseAuth.getInstance().signOut()
+                    Toast.makeText(activity,"회원 로그아웃 성공!",Toast.LENGTH_SHORT).show()
+                    val backtomain = Intent(activity, LoginActivity::class.java)
+                    backtomain.putExtra("ManualLogout","Yes")
+                    backtomain.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(backtomain)
+                }else {
+                    // 로그아웃
+                    UserApiClient.instance.logout { error ->
+                        if (error != null) {
+                            Log.e(ContentValues.TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+                        }
+                        else {
+                            Log.i(ContentValues.TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+                            val backtomain = Intent(activity, LoginActivity::class.java)
+                            backtomain.putExtra("ManualLogout","Yes")
+                            backtomain.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(backtomain)
+                            Toast.makeText(context,"회원(카카오)로그아웃 성공!",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
 
-            Log.d("버튼테스트","로그아웃버튼")
-            val dialog = MypageLogoutDialog()
-            dialog.show(requireActivity().supportFragmentManager, "DialogFragment")
+            alertDialog.setNegativeButton("취소") {_,_ ->}
+
+            alertDialog.show()
         }
     }
     //내 게시물
