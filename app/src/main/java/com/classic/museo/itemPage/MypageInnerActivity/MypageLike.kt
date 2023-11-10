@@ -37,9 +37,9 @@ class MypageLike : AppCompatActivity() {
         binding = ActivityMypageLikeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        auth = FirebaseAuth.getInstance().uid
-        Log.e("qq", "$auth")
+        initLike()
 
+        auth = FirebaseAuth.getInstance().uid
         //파이어스토어 인스턴스 초기화
         db = FirebaseFirestore.getInstance()
 
@@ -50,17 +50,23 @@ class MypageLike : AppCompatActivity() {
 
     }
 
+    private fun initLike() {
+        adapter=LikeAdapter(this)
+        binding.favoritesRv.adapter = adapter
+        binding.favoritesRv.layoutManager = LinearLayoutManager(this)
+    }
+
     override fun onResume() {
         super.onResume()
-
         museoItems.clear()
         loadItem.clear()
+        adapter.clearItem()
         UserApiClient.instance.me { user, error ->
 
             db.collection("users")
                 .document(
                     if (auth != null) {
-                        "${auth}"
+                        auth!!
                     } else {
                         user!!.id.toString()
                     }
@@ -87,23 +93,18 @@ class MypageLike : AppCompatActivity() {
 
                                     loadItem.add(result)
                                 }
-                                Log.e("테스트원","${loadItem}")
-                                if (loadItem.isEmpty()) {
-                                    Toast.makeText(this, "즐겨찾기가 없습니다.", Toast.LENGTH_SHORT).show()
-                                }
-                                val adapterTo=LikeAdapter(loadItem, this, museoItems)
-                                binding.favoritesRv.adapter =adapterTo
-                                binding.favoritesRv.layoutManager = LinearLayoutManager(this)
+                                adapter.museoItem=museoItems
+                                adapter.mItems=loadItem
+                                adapter.notifyDataSetChanged()
                             }
                     }
+
 
                 }
                 .addOnFailureListener { exception ->
                     Log.w(ContentValues.TAG, "Error getting documents: ", exception)
                 }
-
         }
-
     }
 
 }
