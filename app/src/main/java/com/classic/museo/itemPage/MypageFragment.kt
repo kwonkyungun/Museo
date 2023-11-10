@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.kakao.sdk.user.UserApi
 import com.kakao.sdk.user.UserApiClient
 
 
@@ -66,6 +67,9 @@ class MypageFragment : Fragment() {
 
         //비회원 로그인시 로그인 페이지 보여주기
         nonLogin()
+
+        //카카오 회원탈퇴 view gone
+        kLogin()
 
         //회원탈퇴
         binding.btnWithdrawal.setOnClickListener{
@@ -245,7 +249,7 @@ class MypageFragment : Fragment() {
         }
     }
     //공지사항
-    fun Info(){
+    private fun Info(){
         binding.MypageInfoLayout.setOnClickListener {
             //공지사항 페이지는 아직 없으므로 기능은 미구현
             val announcement = Intent(activity,AnnouncementActivity::class.java)
@@ -253,8 +257,17 @@ class MypageFragment : Fragment() {
         }
     }
 
+    //카카오 로그인 시 회원탈퇴 안보이게
+    private fun kLogin() {
+        UserApiClient.instance.me { user, error ->
+            if(user!=null){
+                binding.btnWithdrawal.visibility=View.GONE
+            }
+        }
+    }
+
     //비회원 로그인시
-    fun nonLogin(){
+    private fun nonLogin(){
         auth = Firebase.auth
         val currentUser = auth?.currentUser
         UserApiClient.instance.me { user, error ->
@@ -272,7 +285,7 @@ class MypageFragment : Fragment() {
         }
     }
 
-    fun authWithdrawal(){
+    private fun authWithdrawal(){
         //auth 계정 삭제
         val user = Firebase.auth.currentUser!!
 
@@ -285,7 +298,7 @@ class MypageFragment : Fragment() {
             }
     }
 
-    fun usersWithdrawal(){
+    private fun usersWithdrawal(){
         //firestore user 삭제
         uid = FirebaseAuth.getInstance().currentUser?.uid
         db.collection("users").document("$uid")
