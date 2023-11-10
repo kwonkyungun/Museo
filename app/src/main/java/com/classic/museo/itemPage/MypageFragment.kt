@@ -230,6 +230,7 @@ class MypageFragment : Fragment() {
             if(auth!!.uid == null && user==null){
                 binding.MypageSingup.visibility = View.VISIBLE
                 binding.MypageLogout.visibility = View.GONE
+                binding.btnWithdrawal.visibility = View.GONE
 
                 binding.MypageSingup.setOnClickListener{
                     val loginIntent = Intent(mypageContext, LoginActivity::class.java)
