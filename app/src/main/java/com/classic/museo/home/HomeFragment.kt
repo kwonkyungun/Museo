@@ -58,6 +58,7 @@ class HomeFragment : Fragment() {
 
     private fun freeItem() {
         items2.clear()
+        hAdapter.clearItem()
         val query = db.collection("museoInfo").whereEqualTo("adultChrge","0")
             .whereEqualTo("etcChrgeInfo","무료").limit(20)
         query.get().addOnSuccessListener { result ->

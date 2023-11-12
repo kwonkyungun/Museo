@@ -21,12 +21,8 @@ class MypageLike : AppCompatActivity() {
 
     private lateinit var binding: ActivityMypageLikeBinding
     private lateinit var adapter: LikeAdapter
-    private lateinit var gridLayoutManager: StaggeredGridLayoutManager
     private var db = Firebase.firestore
-    private val gson = GsonBuilder().create()
-    private val IdItems = mutableListOf<String>()
     private val loadItem = mutableListOf<LikeDTO>()
-    private val museumIdItems = mutableListOf<String>()
     private val museoItems = mutableListOf<Recording>()
     private var auth: String? = null
 

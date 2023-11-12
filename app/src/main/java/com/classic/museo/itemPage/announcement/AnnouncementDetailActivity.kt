@@ -16,7 +16,6 @@ class AnnouncementDetailActivity : AppCompatActivity() {
     lateinit var binding : ActivityAnnouncementDetailBinding
     var firestore: FirebaseFirestore? = null
     val db = Firebase.firestore
-    private var auth : FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

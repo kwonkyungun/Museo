@@ -2,17 +2,21 @@ package com.classic.museo.home
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.classic.museo.R
 import com.classic.museo.data.Recording
 import com.classic.museo.databinding.ImageViewpagerItemBinding
 import com.classic.museo.itemPage.DetailActivity
+import com.google.firebase.storage.FirebaseStorage
 
 class ImageViewPagerAdapter(var pContext: Context, var item:MutableList<Recording>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
+    private val glide: RequestManager = Glide.with(pContext)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view=ImageViewpagerItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -36,29 +40,7 @@ class ImageViewPagerAdapter(var pContext: Context, var item:MutableList<Recordin
 
         fun bind(pos:Int) {
             binding.textView3.text=item[pos].fcltyNm
-
-
-            if (item[pos].fcltyNm == "국립경주박물관") {
-                binding.imageView3.setImageResource(R.drawable.gyeongju)
-            } else if (item[pos].fcltyNm == "국립고궁박물관") {
-                binding.imageView3.setImageResource(R.drawable.palace)
-            } else if (item[pos].fcltyNm == "국립민속박물관") {
-                binding.imageView3.setImageResource(R.drawable.folk)
-            } else if (item[pos].fcltyNm == "국립중앙박물관") {
-                binding.imageView3.setImageResource(R.drawable.nationalmuseum)
-            } else if (item[pos].fcltyNm == "대림미술관") {
-                binding.imageView3.setImageResource(R.drawable.daelim)
-            } else if (item[pos].fcltyNm == "서울시립미술관") {
-                binding.imageView3.setImageResource(R.drawable.seoulmuseum)
-            } else if (item[pos].fcltyNm == "부산시립박물관") {
-                binding.imageView3.setImageResource(R.drawable.busan)
-            } else if (item[pos].fcltyNm == "리움미술관") {
-                binding.imageView3.setImageResource(R.drawable.leeum)
-            } else if (item[pos].fcltyNm == "제주유리박물관") {
-                binding.imageView3.setImageResource(R.drawable.jeju)
-            } else if (item[pos].fcltyNm == "미메시스아트뮤지엄") {
-                binding.imageView3.setImageResource(R.drawable.mime)
-            }
+            imageLoad(item[pos].fcltyNm)
         }
 
         override fun onClick(p0: View?) {
@@ -69,6 +51,21 @@ class ImageViewPagerAdapter(var pContext: Context, var item:MutableList<Recordin
                 putExtra("museoId",item[position].museoId)
             }
             pContext.startActivity(intent)
+        }
+
+        private fun imageLoad(text:String) {
+            val storage= FirebaseStorage.getInstance()
+            val storageRef=storage.reference
+            val storageReference = storageRef.child("Popular/${text}.jpg")
+
+            storageReference.downloadUrl.addOnSuccessListener { uri ->
+                val imageURL = uri!!
+                glide
+                    .load(imageURL)
+                    .into(binding.imageView3)
+            }.addOnFailureListener { exception ->
+                Log.w("오류", "${exception}")
+            }
         }
     }
 }

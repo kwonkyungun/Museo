@@ -27,6 +27,7 @@ import java.io.ByteArrayOutputStream
 class CommunityEditActivity : AppCompatActivity() {
     lateinit var binding : ActivityCommunityEditBinding
     lateinit var adapter : CommunityAdapter
+    private var documentId: String? = null
     var firestore : FirebaseFirestore? = null
     private var auth : FirebaseAuth? = null
     val db = Firebase.firestore
@@ -84,7 +85,7 @@ class CommunityEditActivity : AppCompatActivity() {
 //        }
 //    }
     fun editContent(){
-        val documentId = intent.getStringExtra("documentId")
+        documentId = intent.getStringExtra("documentId")
         Log.d("communityEdit","sj documentID $documentId")
 
         db.collection("post").document("$documentId")
@@ -124,8 +125,8 @@ class CommunityEditActivity : AppCompatActivity() {
 //    }
 
     private fun downloadImage() {
-        val docID = intent.getStringExtra("documentId")
-        val storageReference = Firebase.storage.reference.child("postedImage/$docID.png")
+        documentId = intent.getStringExtra("documentId")
+        val storageReference = Firebase.storage.reference.child("postedImage/$documentId.png")
         val imageView = binding.communityEditImage
 
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
