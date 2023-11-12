@@ -75,9 +75,7 @@ class CommunityAdapter(private val context: Context) :
             val countQuery = query.count()
             countQuery.get(AggregateSource.SERVER).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // Count fetched successfully
                     val snapshot = task.result
-                    Log.d("댓글수 테스트", "Count: ${snapshot.count}")
                     val count = snapshot.count.toString()
                     binding.textCommunityTitle.text = review[pos].title
                     binding.textCommunitySubcount.text = "[$count]"
@@ -85,7 +83,6 @@ class CommunityAdapter(private val context: Context) :
                     Log.d(TAG, "Count failed: ", task.getException())
                 }
             }
-
             binding.communityNickname.text = review[pos].NickName
             if (fullid != null) {
                 binding.communityId.text = fullid.substring(0,fullid.indexOf("@"))+"@"+blind
