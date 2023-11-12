@@ -31,22 +31,19 @@ class DetailActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityDetailBinding
     private var db = Firebase.firestore
-    private var auth: FirebaseAuth? = null
-    private var subId = ""
     private var like = false
     private var museumId = ""
+    // 현재 로그인한 사용자의 UID 가져오기
+    val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
+    val uid = currentUser?.uid
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        val auth = FirebaseAuth.getInstance()
-
-        // 현재 로그인한 사용자의 UID 가져오기
-        val currentUser = auth.currentUser
-        val uid = currentUser?.uid
 
         val museumData = intent.getParcelableExtra<Recording>("museumData")!!
         museumId = intent.getStringExtra("museoId")!!
@@ -109,13 +106,13 @@ class DetailActivity : AppCompatActivity() {
     fun kakaoMap() {
         val mapView = MapView(this)
         binding.kakaoMap.addView(mapView)
-        val a = intent.getParcelableExtra<Recording>("museumData")!!
+        val museumData = intent.getParcelableExtra<Recording>("museumData")!!
 
 
         //위도 데이터
-        val Latitude = a.latitude.toDouble()
+        val Latitude = museumData.latitude.toDouble()
         //경도 데이터
-        val longitude = a.longitude.toDouble()
+        val longitude = museumData.longitude.toDouble()
         //카카오맵 위치 나타내기
         val mapPoint = MapPoint.mapPointWithGeoCoord(Latitude, longitude)
 
@@ -127,7 +124,7 @@ class DetailActivity : AppCompatActivity() {
         //마커 생성
         val marker = MapPOIItem()
 
-        marker.itemName = "이곳은 ${a.fcltyNm} 입니다"
+        marker.itemName = "이곳은 ${museumData.fcltyNm} 입니다"
         marker.mapPoint = mapPoint
         marker.markerType = MapPOIItem.MarkerType.RedPin
         marker.selectedMarkerType = MapPOIItem.MarkerType.BluePin
@@ -136,14 +133,14 @@ class DetailActivity : AppCompatActivity() {
 
     //공유버튼 기능
     private fun share() {
-        val a = intent.getParcelableExtra<Recording>("museumData")!!
+        val museumData = intent.getParcelableExtra<Recording>("museumData")!!
         binding.dtShare.setOnClickListener {
 
             val shareIntent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(
                     Intent.EXTRA_TEXT,
-                    a.homepageUrl
+                    museumData.homepageUrl
                 )
                 type = "text/plain"
             }
@@ -153,40 +150,40 @@ class DetailActivity : AppCompatActivity() {
 
     //공공api데이터 가져오기
     fun museoInfo() {
-        val a = intent.getParcelableExtra<Recording>("museumData")!!
+        val museumData = intent.getParcelableExtra<Recording>("museumData")!!
         //시설명
-        binding.dtTitle.text = a.fcltyNm
+        binding.dtTitle.text = museumData.fcltyNm
         //운영기관전화번호
-        binding.dtNumber.text = a.operPhoneNumber
+        binding.dtNumber.text = museumData.operPhoneNumber
         //소재지 도로명 주소
-        binding.dtAddress.text = a.rdnmadr
+        binding.dtAddress.text = museumData.rdnmadr
         //박물관 미술관 소개
-        binding.dtIntroduction.text = a.fcltyIntrcn
+        binding.dtIntroduction.text = museumData.fcltyIntrcn
         //휴관정보
-        binding.closeDayTx.text = a.rstdeInfo
+        binding.closeDayTx.text = museumData.rstdeInfo
         //이용시간
         binding.hoursuseTx.text =
-            "${a.weekdayOperOpenHhmm}~${a.weekdayOperColseHhmm} (공휴일 ${a.holidayOperOpenHhmm} ~ ${a.holidayCloseOpenHhmm})"
+            "${museumData.weekdayOperOpenHhmm}~${museumData.weekdayOperColseHhmm} (공휴일 ${museumData.holidayOperOpenHhmm} ~ ${museumData.holidayCloseOpenHhmm})"
         //관람료 기타정보(입장료)
-        binding.moneyTx.text = "${a.adultChrge}원 ${a.etcChrgeInfo}"
+        binding.moneyTx.text = "${museumData.adultChrge}원 ${museumData.etcChrgeInfo}"
         //운영홈페이지
-        binding.homepageTx.text = a.homepageUrl
+        binding.homepageTx.text = museumData.homepageUrl
         //관리기관명
-        binding.organizationTx.text = a.institutionNm
+        binding.organizationTx.text = museumData.institutionNm
         //박물관 구분
-        binding.SortationTx.text = a.fcltyType
+        binding.SortationTx.text = museumData.fcltyType
 
         //제목 클릭 시 해당 홈페이지로 이동
         val dt_title = findViewById<View>(R.id.dt_title) as TextView
-        val text = a.fcltyNm
+        val text = museumData.fcltyNm
 
         dt_title.text = text
 
         val transform = Linkify.TransformFilter() { _, _ ->
             ""
         }
-        val pattern = Pattern.compile(a.fcltyNm)    //링크 걸 단어를 맞게 설정해 줘야함
-        Linkify.addLinks(dt_title, pattern, a.homepageUrl, null, transform)
+        val pattern = Pattern.compile(museumData.fcltyNm)    //링크 걸 단어를 맞게 설정해 줘야함
+        Linkify.addLinks(dt_title, pattern, museumData.homepageUrl, null, transform)
     }
 
     //즐겨찾기 버튼
@@ -208,11 +205,8 @@ class DetailActivity : AppCompatActivity() {
             val museoId = intent.getStringExtra("museoId")!!
 
             val db = FirebaseFirestore.getInstance()
-            val auth = FirebaseAuth.getInstance()
 
-            // 현재 로그인한 사용자의 UID 가져오기
-            val currentUser = auth.currentUser
-            val uid = currentUser?.uid
+
 
             UserApiClient.instance.me { user, error ->
                 if (like) {
