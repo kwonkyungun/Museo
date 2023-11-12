@@ -1,16 +1,11 @@
 package com.classic.museo.itemPage.announcement
 
-import android.content.ContentValues.TAG
-import android.content.Context
-import android.content.Intent
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.classic.museo.R
 import com.classic.museo.data.AnnouncementDTO
 import com.classic.museo.databinding.ActivityAnnouncementBinding
-import com.classic.museo.databinding.ActivityDetailBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -25,7 +20,6 @@ class AnnouncementActivity : AppCompatActivity() {
     private lateinit var gridLayoutManager: StaggeredGridLayoutManager
     private var db = Firebase.firestore
     private val gson = GsonBuilder().create()
-    private val items = mutableListOf<AnnouncementDTO>()
     private val IdItems = mutableListOf<String>()
     private val loadItem = mutableListOf<AnnouncementDTO>()
 
