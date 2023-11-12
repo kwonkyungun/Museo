@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.classic.museo.data.Recording
 import com.classic.museo.databinding.FragmentHomeBinding
 import com.google.firebase.firestore.Filter
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.GsonBuilder
@@ -23,7 +22,6 @@ class HomeFragment : Fragment() {
     private lateinit var hContext: Context
     private lateinit var hAdapter: HomeAdapter
     private var gson = GsonBuilder().create()
-    private lateinit var query:Query
 
 
     private var items = mutableListOf<Recording>()  //인기 박물관/미술관 목록
@@ -60,7 +58,7 @@ class HomeFragment : Fragment() {
 
     private fun freeItem() {
         items2.clear()
-        query = db.collection("museoInfo").whereEqualTo("adultChrge","0")
+        val query = db.collection("museoInfo").whereEqualTo("adultChrge","0")
             .whereEqualTo("etcChrgeInfo","무료").limit(20)
         query.get().addOnSuccessListener { result ->
             for (document in result) {
@@ -78,7 +76,7 @@ class HomeFragment : Fragment() {
 
     private fun biologyItem() {
         items4.clear()
-        query = db.collection("museoInfo").where(
+        val query = db.collection("museoInfo").where(
             Filter.or(
                 Filter.equalTo("fcltyNm", "고성공룡박물관"),
                 Filter.equalTo("fcltyNm", "국립해양생물자원관 씨큐리움"),
@@ -107,7 +105,7 @@ class HomeFragment : Fragment() {
 
     private fun scienceItem() {
         items5.clear()
-        query = db.collection("museoInfo").where(
+        val query = db.collection("museoInfo").where(
             Filter.or(
                 Filter.equalTo("fcltyNm", "경상북도산림과학박물관"),
                 Filter.equalTo("fcltyNm", "경주세계자동차박물관"),
@@ -135,7 +133,7 @@ class HomeFragment : Fragment() {
 
     private fun popularItem() {
         items.clear()
-        query = db.collection("museoInfo").where(
+        val query = db.collection("museoInfo").where(
             Filter.or(
                 Filter.equalTo("fcltyNm", "국립경주박물관"),
                 Filter.equalTo("fcltyNm", "국립고궁박물관"),
@@ -166,7 +164,7 @@ class HomeFragment : Fragment() {
 
     private fun uniqueItem() {
         items3.clear()
-        query = db.collection("museoInfo").where(
+        val query = db.collection("museoInfo").where(
             Filter.or(
                 Filter.equalTo("fcltyNm", "헬로키티아일랜드"),
                 Filter.equalTo("fcltyNm", "한국영화박물관"),
