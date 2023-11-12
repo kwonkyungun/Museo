@@ -78,9 +78,9 @@ class CommunityAdapter(private val context: Context) :
                     // Count fetched successfully
                     val snapshot = task.result
                     Log.d("댓글수 테스트", "Count: ${snapshot.count}")
-                    val count = snapshot.count
+                    val count = snapshot.count.toString()
                     binding.textCommunityTitle.text = review[pos].title
-                    binding.textCommunitySubcount.text = count.toString()
+                    binding.textCommunitySubcount.text = "[$count]"
                 } else {
                     Log.d(TAG, "Count failed: ", task.getException())
                 }
