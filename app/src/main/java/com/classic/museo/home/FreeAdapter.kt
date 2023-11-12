@@ -2,6 +2,7 @@ package com.classic.museo.home
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.classic.museo.R
 import com.classic.museo.data.Recording
 import com.classic.museo.databinding.RecyclerviewFreeBinding
 import com.classic.museo.itemPage.DetailActivity
+import okhttp3.internal.notify
 
 class FreeAdapter(val hContext: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var freeData = mutableListOf<Recording>()
@@ -51,13 +53,17 @@ class FreeAdapter(val hContext: Context) : RecyclerView.Adapter<RecyclerView.Vie
         }
 
         override fun onClick(v: View?) {
-            val position = adapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return
-            val intent = Intent(hContext, DetailActivity::class.java)
-            intent.apply {
-                putExtra("museumData", freeData[position])
-                putExtra("museoId", freeData[position].museoId)
+            try {
+                val position = adapterPosition.takeIf { it != RecyclerView.NO_POSITION } ?: return
+                val intent = Intent(hContext, DetailActivity::class.java)
+                intent.apply {
+                    putExtra("museumData", freeData[position])
+                    putExtra("museoId", freeData[position].museoId)
+                }
+                hContext.startActivity(intent)
+            } catch (e:Exception){
+                Log.e("오류","체크")
             }
-            hContext.startActivity(intent)
         }
     }
 }
