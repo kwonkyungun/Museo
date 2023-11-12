@@ -55,7 +55,7 @@ class CommunityDetailActivity() : AppCompatActivity() {
     var firestore: FirebaseFirestore? = null
     private var data = mutableMapOf<String, CommentDTO>()
     private lateinit var comm: CommunityDTO
-    private var documentDelete: String? = null  //커뮤니티 디테일화면 documentId받기위한 변수
+    private var documentId: String? = null  //커뮤니티 디테일화면 documentId받기위한 변수
     private lateinit var adapter: CommunityDetailListAdapter
     private var auth: FirebaseAuth? = null
     private var user = Users()
@@ -208,8 +208,8 @@ class CommunityDetailActivity() : AppCompatActivity() {
         // community recyclerview 아이템 클릭시 보낸 값 받아오기
 
         comm = intent.getParcelableExtra<CommunityDTO>("communityData")!!
-        documentDelete = intent.getStringExtra("documentId")
-        Log.e("community", "sj communityID : $documentDelete")
+        documentId = intent.getStringExtra("documentId")
+        Log.e("community", "sj communityID : $documentId")
 
         val title = comm.title
         val content = comm.text
@@ -224,7 +224,7 @@ class CommunityDetailActivity() : AppCompatActivity() {
         editIntent.putExtra("text", content)
         editIntent.putExtra("NickName", NickName)
         editIntent.putExtra("date", date)
-        editIntent.putExtra("documentId", documentDelete)
+        editIntent.putExtra("documentId", documentId)
 
 
 
@@ -262,7 +262,7 @@ class CommunityDetailActivity() : AppCompatActivity() {
                 deleteBuilder.setIcon(R.drawable.coment)
 
                 deleteBuilder.setPositiveButton("확인") { dialog, _ ->
-                    db.collection("post").document(documentDelete!!).delete().addOnSuccessListener {
+                    db.collection("post").document(documentId!!).delete().addOnSuccessListener {
                         Toast.makeText(this, "게시물이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                         Log.d("CommunityDetail", "DocumentSnapshot successfully deleted!")
                     }.addOnFailureListener { e ->
@@ -271,9 +271,9 @@ class CommunityDetailActivity() : AppCompatActivity() {
                         )
                     }
                     //이미지 삭제
-                    val documentID = intent.getStringExtra("documentId")
+                    val documentId = intent.getStringExtra("documentId")
                     val storageReference = Firebase.storage.reference
-                    val desertImage = storageReference.child("postedImage/$documentID.jpg")
+                    val desertImage = storageReference.child("postedImage/$documentId.jpg")
                     desertImage.delete().addOnCompleteListener{
                         // File deleted successfully
                     }.addOnFailureListener {
@@ -330,9 +330,9 @@ class CommunityDetailActivity() : AppCompatActivity() {
 
         downloadImage() // 이미지 다운로드
 
-        val documentID = intent.getStringExtra("documentId")
+        documentId = intent.getStringExtra("documentId")
         var gson = GsonBuilder().create()
-        db.collection("post").document("$documentID").get().addOnSuccessListener { document ->
+        db.collection("post").document("$documentId").get().addOnSuccessListener { document ->
             val value = gson.toJson(document.data)
             val result = gson.fromJson(value, CommunityDTO::class.java)
             binding.communityDetailTitle.text = result.title
@@ -384,8 +384,8 @@ class CommunityDetailActivity() : AppCompatActivity() {
     }
 
     private fun downloadImage() {
-        val docID = intent.getStringExtra("documentId")
-        val storageReference = Firebase.storage.reference.child("postedImage/$docID.png")
+        documentId = intent.getStringExtra("documentId")
+        val storageReference = Firebase.storage.reference.child("postedImage/$documentId.png")
         val imageView = binding.communityDetailImage
 
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->

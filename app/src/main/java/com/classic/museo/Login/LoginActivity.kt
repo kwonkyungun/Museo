@@ -62,11 +62,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        //test detail 이동
-//        binding.button2.setOnClickListener {
-//            val detailAc = Intent(this,DetailActivity::class.java)
-//            startActivity(detailAc)
-//        }
         auth = Firebase.auth // DB 인스턴스 선언
 
 
@@ -93,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
     fun login() {
 
         binding.btnLogin.setOnClickListener {
-            //SharedPreferences를 활용한 로그인정보 저장하기
+            //로그인정보 저장하기
             var inforemember = 0
             var autologin = 0
             val pref = getSharedPreferences("pref",0)
@@ -162,16 +157,16 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-        //로그인정보 기억하기 체크했을때 값 받아오기
+        //로그인정보 값 받아오기
         val pref = getSharedPreferences("pref",0)
-        val ManualLogout = intent.getStringExtra("ManualLogout")
+        val manualLogout = intent.getStringExtra("ManualLogout")
         val signin = intent.getStringExtra("SignIn")
         binding.editId.setText(pref.getString("ID",""))
         binding.editPw.setText(pref.getString("PW",""))
 
         if(pref.getInt("Remember",0) == 1){
             if(pref.getInt("Auto",0) == 1){
-                if(ManualLogout == "Yes"){
+                if(manualLogout == "Yes"){
                         //수동 로그아웃
                     binding.LoginAuto.isChecked = true
                 }else {
