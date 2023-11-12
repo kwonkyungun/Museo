@@ -52,9 +52,9 @@ class HomeAdapter(
         val viewPager =
             ViewpagerLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return when(viewType){
-            1->ViewPagerHolder(viewPager)
+            1->ViewPagerHolder(viewPager)   //인기 아이템리스트 뷰페이저 홀더
             else -> {
-                Item01(view)
+                Item01(view)                //그 외 홀더
             }
         }
     }
