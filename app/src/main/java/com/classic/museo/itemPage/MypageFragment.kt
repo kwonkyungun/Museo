@@ -13,20 +13,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.classic.museo.Login.LoginActivity
-import com.classic.museo.MainActivity
 import com.classic.museo.R
 import com.classic.museo.itemPage.MypageInnerActivity.MypageLike
-import com.classic.museo.itemPage.MypageInnerActivity.MypageLogoutDialog
 import com.classic.museo.itemPage.MypageInnerActivity.MypageWritten
 import com.classic.museo.data.Users
 import com.classic.museo.databinding.FragmentMypageBinding
-import com.classic.museo.itemPage.Community.CommunityDetailActivity
 import com.classic.museo.itemPage.announcement.AnnouncementActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.kakao.sdk.user.UserApi
 import com.kakao.sdk.user.UserApiClient
 
 
@@ -88,15 +84,7 @@ class MypageFragment : Fragment() {
             }
             builder.show()
         }
-
-//        //커뮤니티 디테일 액티비티로 넘어가는 임시 코드
-//        binding.tempbtn.setOnClickListener {
-//            val TossToCommunityDetail = Intent(activity,CommunityDetailActivity::class.java)
-//            startActivity(TossToCommunityDetail)
-//        }
-
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -147,14 +135,10 @@ class MypageFragment : Fragment() {
     fun Logout() {
 
         binding.MypageLogout.setOnClickListener {
-            //            //테스트 시작
-//            val dialog = MypageLogoutDialog()
-//            dialog.show(requireActivity().supportFragmentManager, "DialogFragment")
             val alertDialog= android.app.AlertDialog.Builder(context)
             alertDialog.setMessage("로그아웃 확인")
             alertDialog.setPositiveButton("확인") {_,_ ->
                 if(auth!!.uid!=null){
-                    //파이어베이스 로그아웃버튼
                     FirebaseAuth.getInstance().signOut()
                     Toast.makeText(activity,"회원 로그아웃 성공!",Toast.LENGTH_SHORT).show()
                     val backtomain = Intent(activity, LoginActivity::class.java)
@@ -162,7 +146,6 @@ class MypageFragment : Fragment() {
                     backtomain.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(backtomain)
                 }else {
-                    // 로그아웃
                     UserApiClient.instance.logout { error ->
                         if (error != null) {
                             Log.e(ContentValues.TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
@@ -178,9 +161,7 @@ class MypageFragment : Fragment() {
                     }
                 }
             }
-
             alertDialog.setNegativeButton("취소") {_,_ ->}
-
             alertDialog.show()
         }
     }

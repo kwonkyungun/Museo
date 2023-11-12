@@ -101,6 +101,8 @@
         android:layout_marginEnd="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/text_community_subcount"
         app:layout_constraintEnd_toStartOf="@+id/text_community_subcount"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/community_id"
         app:layout_constraintTop_toTopOf="@+id/text_community_subcount"
         app:srcCompat="@drawable/comment" />
 

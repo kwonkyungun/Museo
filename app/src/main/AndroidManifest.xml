@@ -42,9 +42,6 @@
             android:name=".itemPage.Community.CommunityPlusActivity"
             android:exported="false" />
         <activity
-            android:name=".itemPage.MypageInnerActivity.MypageLogoutDialog"
-            android:exported="false" />
-        <activity
             android:name=".itemPage.MypageInnerActivity.MypageLike"
             android:exported="false" />
         <activity
