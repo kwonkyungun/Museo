@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.classic.museo'
+    namespace 'com.sparta.museo'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.classic.museo"
+        applicationId "com.sparta.museo"
         minSdk 24
         targetSdk 33
         versionCode 1
