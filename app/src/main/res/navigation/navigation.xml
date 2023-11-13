@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/home"
         android:label="Dashboard"
-        android:name="com.classic.museo.home.HomeFragment"
+        android:name="com.sparta.museo.home.HomeFragment"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_firstFragment_to_secondFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/community"
         android:label="Leaderboard"
-        android:name="com.classic.museo.itemPage.CommunityFragment"
+        android:name="com.sparta.museo.itemPage.CommunityFragment"
         tools:layout="@layout/fragment_community" >
         <action
             android:id="@+id/action_secondFragment_to_thirdFragment"
@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/mypage"
         android:label="Store"
-        android:name="com.classic.museo.itemPage.MypageFragment"
+        android:name="com.sparta.museo.itemPage.MypageFragment"
         tools:layout="@layout/fragment_mypage" >
         <action
             android:id="@+id/action_thirdFragment_to_fourthFragment"
@@ -35,6 +35,6 @@
     <fragment
         android:id="@+id/search"
         android:label="Profile"
-        android:name="com.classic.museo.itemPage.search.SearchFragment"
+        android:name="com.sparta.museo.itemPage.search.SearchFragment"
         tools:layout="@layout/fragment_search" />
 </navigation>
