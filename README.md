@@ -175,3 +175,5 @@
 ![is](https://img.shields.io/badge/firebase-FFCA28?&style=for-the-badge&logo=firebase&logoColor=white)
 ![is](https://img.shields.io/badge/github-181717?&style=for-the-badge&logo=github&logoColor=white)
 ![is](https://img.shields.io/badge/androidstudio-3DDC84?&style=for-the-badge&logo=androidstudio&logoColor=white)
+![is](https://img.shields.io/badge/figma-F24E1E?&style=for-the-badge&logo=figma&logoColor=white)
+![is](https://img.shields.io/badge/notion-000000?&style=for-the-badge&logo=notion&logoColor=white)
