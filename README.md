@@ -22,7 +22,7 @@
    <tr>
       <td align="center"><a href="https://github.com/kwonkyungun">권경운</a></td>
       <td align="center"><a href="https://github.com/werds7890">김현걸</a></td>
-      <td align="center"><a href="https://github.com/sunho512">조병현</a></td>
+      <td align="center"><a href="https://github.com/cbh1992">조병현</a></td>
       <td align="center"><a href="https://github.com/nsojin">남소진</a> </td>
    </tr>
   <tr>
