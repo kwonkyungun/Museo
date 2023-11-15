@@ -1,3 +1,5 @@
+package com.sparta.museo.retrofit
+
 import com.sparta.museo.data.Museo
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
