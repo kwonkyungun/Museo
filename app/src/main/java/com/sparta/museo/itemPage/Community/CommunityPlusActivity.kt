@@ -75,7 +75,7 @@ class CommunityPlusActivity : AppCompatActivity() {
                         dialog.dismiss()
                         finish()
                     }
-                },5000)
+                },4000)
             }
         }
 
