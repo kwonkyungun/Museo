@@ -10,6 +10,7 @@
         android:layout_height="76dp"
         android:layout_gravity="center"
         android:indeterminate="false"
+        android:indeterminateTint="@color/ic_launcher_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,7 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:text="loading..."
+        android:text="게시중..."
+        android:textColor="#989898"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/progressbar"

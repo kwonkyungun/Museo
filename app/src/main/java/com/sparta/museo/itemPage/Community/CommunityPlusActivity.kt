@@ -63,9 +63,9 @@ class CommunityPlusActivity : AppCompatActivity() {
                     sendToData()
                 }
                 val builder = AlertDialog.Builder(this)
-                builder.setTitle("게시중입니다.")
                 val progress = layoutInflater.inflate(R.layout.progressbar, null)
                 builder.setView(progress)
+                builder.setCancelable(false)
                 val dialog = builder.create()
                 dialog.show()
                 val handler = Handler()
