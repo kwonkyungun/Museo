@@ -57,7 +57,7 @@ class MypageWritten : AppCompatActivity() {
                             myPostId.add(documentId)
                             myPost.add(result)
                         }
-                        if (myPost.isEmpty()) {
+                        if (myPost.isEmpty() && kUid!=null) {
                             Toast.makeText(this, "게시물이 없습니다.", Toast.LENGTH_SHORT).show()
                         }
                         binding.myPageWritten.adapter = WrittenAdapter(myPost, this, myPostId)
@@ -84,7 +84,7 @@ class MypageWritten : AppCompatActivity() {
                     myPostId.add(documentId)
                     myPost.add(result)
                 }
-                if (myPost.isEmpty()) {
+                if (myPost.isEmpty() && auth!=null) {
                     Toast.makeText(this, "게시물이 없습니다.", Toast.LENGTH_SHORT).show()
                 }
                 binding.myPageWritten.adapter = WrittenAdapter(myPost, this, myPostId)
