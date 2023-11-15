@@ -7,9 +7,11 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.sparta.museo.data.KakaoUsers
 import com.sparta.museo.data.Users
 import com.sparta.museo.databinding.ActivityCommunityPlusBinding
@@ -20,6 +22,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.GsonBuilder
 import com.kakao.sdk.user.UserApiClient
+import com.sparta.museo.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,13 +56,26 @@ class CommunityPlusActivity : AppCompatActivity() {
         binding.communityPlus.setOnClickListener{
 
             if(binding.communityPlusTitle.text.isEmpty()||binding.communityPlusEdittext.text.isEmpty()||
-                    binding.communityPlusMuseum.text.isEmpty()){
+                binding.communityPlusMuseum.text.isEmpty()){
                 Toast.makeText(this,"빈칸을 채워주세요.",Toast.LENGTH_SHORT).show()
             }else {
                 CoroutineScope(Dispatchers.IO).launch {
                     sendToData()
                 }
-                finish()
+                val builder = AlertDialog.Builder(this)
+                val progress = layoutInflater.inflate(R.layout.progressbar, null)
+                builder.setView(progress)
+                builder.setCancelable(false)
+                val dialog = builder.create()
+                dialog.show()
+                val handler = Handler()
+
+                handler.postDelayed({
+                    if (dialog.isShowing){
+                        dialog.dismiss()
+                        finish()
+                    }
+                },4000)
             }
         }
 

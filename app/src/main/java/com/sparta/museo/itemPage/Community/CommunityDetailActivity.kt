@@ -38,6 +38,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.concurrent.thread
 
 class CommunityDetailActivity() : AppCompatActivity() {
     lateinit var binding: ActivityCommunityDetailBinding
@@ -379,13 +380,32 @@ class CommunityDetailActivity() : AppCompatActivity() {
 
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
             if (task.isSuccessful) {
-                Glide.with(this)
-                    .load(task.result)
-                    .into(imageView)
+                showProgress(true)
+
+                thread (start = true){
+                    Thread.sleep(1000)
+
+                    runOnUiThread{
+                        showProgress(false)
+                        Glide.with(this)
+                            .load(task.result)
+                            .into(imageView)
+                    }
+                }
             }
             else {
                 imageView.visibility = View.GONE
             }
         })
     }
+
+    fun showProgress(isShow:Boolean){
+        if(isShow){
+            binding.progressBar.visibility = View.VISIBLE
+        }
+        else {
+            binding.progressBar.visibility = View.GONE
+        }
+    }
+
 }
