@@ -394,6 +394,7 @@ class CommunityDetailActivity() : AppCompatActivity() {
                 }
             }
             else {
+                binding.progressBar.visibility=View.GONE
                 imageView.visibility = View.GONE
             }
         })
