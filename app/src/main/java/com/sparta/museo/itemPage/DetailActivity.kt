@@ -1,7 +1,5 @@
 package com.sparta.museo.itemPage
 
-//import com.kakao.vectormap.MapView
-
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle

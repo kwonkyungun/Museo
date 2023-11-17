@@ -66,10 +66,10 @@ class SignupActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                val idPattern = "^[a-zA-Z0-9]+@[0-9a-zA-Z]+(.[_0-9a-zA-Z-]+)*\$"
+                val idPattern = android.util.Patterns.EMAIL_ADDRESS
                 val id = binding.signupEditId.text.toString()
-                val patternid = Pattern.compile(idPattern)
-                val matcher2 = patternid.matcher(id)
+//              val patternid = Pattern.compile(idPattern)
+                val matcher2 = idPattern.matcher(id)
 
                 if (matcher2.matches()) {
                     binding.idAnswer.text = "적합한 아이디 입니다."

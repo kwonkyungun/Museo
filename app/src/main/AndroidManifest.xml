@@ -30,7 +30,7 @@
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="bf2532828fac5e67602705ce1d834933" />
+            android:value="cab9f533e59332f0bbbf15b84459522c" />
 
         <activity
             android:name=".itemPage.Community.CommunityDetailItem"

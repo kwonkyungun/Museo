@@ -19,3 +19,19 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class retrofit2.** { *; }
+-keep class com.sparta.museo.** { *; }
+-keep interface com.sparta.museo.** { *; }
+
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-keep class com.kakao.** { *; }
+
+-keep class com.kakao.vectormap.** { *; }
+-keep interface com.kakao.** { *; }
+
+-keep class net.daum.** { *; }
+
+-keep class android.** { *; }
+
