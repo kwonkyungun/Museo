@@ -26,12 +26,12 @@
 
 -keep class okhttp3.** { *; }
 -keep interface okhttp3.** { *; }
--keep class com.kakao.sdk.** { *; }
+-keep class com.kakao.** { *; }
 
 -keep class com.kakao.vectormap.** { *; }
--keep interface com.kakao.vectormap.**
+-keep interface com.kakao.** { *; }
 
 -keep class net.daum.** { *; }
 
-
+-keep class android.** { *; }
 

@@ -77,6 +77,8 @@ class MypageFragment : Fragment() {
                 authWithdrawal()
                 usersWithdrawal()
                 val withdrawalIntent = Intent(mypageContext, LoginActivity::class.java)
+                withdrawalIntent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(withdrawalIntent)
             }
             builder.setNegativeButton("취소"){ dialog, _ ->
